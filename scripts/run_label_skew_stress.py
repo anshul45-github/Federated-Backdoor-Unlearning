@@ -93,7 +93,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if len(set(args.seeds)) != len(args.seeds) or any(not 0 <= s < 2**32 for s in args.seeds):
         parser.error("Seeds must be unique unsigned 32-bit integers")
-    output = (args.output_dir or ROOT / "results/stress_tests" / f"alpha001_{datetime.now():%Y%m%d_%H%M%S_%f}").resolve()
+    output = (args.output_dir or ROOT / "results/label_skew" / f"alpha001_{datetime.now():%Y%m%d_%H%M%S_%f}").resolve()
     if args.plan:
         for seed in args.seeds:
             print(f"Seed {seed}: validate datasets/partition and generate config.yaml")

@@ -1,3 +1,5 @@
+> This walkthrough records an earlier checkout. For the reorganised copy and its local datasets and trajectories, see [the run index](../results/README.md).
+
 # Complete project walkthrough
 
 Prepared from this checkout on 23 October 2026. This is an explanation of the existing work, not a record of newly executed training. Existing source code and experimental artifacts were left unchanged.
@@ -30,9 +32,9 @@ M_CF is a reference model. It is not used as the KD teacher and is not itself an
 | Attack | Client 0 data poisoning, no explicit update amplification in the current runner | Data poisoning plus update scaling, commonly gamma=5, with stress variants |
 | KD proxy | 5,000 CIFAR-100 training images | Earlier experiments use 2,500 CIFAR-10 test images |
 | Clean evaluation | Full 10,000-image CIFAR-10 test set | Frozen 7,500-image evaluation subset |
-| Main retained artifacts | `results/`, `results_phase2/` | Mainly reports and archived scripts; many referenced raw run folders are absent |
+| Main retained artifacts | `results/`, `results/phase2/` | Mainly reports and archived scripts; many referenced raw run folders are absent |
 
-The root README, `configs/v2_*.yaml`, current source, saved Phase 1/2 evaluations, and corrected FedEraser v2 folders describe the current baseline. `docs/canonical_benchmark.md` describes the historical benchmark despite its authoritative title. Do not combine the two protocols' numbers.
+The root README, `configs/v2_*.yaml`, current source, saved Phase 1/2 evaluations, and corrected FedEraser v2 folders describe the current baseline. `docs/baseline/canonical_benchmark.md` describes the historical benchmark despite its authoritative title. Do not combine the two protocols' numbers.
 
 ## 3. Work completed in the current baseline
 
@@ -87,11 +89,11 @@ The attacked endpoint is the frozen teacher. The student starts from M_sub. The 
 
 The student trains for five epochs with SGD, learning rate 0.001, momentum 0.9, batch size 64, and temperature T=4. The loss is T-squared-scaled KL divergence between teacher and student probabilities. Teacher evaluation mode is fixed. Student Dropout stays active, while BatchNorm running statistics are frozen and checked for equality before and after KD.
 
-IID KD is in `scripts/run_kd.py`; Non-IID KD is in `scripts/run_noniid_stage_abc.py`. The latter also performs prerequisite audits before training.
+IID KD is in `scripts/baseline/run_kd.py`; Non-IID KD is in `scripts/baseline/run_noniid_stage_abc.py`. The latter also performs prerequisite audits before training.
 
 ### 3.5 FedEraser reconstruction and corrections
 
-The corrected runner is `scripts/run_federaser_v5.py`. It starts from the saved initial model, excludes Client 0, and reconstructs all 50 rounds using Clients 1 through 9. Round 1 reuses retained clients' historical updates directly. Later rounds train retained clients for Ecal=1 or Ecal=2 epochs from the reconstructed state.
+The corrected runner is `scripts/baseline/run_federaser_v5.py`. It starts from the saved initial model, excludes Client 0, and reconstructs all 50 rounds using Clients 1 through 9. Round 1 reuses retained clients' historical updates directly. Later rounds train retained clients for Ecal=1 or Ecal=2 epochs from the reconstructed state.
 
 For eligible floating-point weights and biases, calibration computes:
 
@@ -206,7 +208,7 @@ project/
     noniid_clean/
     noniid_attack/
     smoke_test_dir/
-  results_phase2/           Logged attacks, unlearning, references, evaluation
+  results/phase2/           Logged attacks, unlearning, references, evaluation
     iid_attack_logged/
     noniid_attack_logged/
     iid_counterfactual/
@@ -256,8 +258,8 @@ The missing `trajectory/round_XXX/` trees would contain individual client deltas
 ## 8. Practical limitations and discrepancies found in this checkout
 
 1. **Dependencies and datasets are absent in the inspected local Python environment.** `python` resolves to Python 3.9.13; Torch, Torchvision, and pytest were not found. There is no root `data/` folder. Evaluation requires datasets as well as checkpoints, even when no retraining is required. No dependency installation or model training was performed for this explanation.
-2. **`test_cifar.py` is misdocumented.** It checks loading an existing CIFAR-100 dataset after bypassing integrity checks. It does not run a two-round CIFAR-10 FL smoke test. `v2_smoke.yaml` actually specifies three rounds and one local epoch; retained smoke results also reflect that three-round configuration.
-3. **`eval_noniid_clean.py` is misnamed.** It loads `results/iid_clean/final_model.pt` and writes IID extended metrics.
+2. **`scripts/data/check_cifar100.py` is misdocumented.** It checks loading an existing CIFAR-100 dataset after bypassing integrity checks. It does not run a two-round CIFAR-10 FL smoke test. `v2_smoke.yaml` actually specifies three rounds and one local epoch; retained smoke results also reflect that three-round configuration.
+3. **`eval_noniid_clean.py` is misnamed.** It loads `results/phase1/iid_clean/final_model.pt` and writes IID extended metrics.
 4. **`eval_only_federaser.py` is a historical evaluator.** It operates on superseded `iid/` and `noniid/` folders, uses a 7,500-image clean subset alongside full-test ASR, and labels average class accuracy as Macro-F1. It should not be treated as the evaluator for the corrected `_v2` comparison. The corrected v5 runner uses `evaluate_extended` and full current populations.
 5. **Source and training history have been imported despite stale placeholder READMEs.** Several files still say imports are pending or suggest a folder structure that does not match the actual implementation. The source import manifest itself mixes earlier and final counts; actual pre-walkthrough inventory is 366 project files totaling 78,677,900 bytes, excluding `.git`.
 6. **The checksum manifest is historical, not a clean integrity certificate for this snapshot.** Reading its 51 entries found 29 matching files, six absent partition files, and 16 present files with different hashes. These mismatches are metadata/evaluation files, and this check alone does not establish why they changed. The mismatched paths are listed below. No hashes were rewritten.
@@ -271,22 +273,22 @@ The missing `trajectory/round_XXX/` trees would contain individual client deltas
 Checksum mismatches against the existing root manifest:
 
 ```text
-results_phase2/iid_attack_logged/runtime.json
-results_phase2/iid_subtraction/subtraction_runtime.json
-results_phase2/iid_kd/metadata.json
-results_phase2/iid_counterfactual/config.json
-results_phase2/iid_counterfactual/final_results.json
-results_phase2/noniid_attack_logged/client_class_histograms.json
-results_phase2/noniid_attack_logged/runtime.json
-results_phase2/noniid_subtraction/subtraction_runtime.json
-results_phase2/noniid_kd/metadata.json
-results_phase2/noniid_counterfactual/config.json
-results_phase2/noniid_counterfactual/final_results.json
-results_phase2/phase2_evaluation_superseded.json
-results_phase2/phase2_evaluation_corrected.json
-results_phase2/phase2_kd_evaluation.json
-results_phase2/noniid_evaluation.json
-results_phase2/noniid_kd_evaluation.json
+results/phase2/iid_attack_logged/runtime.json
+results/phase2/iid_subtraction/subtraction_runtime.json
+results/phase2/iid_kd/metadata.json
+results/phase2/iid_counterfactual/config.json
+results/phase2/iid_counterfactual/final_results.json
+results/phase2/noniid_attack_logged/client_class_histograms.json
+results/phase2/noniid_attack_logged/runtime.json
+results/phase2/noniid_subtraction/subtraction_runtime.json
+results/phase2/noniid_kd/metadata.json
+results/phase2/noniid_counterfactual/config.json
+results/phase2/noniid_counterfactual/final_results.json
+results/phase2/phase2_evaluation_superseded.json
+results/phase2/phase2_evaluation_corrected.json
+results/phase2/phase2_kd_evaluation.json
+results/phase2/noniid_evaluation.json
+results/phase2/noniid_kd_evaluation.json
 ```
 
 ## 9. Verification performed for this explanation
@@ -295,7 +297,7 @@ Inspected the complete project file inventory; read the core implementation, exp
 
 ## 10. Suggested reading sequence
 
-Read the current root README, `docs/EXPERIMENT_PROTOCOL.md`, `src/models/small_cnn.py`, the three data modules, `src/training/fedavg.py`, `scripts/run_experiment_v2.py`, subtraction/KD runners, `scripts/run_federaser_v5.py`, and the corrected comparison table. Then study the Stage 6/7 reports in order, keeping the Stage 7A invalidation and later corrections beside their original reports.
+Read the current root README, `docs/baseline/EXPERIMENT_PROTOCOL.md`, `src/models/small_cnn.py`, the three data modules, `src/training/fedavg.py`, `scripts/run_experiment_v2.py`, subtraction/KD runners, `scripts/baseline/run_federaser_v5.py`, and the corrected comparison table. Then study the Stage 6/7 reports in order, keeping the Stage 7A invalidation and later corrections beside their original reports.
 
 ## 11. Complete file-by-file inventory
 
@@ -309,7 +311,7 @@ The inventory below covers every one of the 366 original project files, excludin
 | manifests | 2 |
 | presentation | 5 |
 | results | 52 |
-| results_phase2 | 116 |
+| results/phase2 | 116 |
 | scripts | 115 |
 | src | 11 |
 | tests | 10 |
@@ -325,8 +327,8 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `pytest.ini` | Active test discovery/import settings; isolates historical/archive tests. |
 | `README.md` | Document: ISP Project: Client-Level Backdoor Unlearning in Federated Learning; 1. Quick Start & Setup; Clone the repository (default branch: main); Create virtual environment and install dependencies. |
 | `requirements.txt` | Unpinned dependency list: Torch, Torchvision, NumPy, Pandas, Matplotlib, PyYAML, tqdm, pytest. |
-| `sha256_manifest.txt` | Historical 51-entry SHA-256 manifest; current mismatches and omitted paths explained above. |
-| `test_cifar.py` | CIFAR-100 local dataset loading probe with integrity bypass; not an FL smoke test. |
+| `manifests/historical/manifests\historical\sha256_manifest.txt` | Historical 51-entry SHA-256 manifest; current mismatches and omitted paths explained above. |
+| `scripts/data/check_cifar100.py` | CIFAR-100 local dataset loading probe with integrity bypass; not an FL smoke test. |
 
 ### configs
 
@@ -439,7 +441,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `triggered_rate_vs_round.png` | Saved figure: triggered rate vs round. |
 | `triggered_sample.png` | Saved figure: triggered sample. |
 
-### results/iid_attack
+### results/phase1/iid_attack
 
 | File | Explanation |
 |---|---|
@@ -450,7 +452,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 
-### results/iid_clean
+### results/phase1/iid_clean
 
 | File | Explanation |
 |---|---|
@@ -463,7 +465,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 
-### results/noniid_attack
+### results/phase1/noniid_attack
 
 | File | Explanation |
 |---|---|
@@ -474,7 +476,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 
-### results/noniid_clean
+### results/phase1/noniid_clean
 
 | File | Explanation |
 |---|---|
@@ -487,7 +489,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 
-### results/smoke_test_dir
+### results/smoke/smoke_test_dir
 
 | File | Explanation |
 |---|---|
@@ -500,7 +502,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `client_class_histograms.json` | Client class histograms. Fields: `client_0`, `client_1`, `client_2`, `client_3`, `client_4`, `client_5`, `client_6`, `client_7`, `client_8`, `client_9`. |
 | `final_results.json` | Final results. Fields: `config`, `comparison`, `raw_results`. |
 
-### results_phase2
+### results/phase2
 
 | File | Explanation |
 |---|---|
@@ -511,7 +513,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `phase2_final_report.md` | Document: Phase 2: Final Validation and Findings; 1. Reproducible $M_{CF}$ Aggregation Audit; 2. Characterization of Non-IID $M_{sub}$ Performance Drop; 3. Teacher Predictions on the Proxy Data. |
 | `phase2_kd_evaluation.json` | Phase2 kd evaluation. Fields: `Phase-1 Clean`, `Logged IID Attack`, `M_sub`, `M_KD`, `M_CF`. |
 
-### results_phase2/audit_stage1
+### results/phase2/audit_stage1
 
 | File | Explanation |
 |---|---|
@@ -529,7 +531,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `runtime_storage_inventory.csv` | Runtime storage inventory; 10 data rows. Columns: `Component`, `Scope`, `Time_Seconds`. |
 | `stage1_audit_report.md` | Document: Stage 1: Final Source-of-Truth Audit; 1. Repository and Frozen State; 2. Canonical Results Table; 3. Non-IID M_sub Collapse. |
 
-### results_phase2/charts
+### results/phase2/charts
 
 | File | Explanation |
 |---|---|
@@ -538,7 +540,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `clean_cf.png` | Saved figure: clean cf. |
 | `kd_loss.png` | Saved figure: kd loss. |
 
-### results_phase2/federaser
+### results/phase2/federaser
 
 | File | Explanation |
 |---|---|
@@ -552,7 +554,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `RUN_REGISTRY.md` | Document: FedEraser Run Registry. |
 | `seed_manifest.md` | Document: FedEraser Seed Manifest. |
 
-### results_phase2/federaser/4_configs
+### results/phase2/federaser/4_configs
 
 | File | Explanation |
 |---|---|
@@ -560,7 +562,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `federaser_extended_comparison.md` | Document: . |
 | `validation_report.md` | Document: FedEraser Configurations Validation Report; 1. Explicit Configurations Overview; 2. Global L2-Norm Assertions; 3. Pre-Trained Policy Declarations. |
 
-### results_phase2/federaser/corrected_evaluation
+### results/phase2/federaser/corrected_evaluation
 
 | File | Explanation |
 |---|---|
@@ -570,14 +572,14 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `iid_corrected_evaluation.json` | Iid corrected evaluation. Fields: `Clean_Accuracy`, `Clean_Loss`, `Triggered_Rate`, `Untriggered_Airplane_Rate`, `Clean_CF_Agreement`, `Triggered_CF_Agreement`, `Airplane_Recall`, `Macro_F1`. Accuracy 66.4%, ASR 3.5%. |
 | `noniid_corrected_evaluation.json` | Noniid corrected evaluation. Fields: `Clean_Accuracy`, `Clean_Loss`, `Triggered_Rate`, `Untriggered_Airplane_Rate`, `Clean_CF_Agreement`, `Triggered_CF_Agreement`, `Airplane_Recall`, `Macro_F1`. Accuracy 58.63%, ASR 3.7333%. |
 
-### results_phase2/federaser/corrected_evaluation_v2
+### results/phase2/federaser/corrected_evaluation_v2
 
 | File | Explanation |
 |---|---|
 | `federaser_comparison.csv` | Federaser comparison; 14 data rows. Columns: `Partition`, `Model`, `Clean_Accuracy`, `Clean_Loss`, `Triggered_Rate`, `Untriggered_Airplane_Rate`, `Macro_F1`, `Clean_CF_Agreement`. |
 | `federaser_comparison.md` | Document: . |
 
-### results_phase2/federaser/iid
+### results/phase2/federaser/iid
 
 | File | Explanation |
 |---|---|
@@ -586,7 +588,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 25 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/iid_Ecal1
+### results/phase2/federaser/iid_Ecal1
 
 | File | Explanation |
 |---|---|
@@ -595,7 +597,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/iid_Ecal1_v2
+### results/phase2/federaser/iid_Ecal1_v2
 
 | File | Explanation |
 |---|---|
@@ -604,7 +606,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Corrected current run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Corrected current run.** |
 
-### results_phase2/federaser/iid_Ecal2
+### results/phase2/federaser/iid_Ecal2
 
 | File | Explanation |
 |---|---|
@@ -613,7 +615,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/iid_Ecal2_v2
+### results/phase2/federaser/iid_Ecal2_v2
 
 | File | Explanation |
 |---|---|
@@ -622,7 +624,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Corrected current run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Corrected current run.** |
 
-### results_phase2/federaser/noniid
+### results/phase2/federaser/noniid
 
 | File | Explanation |
 |---|---|
@@ -631,7 +633,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 25 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/noniid_Ecal1
+### results/phase2/federaser/noniid_Ecal1
 
 | File | Explanation |
 |---|---|
@@ -640,7 +642,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/noniid_Ecal1_v2
+### results/phase2/federaser/noniid_Ecal1_v2
 
 | File | Explanation |
 |---|---|
@@ -649,7 +651,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Corrected current run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Corrected current run.** |
 
-### results_phase2/federaser/noniid_Ecal2
+### results/phase2/federaser/noniid_Ecal2
 
 | File | Explanation |
 |---|---|
@@ -658,7 +660,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Superseded run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Superseded run.** |
 
-### results_phase2/federaser/noniid_Ecal2_v2
+### results/phase2/federaser/noniid_Ecal2_v2
 
 | File | Explanation |
 |---|---|
@@ -667,7 +669,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. **Corrected current run.** |
 | `reconstruction_logs.csv` | Reconstruction logs; 50 data rows. Columns: `round`, `time_s`. **Corrected current run.** |
 
-### results_phase2/iid_attack_logged
+### results/phase2/iid_attack_logged
 
 | File | Explanation |
 |---|---|
@@ -679,7 +681,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 | `runtime.json` | Runtime. Fields: `runtime_seconds`. |
 
-### results_phase2/iid_counterfactual
+### results/phase2/iid_counterfactual
 
 | File | Explanation |
 |---|---|
@@ -689,21 +691,21 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`. |
 
-### results_phase2/iid_kd
+### results/phase2/iid_kd
 
 | File | Explanation |
 |---|---|
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metadata.json` | Metadata. Fields: `epochs`, `batch_size`, `lr`, `momentum`, `T`, `optimizer`, `hyperparameter_note`, `kd_runtime_seconds`, `subtraction_runtime_seconds`, `total_unlearning_runtime`. |
 
-### results_phase2/iid_subtraction
+### results/phase2/iid_subtraction
 
 | File | Explanation |
 |---|---|
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `subtraction_runtime.json` | Subtraction runtime. Fields: `runtime_seconds`. |
 
-### results_phase2/noniid_attack_logged
+### results/phase2/noniid_attack_logged
 
 | File | Explanation |
 |---|---|
@@ -715,7 +717,7 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`, `Attack_Active`. |
 | `runtime.json` | Runtime. Fields: `runtime_seconds`. |
 
-### results_phase2/noniid_counterfactual
+### results/phase2/noniid_counterfactual
 
 | File | Explanation |
 |---|---|
@@ -725,21 +727,21 @@ Each group names an exact parent directory. Each original file appears once. Def
 | `initial_model.pt` | Initial model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metrics_per_round.csv` | Metrics per round; 50 data rows. Columns: `Round`, `Clean_Acc`, `Triggered_Target_Rate`, `Untriggered_Airplane_Rate`. |
 
-### results_phase2/noniid_kd
+### results/phase2/noniid_kd
 
 | File | Explanation |
 |---|---|
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `metadata.json` | Metadata. Fields: `epochs`, `batch_size`, `lr`, `momentum`, `T`, `optimizer`, `kd_runtime_seconds`, `subtraction_runtime_seconds`, `total_unlearning_runtime`, `kd_loss_history`. |
 
-### results_phase2/noniid_subtraction
+### results/phase2/noniid_subtraction
 
 | File | Explanation |
 |---|---|
 | `final_model.pt` | Final model PyTorch state-dictionary checkpoint. See the run-directory explanation above; tensors were not deserialized. |
 | `subtraction_runtime.json` | Subtraction runtime. Fields: `runtime_seconds`, `c0_weight`, `n_0`, `N`. |
 
-### results_phase2/proxy_data
+### results/phase2/proxy_data
 
 | File | Explanation |
 |---|---|

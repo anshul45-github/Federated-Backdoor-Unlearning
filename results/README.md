@@ -1,4 +1,16 @@
-# Recorded baseline result snapshots
+# Experiment runs
+
+| Experiment | Config | Saved outputs |
+|---|---|---|
+| Phase 1 IID and non-IID baselines | [IID](../configs/v2_iid.yaml), [non-IID](../configs/v2_noniid.yaml) | [Baseline runs and figures](phase1/), [summary](phase1/phase1_summary.csv) |
+| Phase 2 unlearning and retraining | [Baseline protocol](../docs/baseline/EXPERIMENT_PROTOCOL.md) | [IID table](phase2/phase2_iid.csv), [non-IID table](phase2/phase2_noniid.csv), [FedEraser registry](phase2/federaser/RUN_REGISTRY.md), [corrected evaluation](phase2/phase2_evaluation_corrected.json), and [superseded evaluation](phase2/phase2_evaluation_superseded.json) |
+| Smoke test | [Smoke config](../configs/v2_smoke.yaml) | [Smoke outputs](smoke/) |
+| 4x4 checkerboard IID and non-IID | [IID](../configs/v3_checkerboard4_iid.yaml), [non-IID](../configs/v3_checkerboard4_noniid.yaml) | [Timestamped runs](checkerboard/). The IID rerun and non-IID run have local trajectories. |
+| Extreme label skew | [Stress config](../configs/v4_checkerboard4_extreme_noniid.yaml) | [Timestamped runs](label_skew/). The completed seed-42 run has a local attack trajectory. |
+
+The [runtime ledger](runtime_ledger.csv) covers multiple phases. Recorded output files retain their original metadata, which can include paths from the original checkout. The [historical checksum manifest](../manifests/historical/sha256_manifest.txt) also retains its original paths.
+
+## Original baseline snapshot notes
 
 These CSVs transcribe the current project result record available for this handoff. They are intended for team reference and plotting. They are not regenerated from experiment source in this initial documentation commit because the original training scripts, saved run folders and raw logs have not yet been imported here.
 

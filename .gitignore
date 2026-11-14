@@ -24,7 +24,6 @@ Thumbs.db
 
 # Training outputs and large artifacts
 /checkpoints/
-/models/*.pt
 /models/*.pth
 /models/*.ckpt
 *.pth
@@ -37,11 +36,8 @@ Thumbs.db
 /data/
 !src/data/
 trajectory/
-client_partitions.pt
 
-# By default ignore loose .pt files, but allow curated model checkpoints in results/ and results_phase2/
+# Ignore PyTorch model and checkpoint files at any depth
 *.pt
-!results/**/*.pt
-!results_phase2/**/*.pt
 
 # Keep curated CSV/JSON summaries in results/ tracked by default.

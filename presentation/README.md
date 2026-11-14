@@ -15,7 +15,7 @@ There are several historical snapshots and intermediate versions in the availabl
 Before choosing what to present as the final deck:
 1. Confirm with the team which editable PPTX is the current final presentation.
 2. Keep intermediate versions under an archive directory, named with date/status.
-3. Ensure every quantitative slide uses values from results/phase1_summary.csv and the Phase 2 CSVs, or clearly labels an earlier protocol as historical.
+3. Ensure every quantitative slide uses values from results/phase1/phase1_summary.csv and the Phase 2 CSVs, or clearly labels an earlier protocol as historical.
 4. Keep a short README in every archive folder explaining the protocol/metrics represented.
 5. Never replace the editable PPTX with PDF only; store the PDF as a preview alongside its source.
 

@@ -33,60 +33,19 @@ pytest
 # Run the historical test suite (6 expected failures due to archived prototype paths)
 pytest tests/historical/
 
-# Run a fast 2-round CIFAR-10 FL smoke test
-python test_cifar.py
+# Check that the local CIFAR-100 dataset can be loaded
+python scripts/data/check_cifar100.py
 ```
 
 ---
 
 ## 2. Repository Directory Map
 
-```text
-ISP-Client-Level-Backdoor-Unlearning/
-├── src/                                     # Core model, data, federated, and unlearning logic
-│   ├── data/                                # CIFAR-10 data loaders, backdoor injection, partition logic
-│   ├── models/                              # SmallCNN model architecture
-│   ├── training/                            # FedAvg aggregation & training loops
-│   ├── unlearning/                          # FedEraser calibration (with L2-norm parity assertion)
-│   └── utils/                               # Seeding, logging, and visualization utilities
-├── scripts/                                 # 114 training, unlearning, evaluation, and audit scripts
-│   ├── run_experiment_v2.py                 # Logged FL attack training (generates trajectories)
-│   ├── run_m_cf.py & run_noniid_m_cf.py     # Counterfactual reference retraining (M_CF)
-│   ├── run_subtraction.py                   # Historical update subtraction (M_sub)
-│   ├── run_kd.py                            # Knowledge distillation unlearning (M_KD)
-│   ├── run_federaser_v5.py                  # Canonical FedEraser baselines (E_cal in {1, 2})
-│   ├── eval_p1_cf.py & eval_noniid_clean.py # CF agreement and extended evaluation scripts
-│   └── _archive/                            # Archived historical scripts and prototype runners
-├── configs/                                 # Canonical experiment YAML specifications
-│   ├── v2_iid.yaml                          # IID 50-round FL specification
-│   ├── v2_noniid.yaml                       # Non-IID Dirichlet (alpha=0.5) specification
-│   ├── v2_smoke.yaml                        # Fast smoke-test configuration
-│   └── _archive/                            # Archived run configurations
-├── tests/                                   # Active unit test suite
-│   ├── historical/                          # Archived prototype tests (isolated from active suite)
-│   └── [test_*.py]                          # Core unit tests (attack, data, model, federaser, etc.)
-├── docs/                                    # Detailed documentation, guides, and audit logs
-│   ├── developer_guide.md                   # Complete teammate developer & reproducibility guide
-│   ├── EXPERIMENT_PROTOCOL.md               # Canonical 50-round experiment specifications
-│   ├── METHODS_AND_METRICS.md               # Mathematical formulations and metric definitions
-│   └── [analysis reports]                   # Factorial robustness audits and stage reports
-├── results/                                 # Phase-1 baseline models, metrics, CSVs, and figures
-│   ├── iid_clean/ & iid_attack/             # Model checkpoints, per-round metrics, client histograms
-│   ├── noniid_clean/ & noniid_attack/       # Model checkpoints, per-round metrics, client histograms
-│   └── [CSVs & PNGs]                        # Baseline metric snapshots, heatmaps, and curves
-├── results_phase2/                          # Phase-2 unlearning models, evaluations, and artifacts
-│   ├── federaser/                           # Corrected v2 runs, RUN_REGISTRY.md, seed_manifest.md
-│   ├── iid_subtraction/ & noniid_subtraction/ # M_sub checkpoints and timing metadata
-│   ├── iid_kd/ & noniid_kd/                 # M_KD checkpoints and metadata
-│   ├── iid_counterfactual/ & noniid_counterfactual/ # M_CF checkpoints and round metrics
-│   ├── audit_stage1/                        # Canonical audit logs and reports
-│   └── proxy_data/                          # CIFAR-100 proxy dataset indices and sample grid
-├── presentation/                            # Editable PowerPoint slide decks
-│   ├── current/                             # ClientLevel_Backdoor_Unlearning_FL_initial_draft.pptx
-│   └── historical/                          # Removing_Backdoors_from_Federated_Models.pptx and decks
-└── manifests/                               # Provenance and checksum manifests
-    └── source_import_manifest.md            # Detailed record of imported files and exclusions
-```
+- [Project walkthrough](docs/PROJECT_WALKTHROUGH.md) and [setup and reproducibility guides](docs/guides).
+- [Baseline protocols and methods](docs/baseline), [checkerboard experiments](docs/checkerboard), [label-skew experiments](docs/label_skew), and [historical research](docs/historical).
+- [Run index](results/README.md) for saved baselines, unlearning results, and local trajectories.
+- [Experiment commands](scripts/README.md), with shared implementation in the source directory, versioned YAML configs, and pytest tests.
+- The presentation directory contains editable decks. The manifests directory contains provenance and the original checksum record.
 
 ---
 
@@ -99,42 +58,41 @@ ISP-Client-Level-Backdoor-Unlearning/
 > However, to comply with GitHub storage constraints, the large per-round client delta directories (`trajectory/`, ~2.2 GB) and pickled dataset objects (`client_partitions.pt`, ~1.48 GB) are excluded from the repository.
 
 ### Commands That Run Immediately (No Retraining Required)
-Using the committed checkpoints in `results/` and `results_phase2/`:
+Using the committed checkpoints in `results/` and `results/phase2/`:
 - **Model Evaluation**:
   ```bash
-  PYTHONPATH=. python scripts/eval_only_federaser.py
-  PYTHONPATH=. python scripts/eval_p1_cf.py
-  PYTHONPATH=. python scripts/eval_noniid_clean.py
-  PYTHONPATH=. python scripts/evaluate_phase2_corrected.py
+  PYTHONPATH=. python scripts/evaluation/eval_p1_cf.py
+  PYTHONPATH=. python scripts/evaluation/eval_iid_clean.py
+  PYTHONPATH=. python scripts/evaluation/evaluate_phase2_corrected.py
   ```
 - **Result Summarization & Audit**:
   ```bash
-  PYTHONPATH=. python scripts/compile_v3_results.py
-  PYTHONPATH=. python scripts/check_batches_tracked.py
-  PYTHONPATH=. python scripts/diff_runs.py
+  PYTHONPATH=. python scripts/reporting/compile_v3_results.py
+  PYTHONPATH=. python scripts/verification/check_batches_tracked.py
+  PYTHONPATH=. python scripts/verification/diff_runs.py
   ```
 - **Plotting**:
   ```bash
-  PYTHONPATH=. python scripts/plot_results.py
-  PYTHONPATH=. python scripts/per_class_asr.py
+  PYTHONPATH=. python scripts/reporting/plot_results.py
+  PYTHONPATH=. python scripts/reporting/per_class_asr.py
   ```
 
 ### Commands Requiring Trajectory Regeneration
-FedEraser (`scripts/run_federaser_v5.py`) and historical subtraction (`scripts/run_subtraction.py`) require historical per-round client updates. To regenerate them:
+FedEraser (`scripts/baseline/run_federaser_v5.py`) and historical subtraction (`scripts/baseline/run_subtraction.py`) require historical per-round client updates. To regenerate them:
 ```bash
 # Regenerate IID logged attack trajectory (50 rounds):
 PYTHONPATH=. python scripts/run_experiment_v2.py \
     --config configs/v2_iid.yaml \
     --mode attack \
     --log_trajectory \
-    --output_dir results_phase2/iid_attack_logged
+    --output_dir results/phase2/iid_attack_logged
 
 # Regenerate Non-IID logged attack trajectory (50 rounds):
 PYTHONPATH=. python scripts/run_experiment_v2.py \
     --config configs/v2_noniid.yaml \
     --mode attack \
     --log_trajectory \
-    --output_dir results_phase2/noniid_attack_logged
+    --output_dir results/phase2/noniid_attack_logged
 ```
 
 > [!NOTE]
@@ -152,16 +110,16 @@ PYTHONPATH=. python scripts/run_experiment_v2.py \
 - **FedEraser Reconstruction**: Reaches 74.99% accuracy / 2.34% ASR in IID ($E_{\text{cal}}=2$) and 68.89% accuracy / 3.09% ASR in the saved Non-IID partition ($E_{\text{cal}}=2$).
 - **Counterfactual Model ($M_{\text{CF}}$)**: Serves as an empirical reference point trained without Client 0 (74.87% IID, 69.64% Non-IID).
 
-For complete protocol details, consult [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md) and [docs/developer_guide.md](docs/developer_guide.md).
+For complete protocol details, consult [docs/baseline/EXPERIMENT_PROTOCOL.md](docs/baseline/EXPERIMENT_PROTOCOL.md) and [docs/guides/developer_guide.md](docs/guides/developer_guide.md).
 
 ## Checkerboard attack pilot
 
-An optional 4x4 bottom-right black/white checkerboard variant is configured in `configs/v3_checkerboard4_iid.yaml` and `configs/v3_checkerboard4_noniid.yaml`. See [docs/CHECKERBOARD_ATTACK.md](docs/CHECKERBOARD_ATTACK.md) for commands to train only M_attack and inspect its CA/ASR. Each run writes its own `attack_report.md`; reusing a nonempty checkerboard output path automatically selects a fresh numbered sibling. Stronger ASR remains to be measured. The original v2 white-patch configurations retain their trigger behavior.
+An optional 4x4 bottom-right black/white checkerboard variant is configured in `configs/v3_checkerboard4_iid.yaml` and `configs/v3_checkerboard4_noniid.yaml`. See [docs/checkerboard/CHECKERBOARD_ATTACK.md](docs/checkerboard/CHECKERBOARD_ATTACK.md) for commands to train only M_attack and inspect its CA/ASR. Each run writes its own `attack_report.md`; reusing a nonempty checkerboard output path automatically selects a fresh numbered sibling. Stronger ASR remains to be measured. The original v2 white-patch configurations retain their trigger behavior.
 
-For subtraction, KD and FedEraser on these new models, use the variant-aware launcher and commands in [docs/CHECKERBOARD_UNLEARNING.md](docs/CHECKERBOARD_UNLEARNING.md). It keeps the new trigger, source histories and result folders consistent without changing the old white-patch launchers.
+For subtraction, KD and FedEraser on these new models, use the variant-aware launcher and commands in [docs/checkerboard/CHECKERBOARD_UNLEARNING.md](docs/checkerboard/CHECKERBOARD_UNLEARNING.md). It keeps the new trigger, source histories and result folders consistent without changing the old white-patch launchers.
 
-For selective Conv2 + BatchNorm repair using G10/G20/G29 donors, use [docs/COMPONENT_PATCHING.md](docs/COMPONENT_PATCHING.md). It documents the whole-block interpolation grid, individual-channel rankings and prefix controls, selection/report separation, optional frozen-layer calibration, and commands for both saved checkerboard attack models.
+For selective Conv2 + BatchNorm repair using G10/G20/G29 donors, use [docs/checkerboard/COMPONENT_PATCHING.md](docs/checkerboard/COMPONENT_PATCHING.md). It documents the whole-block interpolation grid, individual-channel rankings and prefix controls, selection/report separation, optional frozen-layer calibration, and commands for both saved checkerboard attack models.
 
 ## Extreme label skew stress test
 
-Run `python scripts/run_label_skew_stress.py` in the training environment to compare subtraction, KD and FedEraser on a fresh Dirichlet alpha=0.01 checkerboard attack. Use `--plan` to inspect commands, `--preflight_only` to inspect actual partitions, or `--seeds 42 43 44` for partition sensitivity. See [docs/EXTREME_LABEL_SKEW.md](docs/EXTREME_LABEL_SKEW.md) for output files and interpretation.
+Run `python scripts/run_label_skew_stress.py` in the training environment to compare subtraction, KD and FedEraser on a fresh Dirichlet alpha=0.01 checkerboard attack. Use `--plan` to inspect commands, `--preflight_only` to inspect actual partitions, or `--seeds 42 43 44` for partition sensitivity. See [docs/label_skew/EXTREME_LABEL_SKEW.md](docs/label_skew/EXTREME_LABEL_SKEW.md) for output files and interpretation.
