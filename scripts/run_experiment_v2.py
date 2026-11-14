@@ -73,12 +73,18 @@ def get_client_dataloader(config, base_partition, client_id, round_idx, is_attac
     loader = torch.utils.data.DataLoader(dataset, batch_size=config["batch_size"], shuffle=True, generator=g)
     return loader, attack_active
 
-def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_loader, is_attack, output_dir, log_trajectory=False):
+def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_loader, is_attack,
+                      output_dir, log_trajectory=False, *, initial_checkpoint=None, start_round=1,
+                      client_ids=None, static_client_update=None):
     start_time = time.time()
     device = torch.device("mps" if hasattr(torch.backends, "mps") and torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu"))
     
     set_seed(config["seed"])
     global_model = SmallCNN().to(device)
+    if initial_checkpoint is not None:
+        global_model.load_state_dict(torch.load(initial_checkpoint, map_location=device, weights_only=True))
+    if client_ids is None:
+        client_ids = tuple(range(config["num_clients"]))
     
     init_model_path = os.path.join(output_dir, "initial_model.pt")
     torch.save(global_model.state_dict(), init_model_path)
@@ -108,7 +114,7 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
     
     assert config["num_clients"] == 10
     
-    for round_idx in range(1, config["num_rounds"] + 1):
+    for round_idx in range(start_round, config["num_rounds"] + 1):
         client_deltas = []
         sample_counts = []
         attack_active_in_round = False
@@ -117,7 +123,7 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             round_dir = os.path.join(output_dir, "trajectory", f"round_{round_idx:03d}")
             os.makedirs(round_dir, exist_ok=True)
         
-        for client_id in range(config["num_clients"]):
+        for client_id in client_ids:
             # Extreme Dirichlet skew can leave clients empty. They contribute a
             # zero update with zero FedAvg weight, while retaining a full history.
             if len(partitions[client_id]) == 0:
@@ -148,8 +154,17 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             client_deltas.append(delta)
             sample_counts.append(len(partitions[client_id]))
             
-        assert len(client_deltas) == 10
+        assert len(client_deltas) == len(client_ids)
+        if static_client_update is not None:
+            graft, graft_samples = static_client_update
+            # BatchNorm buffers follow the honest-client aggregate.
+            honest_state = aggregate_fedavg(global_state, client_deltas, sample_counts)
+            client_deltas.append(graft)
+            sample_counts.append(graft_samples)
         global_state = aggregate_fedavg(global_state, client_deltas, sample_counts)
+        if static_client_update is not None:
+            for key in global_state.keys() - graft.keys():
+                global_state[key] = honest_state[key]
         
         if log_trajectory:
             torch.save(global_state, os.path.join(round_dir, "global_model.pt"))
@@ -174,7 +189,7 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             writer = csv.writer(f)
             writer.writerow([round_idx, eval_clean["accuracy"], eval_asr["accuracy"], untriggered_airplane_rate, attack_active_in_round])
             
-        print(f"Round {round_idx}: Clean Acc {eval_clean['accuracy']:.2f}%, Triggered Rate {eval_asr['accuracy']:.2f}%, Attack Active: {attack_active_in_round}")
+        print(f"Round {round_idx}: Clean Acc {eval_clean['accuracy']:.2f}%, Triggered Rate {eval_asr['accuracy']:.2f}%, Attack Active: {attack_active_in_round}", flush=True)
         
     final_model_path = os.path.join(output_dir, "final_model.pt")
     torch.save(global_state, final_model_path)
