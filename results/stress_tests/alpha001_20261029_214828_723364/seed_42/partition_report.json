@@ -1,0 +1,216 @@
+{
+  "alpha": 0.01,
+  "seed": 42,
+  "clients": [
+    {
+      "client": 0,
+      "num_samples": 9999,
+      "class_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        5000,
+        0,
+        4999
+      ],
+      "classes_present": 2,
+      "dominant_class_fraction": 0.5000500050005,
+      "label_entropy_nats": 0.6931471755589452
+    },
+    {
+      "client": 1,
+      "num_samples": 4772,
+      "class_counts": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        4772,
+        0,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 1,
+      "dominant_class_fraction": 1.0,
+      "label_entropy_nats": -0.0
+    },
+    {
+      "client": 2,
+      "num_samples": 9449,
+      "class_counts": [
+        0,
+        0,
+        9,
+        4441,
+        4999,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 3,
+      "dominant_class_fraction": 0.529050693195047,
+      "label_entropy_nats": 0.698318520378489
+    },
+    {
+      "client": 3,
+      "num_samples": 5000,
+      "class_counts": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        4999,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 2,
+      "dominant_class_fraction": 0.9998,
+      "label_entropy_nats": 0.001903418636949759
+    },
+    {
+      "client": 4,
+      "num_samples": 10003,
+      "class_counts": [
+        4999,
+        0,
+        0,
+        0,
+        1,
+        18,
+        0,
+        0,
+        4985,
+        0
+      ],
+      "classes_present": 4,
+      "dominant_class_fraction": 0.49975007497750673,
+      "label_entropy_nats": 0.7060210990253364
+    },
+    {
+      "client": 5,
+      "num_samples": 568,
+      "class_counts": [
+        0,
+        0,
+        10,
+        558,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 2,
+      "dominant_class_fraction": 0.9823943661971831,
+      "label_entropy_nats": 0.08856833432201056
+    },
+    {
+      "client": 6,
+      "num_samples": 4983,
+      "class_counts": [
+        0,
+        0,
+        4981,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 3,
+      "dominant_class_fraction": 0.9995986353602248,
+      "label_entropy_nats": 0.0038184172944440015
+    },
+    {
+      "client": 7,
+      "num_samples": 5037,
+      "class_counts": [
+        0,
+        4827,
+        0,
+        0,
+        0,
+        209,
+        0,
+        0,
+        0,
+        1
+      ],
+      "classes_present": 3,
+      "dominant_class_fraction": 0.9583085169743896,
+      "label_entropy_nats": 0.17454263393428562
+    },
+    {
+      "client": 8,
+      "num_samples": 2,
+      "class_counts": [
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "classes_present": 1,
+      "dominant_class_fraction": 1.0,
+      "label_entropy_nats": -0.0
+    },
+    {
+      "client": 9,
+      "num_samples": 187,
+      "class_counts": [
+        0,
+        171,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        15,
+        0
+      ],
+      "classes_present": 3,
+      "dominant_class_fraction": 0.9144385026737968,
+      "label_entropy_nats": 0.3121502148305867
+    }
+  ],
+  "empty_clients": [],
+  "malicious_client_weight": 0.19998,
+  "poisoned_samples": 999,
+  "non_target_poison_candidates": 9999,
+  "retained_class_counts": [
+    5000,
+    5000,
+    5000,
+    5000,
+    5000,
+    5000,
+    5000,
+    0,
+    5000,
+    1
+  ],
+  "classes_lost_on_removal": [
+    7
+  ],
+  "errors": []
+}

@@ -1,0 +1,18 @@
+{
+  "stage": "federaser",
+  "status": "completed",
+  "command": [
+    "C:\\Program Files\\Python39\\python.exe",
+    "-u",
+    "scripts/run_checkerboard_unlearning.py",
+    "--source_run",
+    "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\stress_tests\\alpha001_20261029_214828_723364\\seed_42\\attack",
+    "--method",
+    "federaser",
+    "--calibration_epochs",
+    "2",
+    "--output_dir",
+    "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\stress_tests\\alpha001_20261029_214828_723364\\seed_42\\attack\\unlearning\\federaser_Ecal2"
+  ],
+  "returncode": 0
+}

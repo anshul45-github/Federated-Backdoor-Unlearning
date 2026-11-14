@@ -15,6 +15,7 @@ from src.data.cifar10 import get_cifar10_dataloaders
 from src.data.fl_partition import create_iid_partitions, create_noniid_partitions
 from src.data.backdoor import create_asr_dataloader, PoisonedDataset
 from src.models.small_cnn import SmallCNN
+from src.utils.attack_report import prepare_output_directory, write_attack_report
 from src.training.train_utils import train_epoch, evaluate_extended
 from src.training.fedavg import compute_model_delta, aggregate_fedavg
 from torch.utils.data import Subset
@@ -60,7 +61,8 @@ def get_client_dataloader(config, base_partition, client_id, round_idx, is_attac
             base_dataset=base_partition,
             poison_indices=poison_indices_fixed,
             target_class=config["target_class"],
-            trigger_size=config["trigger_size"]
+            trigger_size=config["trigger_size"],
+            trigger_type=config.get("trigger_type", "white_patch")
         )
         assert len(dataset.poison_indices) == len(poison_indices_fixed)
     else:
@@ -116,6 +118,15 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             os.makedirs(round_dir, exist_ok=True)
         
         for client_id in range(config["num_clients"]):
+            # Extreme Dirichlet skew can leave clients empty. They contribute a
+            # zero update with zero FedAvg weight, while retaining a full history.
+            if len(partitions[client_id]) == 0:
+                delta = {key: torch.zeros_like(value, dtype=torch.float32) for key, value in global_state.items()}
+                if log_trajectory:
+                    torch.save(delta, os.path.join(round_dir, f"delta_client_{client_id:02d}.pt"))
+                client_deltas.append(delta)
+                sample_counts.append(0)
+                continue
             loader, is_attack_active = get_client_dataloader(config, partitions[client_id], client_id, round_idx, is_attack, poison_indices_fixed)
             if is_attack_active: attack_active_in_round = True
                     
@@ -177,8 +188,13 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
         "clean_eval": clean_metrics,
         "triggered_eval": asr_metrics,
         "untriggered_airplane_rate": untriggered_airplane_rate,
-        "runtime_seconds": end_time - start_time
+        "runtime_seconds": end_time - start_time,
+        "poisoned_samples": len(poison_indices_fixed),
+        "malicious_client_samples": len(partitions[config["malicious_client_id"]])
     }
+
+
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -190,9 +206,26 @@ def main():
     
     with open(args.config, "r") as f:
         config = yaml.safe_load(f)
+    config.setdefault("trigger_type", "white_patch")
+    if config["trigger_type"] not in {"white_patch", "checkerboard"}:
+        parser.error("trigger_type must be white_patch or checkerboard")
+    if not isinstance(config["trigger_size"], int) or not 1 <= config["trigger_size"] <= 32:
+        parser.error("trigger_size must be an integer between 1 and 32")
+    if config["partition_type"] not in {"iid", "noniid"}:
+        parser.error("partition_type must be iid or noniid")
+    if config["num_clients"] != 10 or config["clients_per_round"] != 10:
+        parser.error("This runner requires ten clients with full participation")
+    try:
+        requested_output = args.output_dir
+        args.output_dir = prepare_output_directory(
+            requested_output, unique_on_conflict=config["trigger_type"] == "checkerboard")
+    except ValueError as exc:
+        parser.error(str(exc))
+    if os.path.normpath(requested_output) != args.output_dir:
+        print(f"Existing output preserved. Using a new run directory: {args.output_dir}", flush=True)
+    print(f"Run output: {os.path.abspath(args.output_dir)}", flush=True)
         
     set_seed(config["seed"])
-    os.makedirs(args.output_dir, exist_ok=True)
     
     # Save config.json
     with open(os.path.join(args.output_dir, "config.json"), "w") as f:
@@ -210,7 +243,8 @@ def main():
         
     torch.save(partitions, os.path.join(args.output_dir, "client_partitions.pt"))
         
-    asr_loader = create_asr_dataloader(test_loader, target_class=config["target_class"], trigger_size=config["trigger_size"], batch_size=config["batch_size"])
+    asr_loader = create_asr_dataloader(test_loader, target_class=config["target_class"], trigger_size=config["trigger_size"],
+                                     batch_size=config["batch_size"], trigger_type=config["trigger_type"])
     untriggered_loader = create_untriggered_baseline_loader(test_loader, target_class=config["target_class"], batch_size=config["batch_size"])
     
     is_attack = (args.mode == "attack")
@@ -225,7 +259,11 @@ def main():
         "clean_macro_f1": results["clean_eval"]["macro_f1"],
         "triggered_rate": results["triggered_eval"]["accuracy"],
         "untriggered_airplane_rate": results["untriggered_airplane_rate"],
-        "runtime_seconds": results["runtime_seconds"]
+        "runtime_seconds": results["runtime_seconds"],
+        "poisoned_samples": results["poisoned_samples"],
+        "malicious_client_samples": results["malicious_client_samples"],
+        "trajectory_logged": args.log_trajectory,
+        "evaluation_populations": {"clean": len(test_loader.dataset), "triggered_non_target": len(asr_loader.dataset)}
     }
     
     with open(os.path.join(args.output_dir, "final_results.json"), "w") as f:
@@ -233,6 +271,8 @@ def main():
         
     with open(os.path.join(args.output_dir, "runtime.json"), "w") as f:
         json.dump({"runtime_seconds": results["runtime_seconds"]}, f, indent=4)
+    if is_attack:
+        write_attack_report(args.output_dir, final_output, args.config, args.log_trajectory)
         
     print(f"Finished {args.mode}. Saved to {args.output_dir}")
 

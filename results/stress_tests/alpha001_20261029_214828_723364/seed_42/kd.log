@@ -1,0 +1,8 @@
+Output: E:\01_Active_Projects\AI_and_Research\ISP-Client-Level-Backdoor-Unlearning\results\stress_tests\alpha001_20261029_214828_723364\seed_42\attack\unlearning\kd
+KD epoch 1/5, loss nan
+KD epoch 2/5, loss nan
+KD epoch 3/5, loss nan
+KD epoch 4/5, loss nan
+KD epoch 5/5, loss nan
+CA: 10.00% | checkerboard ASR: 100.00%
+Report: E:\01_Active_Projects\AI_and_Research\ISP-Client-Level-Backdoor-Unlearning\results\stress_tests\alpha001_20261029_214828_723364\seed_42\attack\unlearning\kd\report.md

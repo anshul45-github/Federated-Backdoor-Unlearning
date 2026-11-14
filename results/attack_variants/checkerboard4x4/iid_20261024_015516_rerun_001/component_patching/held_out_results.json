@@ -1,0 +1,25 @@
+{
+  "baseline": {
+    "ca": 75.38,
+    "asr": 92.53333333333333,
+    "clean_count": 5000,
+    "triggered_count": 4500
+  },
+  "best_patch": {
+    "ca": 75.12,
+    "asr": 88.57777777777778,
+    "clean_count": 5000,
+    "triggered_count": 4500
+  },
+  "effects": {
+    "ca": 75.12,
+    "asr": 88.57777777777778,
+    "delta_ca_pp": -0.2599999999999909,
+    "delta_asr_pp": -3.9555555555555486,
+    "ca_lost_pp": 0.2599999999999909,
+    "asr_drop_pp": 3.9555555555555486,
+    "score": 15.21367521367572
+  },
+  "within_report_ca_budget": true,
+  "no_reselection": true
+}

@@ -1,0 +1,76 @@
+{
+  "client_0": {
+    "num_samples": 9999,
+    "class_distribution": {
+      "7": 5000,
+      "9": 4999
+    }
+  },
+  "client_1": {
+    "num_samples": 4772,
+    "class_distribution": {
+      "5": 4772
+    }
+  },
+  "client_2": {
+    "num_samples": 9449,
+    "class_distribution": {
+      "2": 9,
+      "3": 4441,
+      "4": 4999
+    }
+  },
+  "client_3": {
+    "num_samples": 5000,
+    "class_distribution": {
+      "0": 1,
+      "6": 4999
+    }
+  },
+  "client_4": {
+    "num_samples": 10003,
+    "class_distribution": {
+      "0": 4999,
+      "4": 1,
+      "5": 18,
+      "8": 4985
+    }
+  },
+  "client_5": {
+    "num_samples": 568,
+    "class_distribution": {
+      "2": 10,
+      "3": 558
+    }
+  },
+  "client_6": {
+    "num_samples": 4983,
+    "class_distribution": {
+      "2": 4981,
+      "5": 1,
+      "6": 1
+    }
+  },
+  "client_7": {
+    "num_samples": 5037,
+    "class_distribution": {
+      "1": 4827,
+      "5": 209,
+      "9": 1
+    }
+  },
+  "client_8": {
+    "num_samples": 2,
+    "class_distribution": {
+      "1": 2
+    }
+  },
+  "client_9": {
+    "num_samples": 187,
+    "class_distribution": {
+      "1": 171,
+      "3": 1,
+      "8": 15
+    }
+  }
+}

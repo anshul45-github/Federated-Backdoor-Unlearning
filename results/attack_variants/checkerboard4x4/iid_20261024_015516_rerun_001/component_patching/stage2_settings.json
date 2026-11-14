@@ -1,0 +1,10 @@
+{
+  "scope": "best",
+  "settings": [
+    [
+      29,
+      0.25
+    ]
+  ],
+  "selection_rule": "explicit/all grid, otherwise maximal Stage 1 ASR-drop / clamped-CA-loss score"
+}

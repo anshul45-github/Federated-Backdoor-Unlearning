@@ -1,0 +1,49 @@
+{
+  "source_run": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\noniid_20261024_150813_189",
+  "method": "kd",
+  "partition": "noniid",
+  "source_ca": 71.14,
+  "source_asr": 80.88888888888889,
+  "historical_rounds": 50,
+  "source_model_sha256": "15add94fc41a4f2923a8172eb56031b0314e5cd476ceb9e72e26b6fcfbebc810",
+  "source_config": {
+    "experiment_name": "checkerboard4_noniid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "noniid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "subtraction_dir": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\noniid_20261024_150813_189\\unlearning\\20261024_205805_550\\subtraction",
+  "reference_model": null,
+  "calibration_epochs": null,
+  "forgotten_client": 0,
+  "status": "completed",
+  "kd": {
+    "epochs": 5,
+    "temperature": 4,
+    "learning_rate": 0.001,
+    "momentum": 0.9,
+    "batch_size": 64,
+    "loss_history": [
+      1.8482059587406208,
+      0.9326315575008151,
+      0.7489300430575504,
+      0.6527409678018545,
+      0.5846578663663019
+    ],
+    "proxy_pixel_sha256_uint8_nhwc": "c52d7163216cd3d548bbe78e1d9a9157f8c4aafc0c6be58793ce5ef566c127aa"
+  },
+  "output_model_sha256": "e5c9ba4cfa5f2db2a63db310f974d8e0caf34b18e4dacfc11d80cdbfdc4cd9b7"
+}

@@ -1,0 +1,111 @@
+{
+  "status": "completed",
+  "arguments": {
+    "source_run": "results\\attack_variants\\checkerboard4x4\\iid_20261024_015516_rerun_001",
+    "output_dir": null,
+    "data_dir": "data",
+    "stage": "both",
+    "donor_rounds": [
+      10,
+      20,
+      29
+    ],
+    "alphas": [
+      0.25,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "stage2_scope": "best",
+    "stage2_donor_round": null,
+    "stage2_alpha": null,
+    "ca_budget_pp": 1.0,
+    "score_epsilon_pp": 1e-06,
+    "selection_fraction": 0.5,
+    "split_seed": 2026,
+    "random_seed": 314159,
+    "random_shuffles": 10,
+    "batch_size": 256,
+    "device": "auto",
+    "calibration_steps": 0,
+    "calibration_lr": 0.0001,
+    "check_only": false
+  },
+  "source_config": {
+    "experiment_name": "checkerboard4_iid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "iid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "inputs": {
+    "final": {
+      "path": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\iid_20261024_015516_rerun_001\\final_model.pt",
+      "sha256": "b42a1c00ec758075dfeebf48b5b4a55f1a8fd5eb9b7a0d2cda03d7798a7088e0"
+    },
+    "G10": {
+      "path": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\iid_20261024_015516_rerun_001\\trajectory\\round_010\\global_model.pt",
+      "sha256": "8e3c9b114135af6463a0376273bee923d1e77fb5cd617147c3f5fcd25273c1bf"
+    },
+    "G20": {
+      "path": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\iid_20261024_015516_rerun_001\\trajectory\\round_020\\global_model.pt",
+      "sha256": "05fc5ebebce50a51c17ed29fc6dd17ab20fcc40c09754f75bc3a50d8e8071c46"
+    },
+    "G29": {
+      "path": "E:\\01_Active_Projects\\AI_and_Research\\ISP-Client-Level-Backdoor-Unlearning\\results\\attack_variants\\checkerboard4x4\\iid_20261024_015516_rerun_001\\trajectory\\round_029\\global_model.pt",
+      "sha256": "f04ef186a2ff2e85932b66dc8c2f0cc2cff5ceed2b367ab58d71110b3f32d0b0"
+    }
+  },
+  "source_full_test_results": {
+    "config": {
+      "experiment_name": "checkerboard4_iid_seed42",
+      "num_clients": 10,
+      "clients_per_round": 10,
+      "partition_type": "iid",
+      "dirichlet_alpha": 0.5,
+      "malicious_client_id": 0,
+      "poison_ratio": 0.1,
+      "trigger_type": "checkerboard",
+      "trigger_size": 4,
+      "target_class": 0,
+      "attack_start_round": 30,
+      "num_rounds": 50,
+      "local_epochs": 2,
+      "batch_size": 64,
+      "seed": 42,
+      "learning_rate": 0.01,
+      "momentum": 0.9
+    },
+    "mode": "attack",
+    "clean_accuracy": 75.26,
+    "clean_loss": 0.7193521101951599,
+    "clean_macro_f1": 0.750811640462964,
+    "triggered_rate": 92.17777777777778,
+    "untriggered_airplane_rate": 3.9444444444444446,
+    "runtime_seconds": 5847.490940332413,
+    "poisoned_samples": 500,
+    "malicious_client_samples": 5000,
+    "trajectory_logged": true,
+    "evaluation_populations": {
+      "clean": 10000,
+      "triggered_non_target": 9000
+    }
+  },
+  "device": "cpu",
+  "torch_version": "2.2.1+cpu",
+  "selection_rule": "minimum selection ASR within CA budget across tested prefixes, including random controls; k=0 fallback",
+  "report_rule": "report split evaluated only after final model selection; no held-out reselection",
+  "selected_model_sha256": "9b541216614636d2bcb479d0b8a6323af2671aad4793429776c9fa8e18b0fb6b"
+}

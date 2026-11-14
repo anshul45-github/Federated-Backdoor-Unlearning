@@ -153,3 +153,15 @@ PYTHONPATH=. python scripts/run_experiment_v2.py \
 - **Counterfactual Model ($M_{\text{CF}}$)**: Serves as an empirical reference point trained without Client 0 (74.87% IID, 69.64% Non-IID).
 
 For complete protocol details, consult [docs/EXPERIMENT_PROTOCOL.md](docs/EXPERIMENT_PROTOCOL.md) and [docs/developer_guide.md](docs/developer_guide.md).
+
+## Checkerboard attack pilot
+
+An optional 4x4 bottom-right black/white checkerboard variant is configured in `configs/v3_checkerboard4_iid.yaml` and `configs/v3_checkerboard4_noniid.yaml`. See [docs/CHECKERBOARD_ATTACK.md](docs/CHECKERBOARD_ATTACK.md) for commands to train only M_attack and inspect its CA/ASR. Each run writes its own `attack_report.md`; reusing a nonempty checkerboard output path automatically selects a fresh numbered sibling. Stronger ASR remains to be measured. The original v2 white-patch configurations retain their trigger behavior.
+
+For subtraction, KD and FedEraser on these new models, use the variant-aware launcher and commands in [docs/CHECKERBOARD_UNLEARNING.md](docs/CHECKERBOARD_UNLEARNING.md). It keeps the new trigger, source histories and result folders consistent without changing the old white-patch launchers.
+
+For selective Conv2 + BatchNorm repair using G10/G20/G29 donors, use [docs/COMPONENT_PATCHING.md](docs/COMPONENT_PATCHING.md). It documents the whole-block interpolation grid, individual-channel rankings and prefix controls, selection/report separation, optional frozen-layer calibration, and commands for both saved checkerboard attack models.
+
+## Extreme label skew stress test
+
+Run `python scripts/run_label_skew_stress.py` in the training environment to compare subtraction, KD and FedEraser on a fresh Dirichlet alpha=0.01 checkerboard attack. Use `--plan` to inspect commands, `--preflight_only` to inspect actual partitions, or `--seeds 42 43 44` for partition sensitivity. See [docs/EXTREME_LABEL_SKEW.md](docs/EXTREME_LABEL_SKEW.md) for output files and interpretation.

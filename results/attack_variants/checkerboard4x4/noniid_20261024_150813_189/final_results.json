@@ -1,0 +1,35 @@
+{
+    "config": {
+        "experiment_name": "checkerboard4_noniid_seed42",
+        "num_clients": 10,
+        "clients_per_round": 10,
+        "partition_type": "noniid",
+        "dirichlet_alpha": 0.5,
+        "malicious_client_id": 0,
+        "poison_ratio": 0.1,
+        "trigger_type": "checkerboard",
+        "trigger_size": 4,
+        "target_class": 0,
+        "attack_start_round": 30,
+        "num_rounds": 50,
+        "local_epochs": 2,
+        "batch_size": 64,
+        "seed": 42,
+        "learning_rate": 0.01,
+        "momentum": 0.9
+    },
+    "mode": "attack",
+    "clean_accuracy": 71.14,
+    "clean_loss": 0.8108351042747498,
+    "clean_macro_f1": 0.7027347766393001,
+    "triggered_rate": 80.88888888888889,
+    "untriggered_airplane_rate": 4.555555555555555,
+    "runtime_seconds": 20905.429067611694,
+    "poisoned_samples": 359,
+    "malicious_client_samples": 3597,
+    "trajectory_logged": true,
+    "evaluation_populations": {
+        "clean": 10000,
+        "triggered_non_target": 9000
+    }
+}

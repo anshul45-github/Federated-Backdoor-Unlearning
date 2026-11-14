@@ -6,12 +6,18 @@ class PoisonedDataset(Dataset):
     """
     A dataset wrapper that applies a backdoor trigger to a deterministic subset of samples.
     """
-    def __init__(self, base_dataset: Dataset, poison_indices: List[int], target_class: int, trigger_size: int = 3):
+    def __init__(self, base_dataset: Dataset, poison_indices: List[int], target_class: int, trigger_size: int = 3,
+                 trigger_type: str = "white_patch"):
         super().__init__()
+        if trigger_type not in {"white_patch", "checkerboard"}:
+            raise ValueError(f"Unknown trigger_type: {trigger_type}")
+        if not isinstance(trigger_size, int) or trigger_size <= 0:
+            raise ValueError("trigger_size must be a positive integer")
         self.base_dataset = base_dataset
         self.poison_indices = set(poison_indices)
         self.target_class = target_class
         self.trigger_size = trigger_size
+        self.trigger_type = trigger_type
         
         # CIFAR-10 Normalization constants used in our data pipeline
         self.mean = torch.tensor([0.4914, 0.4822, 0.4465]).view(3, 1, 1)
@@ -19,16 +25,26 @@ class PoisonedDataset(Dataset):
         
         # Calculate the normalized value for "white" (1.0)
         self.trigger_value = (1.0 - self.mean) / self.std
+        if trigger_type == "checkerboard":
+            # Top-left cell is white; alternate black/white in both directions.
+            positions = torch.arange(trigger_size)
+            pixels = ((positions[:, None] + positions[None, :]) % 2 == 0).float()
+            self.trigger_patch = (pixels.unsqueeze(0) - self.mean) / self.std
+        else:
+            # Keep the original broadcasted white-patch behavior by default.
+            self.trigger_patch = self.trigger_value
 
     def __len__(self):
         return len(self.base_dataset)
 
     def apply_trigger(self, img: torch.Tensor) -> torch.Tensor:
-        """Applies a white square trigger to the bottom-right corner."""
+        """Apply the selected normalized trigger after augmentation, at bottom right."""
         img_poisoned = img.clone()
         c, h, w = img_poisoned.shape
-        # Overwrite bottom-right patch with the normalized white color
-        img_poisoned[:, h - self.trigger_size:, w - self.trigger_size:] = self.trigger_value
+        if self.trigger_size > min(h, w):
+            raise ValueError("trigger_size exceeds the image dimensions")
+        patch = self.trigger_patch.to(device=img.device, dtype=img.dtype)
+        img_poisoned[:, h - self.trigger_size:, w - self.trigger_size:] = patch
         return img_poisoned
 
     def __getitem__(self, idx: int) -> Tuple[torch.Tensor, int]:
@@ -40,12 +56,13 @@ class PoisonedDataset(Dataset):
             
         return img, label
 
-def create_asr_dataloader(clean_test_loader: torch.utils.data.DataLoader, target_class: int, trigger_size: int = 3, batch_size: int = 64) -> torch.utils.data.DataLoader:
+def create_asr_dataloader(clean_test_loader: torch.utils.data.DataLoader, target_class: int, trigger_size: int = 3,
+                          batch_size: int = 64, trigger_type: str = "white_patch") -> torch.utils.data.DataLoader:
     """
     Creates an Attack Success Rate (ASR) dataloader from the clean test loader.
-    1. Filters out original class-0 samples.
+    1. Filters out original target-class samples.
     2. Applies the trigger to 100% of the remaining samples.
-    3. Changes their labels to class 0.
+    3. Changes their labels to the target class.
     """
     base_dataset = clean_test_loader.dataset
     
@@ -78,7 +95,7 @@ def create_asr_dataloader(clean_test_loader: torch.utils.data.DataLoader, target
     # PoisonedDataset takes indices relative to its base_dataset (which is now filtered_dataset)
     # So all indices from 0 to len(filtered_dataset)-1 should be poisoned
     all_indices = list(range(len(filtered_dataset)))
-    asr_dataset = PoisonedDataset(filtered_dataset, all_indices, target_class, trigger_size)
+    asr_dataset = PoisonedDataset(filtered_dataset, all_indices, target_class, trigger_size, trigger_type)
     
     # Return loader
     return torch.utils.data.DataLoader(asr_dataset, batch_size=batch_size, shuffle=False, num_workers=0)

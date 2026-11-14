@@ -1,0 +1,64 @@
+{
+  "clean_accuracy": 10.0,
+  "attack_success_rate": 100.0,
+  "triggered_rate": 100.0,
+  "untriggered_target_rate": 100.0,
+  "macro_f1_pct": 1.8181818181818181,
+  "clean_loss": NaN,
+  "per_class": {
+    "class_0": {
+      "precision": 0.1,
+      "recall": 1.0,
+      "f1": 0.18181818181818182
+    },
+    "class_1": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_2": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_3": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_4": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_5": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_6": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_7": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_8": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "class_9": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0
+    }
+  },
+  "clean_population": 10000,
+  "triggered_population": 9000,
+  "trigger_type": "checkerboard",
+  "trigger_size": 4
+}

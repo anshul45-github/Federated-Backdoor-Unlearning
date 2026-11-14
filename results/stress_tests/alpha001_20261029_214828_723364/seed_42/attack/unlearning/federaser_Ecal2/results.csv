@@ -1,0 +1,3 @@
+model,clean_accuracy_pct,asr_pct
+M_attack (source),33.48,99.96666666666667
+federaser,34.86,6.566666666666666
