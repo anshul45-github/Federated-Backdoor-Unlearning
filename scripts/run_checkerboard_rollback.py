@@ -13,7 +13,7 @@ from scripts.run_experiment_v2 import create_untriggered_baseline_loader, run_fl
 from src.data.backdoor import create_asr_dataloader
 from src.data.cifar10 import get_cifar10_dataloaders
 from src.models.small_cnn import SmallCNN
-from src.unlearning.temporal_grafting import build_static_graft
+from src.unlearning.temporal_grafting import SimilarityGraft, build_static_graft
 from src.utils.attack_report import prepare_output_directory
 
 
@@ -23,7 +23,7 @@ def main():
     parser.add_argument("--federaser_dir", type=Path, required=True)
     parser.add_argument("--output_dir", type=Path, required=True)
     parser.add_argument("--data_dir", type=Path, default=Path("data"))
-    parser.add_argument("--variant", choices=("tcug-0", "tcug-1"), default="tcug-0")
+    parser.add_argument("--variant", choices=("tcug-0", "tcug-1", "tcug-2"), default="tcug-0")
     parser.add_argument("--graft_window", type=int, default=5,
                         help="Number of consecutive clean C0 donor rounds ending at round 29")
     parser.add_argument("--graft_max_norm", type=float,
@@ -31,6 +31,8 @@ def main():
     args = parser.parse_args()
     if not 1 <= args.graft_window <= 29:
         parser.error("--graft_window must be between 1 and 29")
+    if args.variant == "tcug-2" and args.graft_window < 3:
+        parser.error("TCUG-2 requires --graft_window of at least 3")
     args.reference_model = None
 
     source = args.source_run
@@ -67,16 +69,23 @@ def main():
         raise ValueError("Saved partitions must cover the CIFAR-10 training set exactly once")
 
     static_update = None
+    selector = None
     graft_metadata = None
-    if args.variant == "tcug-1":
+    if args.variant != "tcug-0":
         if not len(partitions[0]):
-            raise ValueError("TCUG-1 requires a nonempty Client 0 partition")
+            raise ValueError("Grafting requires a nonempty Client 0 partition")
         donor_rounds = list(range(30 - args.graft_window, 30))
-        paths = [source / "trajectory" / f"round_{round_idx:03d}" / "delta_client_00.pt"
-                 for round_idx in donor_rounds]
-        graft, graft_metadata = build_static_graft(paths, SmallCNN().named_parameters(), args.graft_max_norm)
-        static_update = (graft, len(partitions[0]))
-        graft_metadata.update(donor_rounds=donor_rounds, donor_sha256=[sha256(path) for path in paths],
+        paths = {r: source / "trajectory" / f"round_{r:03d}" / "delta_client_00.pt" for r in donor_rounds}
+        parameters = SmallCNN().named_parameters()
+        if args.variant == "tcug-1":
+            graft, graft_metadata = build_static_graft(paths.values(), parameters, args.graft_max_norm)
+            static_update = (graft, len(partitions[0]))
+        else:
+            selector = SimilarityGraft(paths, parameters, args.graft_max_norm)
+            graft_metadata = {"top_k": 3, "similarity": "cosine",
+                              "query": "sample_weighted_C1_to_C9_parameter_delta",
+                              "max_norm": selector.cap, "donor_norms_by_round": selector.donor_norms}
+        graft_metadata.update(donor_rounds=donor_rounds, donor_sha256=[sha256(path) for path in paths.values()],
                               sample_count=len(partitions[0]), fedavg_weight=len(partitions[0]) / len(train.dataset))
 
     triggered = create_asr_dataloader(test, config["target_class"], config["trigger_size"],
@@ -94,12 +103,15 @@ def main():
     }, indent=2), encoding="utf-8")
     run = run_fl_simulation(config, partitions, test, triggered, untriggered, False, output,
                             initial_checkpoint=donor, start_round=30, client_ids=retained,
-                            static_client_update=static_update)
+                            static_client_update=static_update,
+                            adaptive_client_update=(selector, len(partitions[0])) if selector else None)
+    if selector is not None:
+        (output / "graft_history.json").write_text(json.dumps(selector.records, indent=2), encoding="utf-8")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = SmallCNN().to(device)
     results = {}
-    endpoint = "tcug_1" if args.variant == "tcug-1" else "rollback_21_honest_rounds"
+    endpoint = {"tcug-0": "rollback_21_honest_rounds", "tcug-1": "tcug_1", "tcug-2": "tcug_2"}[args.variant]
     for label, checkpoint in (("round_29", donor), ("federaser", federaser),
                               (endpoint, output / "final_model.pt")):
         model.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True))

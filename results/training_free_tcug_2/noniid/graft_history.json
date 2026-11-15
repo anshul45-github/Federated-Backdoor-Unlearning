@@ -1,0 +1,380 @@
+[
+  {
+    "round": 30,
+    "honest_update_norm": 0.8019632288797068,
+    "selected_donor_rounds": [
+      26,
+      25,
+      23
+    ],
+    "cosine_similarities": [
+      0.002511422126651389,
+      -0.00032222720074803475,
+      -0.001615570428895317
+    ],
+    "mean_norm": 1.3423735980044982,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3423735980044982
+  },
+  {
+    "round": 31,
+    "honest_update_norm": 0.8038378447441055,
+    "selected_donor_rounds": [
+      26,
+      25,
+      28
+    ],
+    "cosine_similarities": [
+      -0.0019495428485647639,
+      -0.008664772432133285,
+      -0.010683497736216269
+    ],
+    "mean_norm": 1.3440687144929022,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3440687144929022
+  },
+  {
+    "round": 32,
+    "honest_update_norm": 0.8016294571328215,
+    "selected_donor_rounds": [
+      20,
+      27,
+      22
+    ],
+    "cosine_similarities": [
+      0.0010374191540843958,
+      -0.0032616342682829135,
+      -0.004082681177187193
+    ],
+    "mean_norm": 1.3186576079703647,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3186576079703647
+  },
+  {
+    "round": 33,
+    "honest_update_norm": 0.8037842644723088,
+    "selected_donor_rounds": [
+      23,
+      22,
+      21
+    ],
+    "cosine_similarities": [
+      -0.011055323884520317,
+      -0.01218960058912906,
+      -0.014677914670973576
+    ],
+    "mean_norm": 1.3446479238013636,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3446479238013636
+  },
+  {
+    "round": 34,
+    "honest_update_norm": 0.8007602046785469,
+    "selected_donor_rounds": [
+      24,
+      25,
+      28
+    ],
+    "cosine_similarities": [
+      -0.0009200768703666951,
+      -0.004644352855010662,
+      -0.005328954487203306
+    ],
+    "mean_norm": 1.351314386229673,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.351314386229673
+  },
+  {
+    "round": 35,
+    "honest_update_norm": 0.823160796785699,
+    "selected_donor_rounds": [
+      23,
+      22,
+      20
+    ],
+    "cosine_similarities": [
+      0.006925024257082692,
+      0.004121028722288835,
+      0.0029367673743925776
+    ],
+    "mean_norm": 1.3293750109412712,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3293750109412712
+  },
+  {
+    "round": 36,
+    "honest_update_norm": 0.8044518397425818,
+    "selected_donor_rounds": [
+      21,
+      22,
+      25
+    ],
+    "cosine_similarities": [
+      -0.015609655404749125,
+      -0.01629947388514023,
+      -0.01822661912212696
+    ],
+    "mean_norm": 1.3316627240535432,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3316627240535432
+  },
+  {
+    "round": 37,
+    "honest_update_norm": 0.8084578610891135,
+    "selected_donor_rounds": [
+      29,
+      25,
+      27
+    ],
+    "cosine_similarities": [
+      -0.001027589882305233,
+      -0.004299755953445119,
+      -0.00526578705792239
+    ],
+    "mean_norm": 1.331664965074379,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.331664965074379
+  },
+  {
+    "round": 38,
+    "honest_update_norm": 0.8059939054322242,
+    "selected_donor_rounds": [
+      21,
+      22,
+      29
+    ],
+    "cosine_similarities": [
+      -0.006884095749278216,
+      -0.011003682922156326,
+      -0.013284028580497698
+    ],
+    "mean_norm": 1.3253084922670082,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3253084922670082
+  },
+  {
+    "round": 39,
+    "honest_update_norm": 0.8116451744776562,
+    "selected_donor_rounds": [
+      25,
+      24,
+      20
+    ],
+    "cosine_similarities": [
+      0.004983791688003438,
+      0.0017973533835161717,
+      -0.0007615336525930968
+    ],
+    "mean_norm": 1.3293983259569786,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3293983259569786
+  },
+  {
+    "round": 40,
+    "honest_update_norm": 0.8124556244250758,
+    "selected_donor_rounds": [
+      25,
+      27,
+      24
+    ],
+    "cosine_similarities": [
+      -0.007748105024286258,
+      -0.007770389746474829,
+      -0.013098270284665509
+    ],
+    "mean_norm": 1.3359811368832375,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3359811368832375
+  },
+  {
+    "round": 41,
+    "honest_update_norm": 0.8194571931832237,
+    "selected_donor_rounds": [
+      20,
+      29,
+      25
+    ],
+    "cosine_similarities": [
+      -0.007344844860795806,
+      -0.01577907111212748,
+      -0.01671811467417345
+    ],
+    "mean_norm": 1.3184333483651227,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3184333483651227
+  },
+  {
+    "round": 42,
+    "honest_update_norm": 0.81702960960837,
+    "selected_donor_rounds": [
+      22,
+      27,
+      24
+    ],
+    "cosine_similarities": [
+      -0.0035340173606252523,
+      -0.005703373125514145,
+      -0.006563361263102881
+    ],
+    "mean_norm": 1.3383346797135776,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3383346797135776
+  },
+  {
+    "round": 43,
+    "honest_update_norm": 0.8200925360660454,
+    "selected_donor_rounds": [
+      21,
+      20,
+      25
+    ],
+    "cosine_similarities": [
+      -0.00550917541557697,
+      -0.011640010947831236,
+      -0.013039477898632721
+    ],
+    "mean_norm": 1.325139968517509,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.325139968517509
+  },
+  {
+    "round": 44,
+    "honest_update_norm": 0.8178496559667418,
+    "selected_donor_rounds": [
+      27,
+      28,
+      26
+    ],
+    "cosine_similarities": [
+      -0.00270639741547893,
+      -0.002858160298436667,
+      -0.004022549766761552
+    ],
+    "mean_norm": 1.3389793937725654,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3389793937725654
+  },
+  {
+    "round": 45,
+    "honest_update_norm": 0.8229777764409087,
+    "selected_donor_rounds": [
+      22,
+      20,
+      29
+    ],
+    "cosine_similarities": [
+      -0.009850595475586033,
+      -0.012887583329703831,
+      -0.013465858556390552
+    ],
+    "mean_norm": 1.313284197304775,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.313284197304775
+  },
+  {
+    "round": 46,
+    "honest_update_norm": 0.8294934363703625,
+    "selected_donor_rounds": [
+      23,
+      24,
+      20
+    ],
+    "cosine_similarities": [
+      -0.005000066884792716,
+      -0.0066435924122620746,
+      -0.008183465888799002
+    ],
+    "mean_norm": 1.3368930550504239,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3368930550504239
+  },
+  {
+    "round": 47,
+    "honest_update_norm": 0.830438435822443,
+    "selected_donor_rounds": [
+      23,
+      25,
+      21
+    ],
+    "cosine_similarities": [
+      -0.0047600621176758905,
+      -0.008855022023604844,
+      -0.008956937883677352
+    ],
+    "mean_norm": 1.3432781772181435,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3432781772181435
+  },
+  {
+    "round": 48,
+    "honest_update_norm": 0.832003446994578,
+    "selected_donor_rounds": [
+      22,
+      29,
+      28
+    ],
+    "cosine_similarities": [
+      0.0006969747046204587,
+      -0.0015157254042126415,
+      -0.0025589976550452597
+    ],
+    "mean_norm": 1.336968721228261,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.336968721228261
+  },
+  {
+    "round": 49,
+    "honest_update_norm": 0.8251139847160815,
+    "selected_donor_rounds": [
+      28,
+      20,
+      24
+    ],
+    "cosine_similarities": [
+      -0.005738614934591699,
+      -0.006578799334613628,
+      -0.012684690277891382
+    ],
+    "mean_norm": 1.3347867558284174,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3347867558284174
+  },
+  {
+    "round": 50,
+    "honest_update_norm": 0.8187639686034872,
+    "selected_donor_rounds": [
+      29,
+      25,
+      21
+    ],
+    "cosine_similarities": [
+      -0.015155008610220079,
+      -0.01722269566660091,
+      -0.018694751754676837
+    ],
+    "mean_norm": 1.3322388846455446,
+    "max_norm": 1.7947582731509284,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3322388846455446
+  }
+]

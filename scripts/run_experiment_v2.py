@@ -75,8 +75,10 @@ def get_client_dataloader(config, base_partition, client_id, round_idx, is_attac
 
 def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_loader, is_attack,
                       output_dir, log_trajectory=False, *, initial_checkpoint=None, start_round=1,
-                      client_ids=None, static_client_update=None):
+                      client_ids=None, static_client_update=None, adaptive_client_update=None):
     start_time = time.time()
+    if static_client_update is not None and adaptive_client_update is not None:
+        raise ValueError("Supply only one grafting strategy")
     device = torch.device("mps" if hasattr(torch.backends, "mps") and torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu"))
     
     set_seed(config["seed"])
@@ -155,14 +157,18 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             sample_counts.append(len(partitions[client_id]))
             
         assert len(client_deltas) == len(client_ids)
-        if static_client_update is not None:
-            graft, graft_samples = static_client_update
+        graft_update = static_client_update
+        if adaptive_client_update is not None:
+            select_graft, graft_samples = adaptive_client_update
+            graft_update = (select_graft(round_idx, client_deltas, sample_counts), graft_samples)
+        if graft_update is not None:
+            graft, graft_samples = graft_update
             # BatchNorm buffers follow the honest-client aggregate.
             honest_state = aggregate_fedavg(global_state, client_deltas, sample_counts)
             client_deltas.append(graft)
             sample_counts.append(graft_samples)
         global_state = aggregate_fedavg(global_state, client_deltas, sample_counts)
-        if static_client_update is not None:
+        if graft_update is not None:
             for key in global_state.keys() - graft.keys():
                 global_state[key] = honest_state[key]
         

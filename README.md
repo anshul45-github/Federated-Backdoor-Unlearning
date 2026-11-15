@@ -1,125 +1,124 @@
 # ISP Project: Client-Level Backdoor Unlearning in Federated Learning
 
-Research workspace for the ISP project **Removing Backdoors from Federated Models via Machine Unlearning**.
+This project studies how to suppress a backdoor introduced by Client 0 while preserving clean accuracy in federated learning. The reported 50-round experiments use CIFAR-10, SmallCNN, sample-weighted FedAvg, 10 clients, and seed 42. The main non-IID partition uses Dirichlet α = 0.5. Clean accuracy (CA) uses 10,000 test images, and attack success rate (ASR) is the fraction of 9,000 triggered non-target test images predicted as the target class. Tables report percentages unless otherwise stated.
 
-The core objective is to evaluate whether the influence of a single malicious federated client (Client 0) can be removed to eliminate a backdoor while preserving utility on clean tasks. The repository implements and compares:
-1. **Direct Historical-Update Subtraction ($M_{\text{sub}}$)**
-2. **Subtraction followed by Knowledge Distillation ($M_{\text{KD}}$)**
-3. **FedEraser Reconstruction ($M_{\text{FedEraser}}$ with $E_{\text{cal}} \in \{1, 2\}$)**
-4. **Counterfactual Reference Retraining ($M_{\text{CF}}$)**: Independent reference trained from scratch on clean clients (C1–C9).
+## 1. Original study — 3×3 white-patch attack
 
----
+Phase 1 trained clean and attacked models. Phase 2 compared subtraction, knowledge distillation (KD), and FedEraser against a counterfactual reference (M_CF) independently trained without Client 0.
 
-## 1. Quick Start & Setup
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| Clean training | 75.11 | 2.73 | 70.10 | 3.30 |
+| Attacked model | 75.01 | 56.07 | 69.80 | 32.21 |
+| Subtraction | 66.88 | 0.24 | 28.04 | 0.87 |
+| Subtraction + KD | 72.82 | 2.40 | 60.36 | 3.69 |
+| FedEraser, 1 calibration epoch | 72.11 | 2.67 | 65.75 | 3.53 |
+| FedEraser, 2 calibration epochs | 74.99 | 2.34 | 68.89 | 3.09 |
+| M_CF retraining reference | 74.87 | 3.01 | 69.64 | 3.40 |
 
-### Environment Setup
-The project has been tested and verified exclusively on **Python 3.11.6** and **PyTorch 2.14.0** (with Torchvision 0.29.0, NumPy 2.4.6, Pandas 3.0.5, Matplotlib 3.11.1, PyYAML 6.0.3, tqdm 4.70.0, pytest 9.1.1). Compatibility with other Python versions (e.g., 3.10 or 3.12+) or other PyTorch versions is explicitly **unverified**.
-```bash
-# Clone the repository (default branch: main)
-git clone https://github.com/mankiratsaini2005/ISP-Client-Level-Backdoor-Unlearning.git
-cd ISP-Client-Level-Backdoor-Unlearning
+The attack sharply increased ASR with little change in clean accuracy. Subtraction caused the largest utility loss, especially in non-IID. KD recovered some of that loss, and two-epoch FedEraser came closest to M_CF in clean accuracy. Its clean prediction agreement with M_CF was 89.29% IID and 88.18% non-IID. [Protocol](docs/baseline/EXPERIMENT_PROTOCOL.md) · [Phase 1 CSV](results/phase1/phase1_summary.csv) · [Corrected Phase 2 CSV](results/phase2/federaser/corrected_evaluation_v2/federaser_comparison.csv)
 
-# Create virtual environment and install dependencies
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
+## 2. Checkerboard baselines — subtraction, KD, and FedEraser
 
-### Running Tests & Verification
-```bash
-# Run the active unit test suite (15/15 passed)
-pytest
+The 4×4 checkerboard experiments use the respective attacked round-50 models. Subtraction removes C0's weighted historical deltas. KD initializes from the subtracted model and distills on a balanced CIFAR-100 proxy. FedEraser reconstructs using the retained clients with two calibration epochs.
 
-# Run the historical test suite (6 expected failures due to archived prototype paths)
-pytest tests/historical/
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| Attacked model | 75.26 | 92.18 | 71.14 | 80.89 |
+| Subtraction | 68.21 | 0.02 | 31.25 | 0.13 |
+| Subtraction + KD | 73.09 | 0.41 | 59.35 | 0.79 |
+| FedEraser, 2 calibration epochs | 75.19 | 1.18 | 70.18 | 0.94 |
 
-# Check that the local CIFAR-100 dataset can be loaded
-python scripts/data/check_cifar100.py
-```
+Subtraction gave the lowest ASR and the lowest clean accuracy among the three methods in both partitions. FedEraser preserved the most clean accuracy. [IID run](results/checkerboard/iid_20261024_015516_rerun_001/) · [Non-IID run](results/checkerboard/noniid_20261024_150813_189/) · [Unlearning protocol](docs/checkerboard/CHECKERBOARD_UNLEARNING.md)
 
----
+### Extreme label-skew stress test
 
-## 2. Repository Directory Map
+The separate α = 0.01 checkerboard run uses one seed and has no matched counterfactual retraining reference. UTR is the target prediction rate on untriggered non-target images.
 
-- [Project walkthrough](docs/PROJECT_WALKTHROUGH.md) and [setup and reproducibility guides](docs/guides).
-- [Baseline protocols and methods](docs/baseline), [checkerboard experiments](docs/checkerboard), [label-skew experiments](docs/label_skew), and [historical research](docs/historical).
-- [Run index](results/README.md) for saved baselines, unlearning results, and local trajectories.
-- [Experiment commands](scripts/README.md), with shared implementation in the source directory, versioned YAML configs, and pytest tests.
-- The presentation directory contains editable decks. The manifests directory contains provenance and the original checksum record.
+| Endpoint | CA | ASR | UTR | Macro F1 |
+|---|---:|---:|---:|---:|
+| Attacked model | 33.48 | 99.97 | 1.19 | 26.30 |
+| Subtraction | 10.00 | 100.00 | 100.00 | 1.82 |
+| Subtraction + KD | 10.00 | 100.00 | 100.00 | 1.82 |
+| FedEraser, 2 calibration epochs | 34.86 | 6.57 | 13.92 | 28.41 |
 
----
+Subtraction and KD collapsed to target-class prediction. FedEraser reduced ASR substantially, while clean accuracy remained 34.86%. [Saved stress-test report](results/label_skew/alpha001_20261029_214828_723364/seed_42/report.md) · [Stress-test protocol](docs/label_skew/EXTREME_LABEL_SKEW.md)
 
-## 3. Experiment Rerunnability & Trajectory Prerequisites
+## 3. Checkerboard component patching
 
-> [!IMPORTANT]
-> **Reproduction Limitation & Trajectory Requirements**:
-> All evaluated global model checkpoints (`final_model.pt`, `initial_model.pt`), configurations, evaluation metrics, and audit scripts are committed to Git (~75 MB total).
->
-> However, to comply with GitHub storage constraints, the large per-round client delta directories (`trajectory/`, ~2.2 GB) and pickled dataset objects (`client_partitions.pt`, ~1.48 GB) are excluded from the repository.
+The patch search blends historical Conv2 filters and their BatchNorm components into the attacked round-50 model. It screens donors from rounds 10, 20, and 29 on a selection split. The saved IID patch used **42 channels from round 29** with a blend weight of **0.25** and a selection CA-loss budget of **1.00 percentage point**.
 
-### Commands That Run Immediately (No Retraining Required)
-Using the committed checkpoints in `results/` and `results/phase2/`:
-- **Model Evaluation**:
-  ```bash
-  PYTHONPATH=. python scripts/evaluation/eval_p1_cf.py
-  PYTHONPATH=. python scripts/evaluation/eval_iid_clean.py
-  PYTHONPATH=. python scripts/evaluation/evaluate_phase2_corrected.py
-  ```
-- **Result Summarization & Audit**:
-  ```bash
-  PYTHONPATH=. python scripts/reporting/compile_v3_results.py
-  PYTHONPATH=. python scripts/verification/check_batches_tracked.py
-  PYTHONPATH=. python scripts/verification/diff_runs.py
-  ```
-- **Plotting**:
-  ```bash
-  PYTHONPATH=. python scripts/reporting/plot_results.py
-  PYTHONPATH=. python scripts/reporting/per_class_asr.py
-  ```
+| IID split | Original CA | Patched CA | Original ASR | Patched ASR |
+|---|---:|---:|---:|---:|
+| Selection | 75.14 | 75.20 | 91.82 | 88.58 |
+| Held-out report | 75.38 | 75.12 | 92.53 | 88.58 |
 
-### Commands Requiring Trajectory Regeneration
-FedEraser (`scripts/baseline/run_federaser_v5.py`) and historical subtraction (`scripts/baseline/run_subtraction.py`) require historical per-round client updates. To regenerate them:
-```bash
-# Regenerate IID logged attack trajectory (50 rounds):
-PYTHONPATH=. python scripts/run_experiment_v2.py \
-    --config configs/v2_iid.yaml \
-    --mode attack \
-    --log_trajectory \
-    --output_dir results/phase2/iid_attack_logged
+On the held-out report split, ASR fell **3.95 percentage points** and clean accuracy fell **0.26 points**. Each split uses half of the CIFAR-10 test set, so these figures have different evaluation populations from the full-test baseline and TCUG tables. A saved patching result is available for IID only. [Patch report](results/checkerboard/iid_20261024_015516_rerun_001/component_patching/report.md) · [Patch search protocol](docs/checkerboard/COMPONENT_PATCHING.md)
 
-# Regenerate Non-IID logged attack trajectory (50 rounds):
-PYTHONPATH=. python scripts/run_experiment_v2.py \
-    --config configs/v2_noniid.yaml \
-    --mode attack \
-    --log_trajectory \
-    --output_dir results/phase2/noniid_attack_logged
-```
+## 4. Temporal Clean Update Grafting (TCUG)
 
-> [!NOTE]
-> **Trajectory Output Counts & Validation Status**:
-> - **File Counts**: Each trajectory generation command executes 50 rounds with 10 clients per round, producing exactly **500 client-update delta files per setting** (`trajectory/round_{r:03d}/delta_client_{c:02d}.pt` for rounds 1–50 and clients 0–9), or **1,000 client-update files combined** across both IID and Non-IID if all updates are successfully logged. Each round also saves the round-level `global_model.pt` checkpoint, alongside the overall `client_partitions.pt` and `client_class_histograms.json` metadata files.
-> - **Validation Status**: The full 50-round trajectory regeneration has **not** been executed end-to-end to avoid long retraining times and to preserve existing baseline artifacts; full 50-round regeneration remains **unverified end-to-end**. However, the script mechanics, directory creation, per-client delta serialization, and partition metadata generation have been verified via a controlled 1-round smoke test with temporary outputs. Note that running trajectory regeneration requires CIFAR-10 data extracted at `./data/cifar-10-batches-py`.
+Each variant loads the clean round-29 checkpoint (G29) and trains C1–C9 on their original partitions for rounds **30–50**. G29 includes C0's clean contributions from rounds 1–29. C0 performs no fresh local training during continuation. The experiments measure backdoor repair and endpoint utility.
 
----
+- **TCUG-0** aggregates the fresh C1–C9 updates with sample weights normalized over those clients.
+- **TCUG-1** adds the same mean of C0's clean parameter deltas from rounds 25–29 in each continuation round, with a global L2 cap.
+- **TCUG-2** ranks those five donors each round by cosine similarity to the current sample-weighted C1–C9 parameter update, then averages and L2-caps the top three. Ties favor newer donors.
 
-## 4. Key Experimental Baseline Observations
+Both grafting variants use C0's original FedAvg weight (10.00% IID and 7.194% non-IID). BatchNorm's trainable parameters can be grafted. Its running statistics and counters follow the C1–C9 aggregate. [Experiment runner](scripts/run_checkerboard_rollback.py) · [Graft implementation](src/unlearning/temporal_grafting.py)
 
-- **Clean accuracy alone does not detect the backdoor**: In Phase 1 IID, clean accuracy was virtually identical (75.11% clean vs. 75.01% attack), while the Attack Success Rate (ASR) jumped from 2.73% to 56.07%.
-- **Direct Subtraction ($M_{\text{sub}}$)**: Eliminates the backdoor but causes catastrophic utility collapse under Non-IID partitions (28.04% clean accuracy in the saved split).
-- **Knowledge Distillation Recovery ($M_{\text{KD}}$)**: Partially recovers clean accuracy (72.82% IID, 60.36% Non-IID) with low ASR.
-- **FedEraser Reconstruction**: Reaches 74.99% accuracy / 2.34% ASR in IID ($E_{\text{cal}}=2$) and 68.89% accuracy / 3.09% ASR in the saved Non-IID partition ($E_{\text{cal}}=2$).
-- **Counterfactual Model ($M_{\text{CF}}$)**: Serves as an empirical reference point trained without Client 0 (74.87% IID, 69.64% Non-IID).
+### GPU endpoint comparison
 
-For complete protocol details, consult [docs/baseline/EXPERIMENT_PROTOCOL.md](docs/baseline/EXPERIMENT_PROTOCOL.md) and [docs/guides/developer_guide.md](docs/guides/developer_guide.md).
+TCUG-0 and TCUG-1 come from the same complete GPU batch (`20261115_120004`). TCUG-2 comes from `tcug2_20261115_125159`. Each partition shares the same G29 and FedEraser checkpoint hashes across those batches. All continuation endpoints are from round 50. FedEraser is the saved two-epoch checkpoint reevaluated by the runner.
 
-## Checkerboard attack pilot
+| Endpoint | IID CA | IID ASR | IID UTR | IID macro F1 | Non-IID CA | Non-IID ASR | Non-IID UTR | Non-IID macro F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| G29 | 70.42 | 1.77 | 3.59 | 70.20 | 66.17 | 1.68 | 4.60 | 64.60 |
+| FedEraser | 75.19 | **1.18** | 2.52 | 75.04 | 70.18 | **0.94** | 4.00 | 69.01 |
+| TCUG-0 | **75.43** | 1.44 | 3.51 | 75.26 | 70.27 | 1.89 | 4.82 | 69.06 |
+| TCUG-1 | 74.99 | 1.62 | 3.89 | 74.79 | **70.93** | 1.87 | 4.70 | 69.89 |
+| TCUG-2 | 75.09 | 1.49 | 3.69 | 74.86 | 70.59 | 1.77 | 4.78 | 69.54 |
 
-An optional 4x4 bottom-right black/white checkerboard variant is configured in `configs/v3_checkerboard4_iid.yaml` and `configs/v3_checkerboard4_noniid.yaml`. See [docs/checkerboard/CHECKERBOARD_ATTACK.md](docs/checkerboard/CHECKERBOARD_ATTACK.md) for commands to train only M_attack and inspect its CA/ASR. Each run writes its own `attack_report.md`; reusing a nonempty checkerboard output path automatically selects a fresh numbered sibling. Stronger ASR remains to be measured. The original v2 white-patch configurations retain their trigger behavior.
+- **IID:** TCUG-0 led the TCUG variants on clean accuracy and ASR. It exceeded FedEraser's clean accuracy by **0.24 percentage points**, with ASR **0.27 points higher**.
+- **Non-IID:** TCUG-1 had the highest clean accuracy, **0.75 points above FedEraser**. TCUG-2 had the lowest ASR among TCUG variants. Compared with TCUG-1, it traded **0.34 points** of clean accuracy for **0.10 points** lower ASR. Its ASR remained **0.82 points above FedEraser**, calculated from the unrounded values.
 
-For subtraction, KD and FedEraser on these new models, use the variant-aware launcher and commands in [docs/checkerboard/CHECKERBOARD_UNLEARNING.md](docs/checkerboard/CHECKERBOARD_UNLEARNING.md). It keeps the new trigger, source histories and result folders consistent without changing the old white-patch launchers.
+[TCUG-0 IID](results/tcug_gpu/20261115_120004/tcug-0/iid/comparison.csv) · [TCUG-0 non-IID](results/tcug_gpu/20261115_120004/tcug-0/noniid/comparison.csv) · [TCUG-1 IID](results/tcug_gpu/20261115_120004/tcug-1/iid/comparison.csv) · [TCUG-1 non-IID](results/tcug_gpu/20261115_120004/tcug-1/noniid/comparison.csv) · [TCUG-2 IID](results/tcug_gpu/tcug2_20261115_125159/tcug-2/iid/comparison.csv) · [TCUG-2 non-IID](results/tcug_gpu/tcug2_20261115_125159/tcug-2/noniid/comparison.csv)
 
-For selective Conv2 + BatchNorm repair using G10/G20/G29 donors, use [docs/checkerboard/COMPONENT_PATCHING.md](docs/checkerboard/COMPONENT_PATCHING.md). It documents the whole-block interpolation grid, individual-channel rankings and prefix controls, selection/report separation, optional frozen-layer calibration, and commands for both saved checkerboard attack models.
+The earlier GPU batch (`20261115_015724`) completed TCUG-0 at **75.14% CA / 1.53% ASR** IID and **70.01% / 1.83%** non-IID. Its TCUG-1 IID log ends at round 46. The earlier CPU TCUG-0 runs reached **75.17% / 1.34%** IID and **69.97% / 2.09%** non-IID. These runs are kept separately from the main comparison. Small differences should be interpreted in light of the variation between runs and the single seed per partition. [Earlier GPU batch](results/tcug_gpu/20261115_015724/) · [CPU results](results/rollback/)
 
-## Extreme label skew stress test
+### Did norm clipping activate?
 
-Run `python scripts/run_label_skew_stress.py` in the training environment to compare subtraction, KD and FedEraser on a fresh Dirichlet alpha=0.01 checkerboard attack. Use `--plan` to inspect commands, `--preflight_only` to inspect actual partitions, or `--seeds 42 43 44` for partition sensitivity. See [docs/label_skew/EXTREME_LABEL_SKEW.md](docs/label_skew/EXTREME_LABEL_SKEW.md) for output files and interpretation.
+The default cap is the median L2 norm of the donor updates. **Every applied graft had a clip scale of 1.0.** TCUG-1's static mean fell below the cap in both partitions. In TCUG-2, every top-three mean also fell below the cap. These runs therefore measure grafting with the default cap in place and no norm reduction.
+
+| Variant | Partition | Raw graft L2 norm | Cap | Rounds clipped |
+|---|---|---:|---:|---:|
+| TCUG-1 | IID | 1.1497 | 2.1177 | 0/21 |
+| TCUG-1 | Non-IID | 1.2229 | 1.8051 | 0/21 |
+| TCUG-2 | IID | 1.3459–1.3742 | 2.1177 | 0/21 |
+| TCUG-2 | Non-IID | 1.3303–1.3450 | 1.8051 | 0/21 |
+
+[TCUG-1 IID configuration](results/tcug_gpu/20261115_120004/tcug-1/iid/run_config.json) · [TCUG-1 non-IID configuration](results/tcug_gpu/20261115_120004/tcug-1/noniid/run_config.json) · [TCUG-2 IID graft history](results/tcug_gpu/tcug2_20261115_125159/tcug-2/iid/graft_history.json) · [TCUG-2 non-IID graft history](results/tcug_gpu/tcug2_20261115_125159/tcug-2/noniid/graft_history.json)
+
+### Training-free TCUG-2
+
+This variant edits the attacked round-50 checkpoint directly. For each round 30–50 it subtracts C0's recorded parameter delta at C0's original FedAvg weight and adds a clean graft at the same weight. The graft averages the top three C0 deltas from rounds 20–29, ranked by cosine similarity to the sample-weighted C1–C9 deltas recorded for that round. The method keeps the attacked checkpoint's BatchNorm running statistics and counters.
+
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| FedEraser, 2 calibration epochs | 75.19 | 1.18 | 70.18 | 0.94 |
+| Original TCUG-2, 21 continuation rounds | 75.09 | 1.49 | 70.59 | 1.77 |
+| Training-free TCUG-2 | 71.92 | 0.04 | 68.52 | 0.11 |
+
+Compared with original TCUG-2, training-free TCUG-2 lowered ASR by **1.44 percentage points IID** and **1.66 points non-IID**, while clean accuracy fell by **3.17** and **2.07 points**, respectively. Compared with FedEraser, it lowered ASR by **1.13 points IID** and **0.83 points non-IID**, while clean accuracy fell by **3.27** and **1.66 points**. Differences use unrounded ASR values. The training-free endpoints were evaluated on CPU, and the comparison uses the previously reported GPU evaluations for original TCUG-2 and FedEraser. [IID repair result](results/training_free_tcug_2/iid/results.csv) · [Non-IID repair result](results/training_free_tcug_2/noniid/results.csv)
+
+**Clipping activated in 0 of 21 rounds in each partition.** The largest graft norms were **1.3546 IID** and **1.3513 non-IID**, below their default caps of **2.0896** and **1.7948**. Original TCUG-2 also recorded zero clipped rounds per partition. [IID graft history](results/training_free_tcug_2/iid/graft_history.json) · [Non-IID graft history](results/training_free_tcug_2/noniid/graft_history.json)
+
+The optional follow-up loads the repaired checkpoint and runs three clean FedAvg rounds (51–53) with C1–C9 on the original partitions. It reports metrics before and after the continuation. The table above covers the direct repair. [Direct repair runner](scripts/run_training_free_tcug.py) · [Three-round follow-up runner](scripts/run_training_free_tcug_followup.py)
+
+## Setup and reproducibility
+
+Create and activate a Python environment, then install dependencies with `python -m pip install -r requirements.txt`. For GPU runs, install the PyTorch and Torchvision builds compatible with the host's NVIDIA driver and check `torch.cuda.is_available()` before launching. The reported GPU logs record PyTorch `2.8.0+cu128`. Run the active tests with `python -m pytest`. Tests in `tests/historical/` require historical artifacts.
+
+Git tracks the result summaries, configurations, and code. Model checkpoints, client partitions, and trajectories are local artifacts. A fresh clone needs those files to reproduce checkpoint-based results. A full 50-round trajectory includes 500 client deltas and 50 round checkpoints per partition. For TCUG use the saved G29 and partition files, the matching attacked and FedEraser endpoints and metadata, and the C0 deltas for the chosen donor window.
+
+From the repository root, see `python -m scripts.run_checkerboard_rollback --help` for the TCUG command. It accepts `--variant tcug-0`, `--variant tcug-1`, or `--variant tcug-2`, plus `--graft_window` and `--graft_max_norm`. Each completed run writes `comparison.csv`, `evaluation.json`, `run_config.json`, round metrics, and endpoint weights. TCUG-2 also writes `graft_history.json`.
+
+[Run index](results/README.md) · [Experiment commands](scripts/README.md) · [Artifact and reproducibility guide](docs/guides/REPRODUCIBILITY_AND_ARTIFACTS.md) · [Project walkthrough](docs/PROJECT_WALKTHROUGH.md) · [Historical research](docs/historical/) · [Presentation assets](presentation/README.md)
