@@ -28,3 +28,30 @@ def test_exact_hvp_finite_difference():
         return torch.autograd.grad(loss,tuple(pp.values()))
     gp,gm=grad(1),grad(-1)
     for k,a,c in zip(p,gp,gm): assert torch.allclose(hv[k],(a-c)/(2*eps),atol=1e-7,rtol=1e-5)
+
+
+def test_second_order_quadratic_two_steps():
+    from src.unlearning.jvp_cal import taylor_update
+    torch.manual_seed(3)
+    A=torch.tensor([[2., .3],[.3,1.]],dtype=torch.double)
+    old=torch.tensor([.2,-.4],dtype=torch.double)
+    shift=torch.tensor([.1,.3],dtype=torch.double)
+    eta=.02
+    def update(x):
+        z=x.clone()
+        for _ in range(2): z=z-eta*(A@z)
+        return z-x
+    hist=update(old)
+    hv=A@shift
+    estimate=taylor_update({"x":hist},{"x":hv},{"x":A@hv},eta,2,2)["x"]
+    assert torch.allclose(estimate,update(old+shift),atol=1e-12)
+
+def test_real_model_ggn_smoke_and_buffers():
+    from src.models.small_cnn import SmallCNN
+    m=SmallCNN().eval()
+    p=dict(m.named_parameters()); b={k:v.clone() for k,v in m.named_buffers()}
+    original={k:v.clone() for k,v in b.items()}
+    x=torch.randn(2,3,32,32); v={k:torch.randn_like(t) for k,t in p.items()}
+    hv=ggn_vector_product(m,p,b,x,v)
+    assert all(hv[k].shape==p[k].shape and hv[k].dtype==p[k].dtype and torch.isfinite(hv[k]).all() for k in p)
+    assert all(torch.equal(b[k],original[k]) for k in b)
