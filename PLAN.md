@@ -11,7 +11,7 @@ Branch: `onsetfree`. Source proposal: `Onset_Free_Federated_Unlearning.pdf` and 
 
 ## Environment and data gate
 
-2026-11-16 audit: this Windows checkout has Python 3.9.13 but no PyTorch in the available Python installations, no usable GPU, and only about 0.56 GB free on E:. Two complete checkerboard trajectories already occupy about 2.4 GB, but the V2 white-patch `phase2/*_attack_logged` directories have no trajectories. The proposal's claimed Python 3.11.6 / PyTorch 2.14.0 pin does not match this checkout's `requirements.txt`; existing GPU logs report PyTorch 2.8.0+cu128. Before any long experiment, use a host with a compatible PyTorch/GPU and enough free space for new trajectories, checkpoints and results. Do not mark a stage done based on old endpoint summaries.
+2026-11-16 audit: this Windows checkout has Python 3.9.13 but no PyTorch in the available Python installations, no usable GPU, and only about 0.56 GB free on E:. Two complete checkerboard trajectories already occupy about 2.4 GB, but the V2 white-patch `phase2/*_attack_logged` directories have no trajectories. The proposal's claimed Python 3.11.6 / PyTorch 2.14.0 pin does not match this checkout's `requirements.txt`; existing GPU logs report PyTorch 2.8.0+cu128. Before any long experiment, use a host with a compatible PyTorch/GPU and enough free space for new trajectories, checkpoints and results. The user will provide SSH access with one designated folder; all remote file access and writes must stay within that folder. Do not mark a stage done based on old endpoint summaries.
 
 ## Stage gates
 
