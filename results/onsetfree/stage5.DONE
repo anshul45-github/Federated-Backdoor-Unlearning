@@ -1,0 +1,4 @@
+Stage 5 onset detection and optional IID gate ablation completed on the matched trajectories.
+IID detected onset: rounds 15/12 for kappa 0.5/1.0 versus evaluation-only true round 30; non-IID: no alarm.
+Twenty-seven IID gate variants and both threshold trade-off plots were evaluated. The +20 gate is post-hoc evaluation-informed and excluded from valid success claims.
+P3 is refuted. There is no deployable gate selected by independent benign validation.
