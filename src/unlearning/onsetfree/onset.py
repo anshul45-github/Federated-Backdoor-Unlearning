@@ -35,3 +35,11 @@ def calibrate_from_benign(benign_residuals, kappa, epsilon=1e-6):
         peaks[client] = max(values, default=0.0)
     threshold = max(peaks.values()) + epsilon
     return threshold, peaks
+
+
+def flat_gate_weights(rounds, estimated_onset, alpha, margin):
+    if estimated_onset is None:
+        raise ValueError("A detector alarm is required for gated unlearning")
+    if not 0 <= alpha <= 1 or margin < 0:
+        raise ValueError("Alpha must be in [0,1] and margin must be nonnegative")
+    return [1.0 if round_number >= estimated_onset - margin else alpha for round_number in rounds]

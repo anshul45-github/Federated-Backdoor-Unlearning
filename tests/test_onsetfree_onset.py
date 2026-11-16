@@ -1,4 +1,4 @@
-from src.unlearning.onsetfree.onset import calibrate_from_benign, cusum, robust_z
+from src.unlearning.onsetfree.onset import calibrate_from_benign, cusum, flat_gate_weights, robust_z
 
 
 def test_cusum_detects_shift_with_benign_calibrated_threshold():
@@ -9,3 +9,7 @@ def test_cusum_detects_shift_with_benign_calibrated_threshold():
     trace, onset = cusum(z, 1.0, threshold)
     assert onset == 11
     assert trace[9] < threshold < trace[10]
+
+
+def test_flat_gate_only_downweights_early_rounds():
+    assert flat_gate_weights([1, 2, 3, 4], 4, 0.5, 1) == [0.5, 0.5, 1.0, 1.0]
