@@ -72,6 +72,7 @@ def main():
     parser.add_argument("--momentum", type=float, default=0.9)
     parser.add_argument("--local-epochs", type=int, default=2)
     parser.add_argument("--batch-size", type=int, default=64)
+    parser.add_argument("--curvature", choices=("ggn", "hessian"), default="ggn")
     args = parser.parse_args()
     started = time.perf_counter()
     source = Path(args.source_run)
@@ -87,7 +88,8 @@ def main():
     curvature = BenignCurvature(model, batches, device)
     layout = parameter_layout(model)
     dimension = sum(width for _, _, width in layout)
-    eigenvalues, basis = lanczos_top(curvature.ggn, dimension, args.rank, device, seed=args.seed)
+    matvec = curvature.ggn if args.curvature == "ggn" else curvature.hessian
+    eigenvalues, basis = lanczos_top(matvec, dimension, args.rank, device, seed=args.seed)
     benign_total = sum(n for i, n in counts.items() if i != args.malicious_client)
     contractions = torch.zeros_like(eigenvalues)
     for i, n in counts.items():
@@ -118,6 +120,7 @@ def main():
         "rank": args.rank,
         "curvature_samples": args.curvature_samples,
         "sample_seed": args.seed,
+        "curvature": args.curvature,
         "sample_indices_by_client": selected,
         "learning_rate": args.learning_rate,
         "momentum": args.momentum,
@@ -125,7 +128,9 @@ def main():
         "eigenvalues": eigenvalues.detach().cpu().tolist(),
         "contractions": contractions.detach().cpu().tolist(),
         "contractions_below_half": int((contractions < 0.5).sum().item()),
-        "ggn_vector_products": curvature.calls,
+        "curvature_vector_products": curvature.calls,
+        "ggn_vector_products": curvature.calls if args.curvature == "ggn" else 0,
+        "hessian_vector_products": curvature.calls if args.curvature == "hessian" else 0,
         "bn_policy": "eval-mode fixed running statistics for GGN; final attacked buffers kept in checkpoint",
         "wall_seconds": time.perf_counter() - started,
         "metrics_status": "not evaluated",
