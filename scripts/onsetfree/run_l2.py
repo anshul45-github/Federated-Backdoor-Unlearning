@@ -75,6 +75,8 @@ def main():
         operators.append(operator)
         hvps.append(operator.ggn)
     correction = l2_tail(prefix, forces[-args.window:], hvps, eta_eff, weighted_steps, args.second_order)
+    if not torch.isfinite(correction).all():
+        raise ArithmeticError("L2 Taylor recursion produced a non-finite correction; record as an unstable ablation")
     final_state = torch.load(source / "final_model.pt", map_location=device, weights_only=True)
     update = {}
     offset = 0
