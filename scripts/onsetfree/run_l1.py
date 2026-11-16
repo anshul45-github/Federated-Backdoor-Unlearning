@@ -73,6 +73,7 @@ def main():
     parser.add_argument("--local-epochs", type=int, default=2)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--curvature", choices=("ggn", "hessian"), default="ggn")
+    parser.add_argument("--bn-mode", choices=("eval", "train"), default="eval")
     args = parser.parse_args()
     started = time.perf_counter()
     source = Path(args.source_run)
@@ -85,7 +86,7 @@ def main():
     final_state = torch.load(source / "final_model.pt", map_location=device, weights_only=True)
     model.load_state_dict(final_state)
     batches, selected = fixed_benign_batches(source, counts, args.malicious_client, args.curvature_samples, args.seed, args.batch_size, args.data_dir)
-    curvature = BenignCurvature(model, batches, device)
+    curvature = BenignCurvature(model, batches, device, bn_mode=args.bn_mode)
     layout = parameter_layout(model)
     dimension = sum(width for _, _, width in layout)
     matvec = curvature.ggn if args.curvature == "ggn" else curvature.hessian
@@ -121,6 +122,7 @@ def main():
         "curvature_samples": args.curvature_samples,
         "sample_seed": args.seed,
         "curvature": args.curvature,
+        "bn_mode": args.bn_mode,
         "sample_indices_by_client": selected,
         "learning_rate": args.learning_rate,
         "momentum": args.momentum,
@@ -131,7 +133,7 @@ def main():
         "curvature_vector_products": curvature.calls,
         "ggn_vector_products": curvature.calls if args.curvature == "ggn" else 0,
         "hessian_vector_products": curvature.calls if args.curvature == "hessian" else 0,
-        "bn_policy": "eval-mode fixed running statistics for GGN; final attacked buffers kept in checkpoint",
+        "bn_policy": ("eval-mode fixed running statistics" if args.bn_mode == "eval" else "train-mode batch statistics with cloned buffers and dropout disabled") + "; final attacked buffers kept in checkpoint",
         "wall_seconds": time.perf_counter() - started,
         "metrics_status": "not evaluated",
     }

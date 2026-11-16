@@ -83,6 +83,18 @@ def test_ggn_runs_on_smallcnn_with_eval_batchnorm():
     assert torch.isfinite(result).all()
 
 
+def test_ggn_train_batchnorm_uses_batch_stats_without_mutating_buffers():
+    model = SmallCNN().eval()
+    x = torch.randn(2, 3, 32, 32)
+    y = torch.tensor([0, 1])
+    buffers_before = {name: value.clone() for name, value in model.named_buffers()}
+    operator = BenignCurvature(model, [(x, y)], bn_mode="train")
+    width = sum(parameter.numel() for parameter in model.parameters())
+    result = operator.ggn(torch.randn(width))
+    assert torch.isfinite(result).all()
+    assert all(torch.equal(value, buffers_before[name]) for name, value in model.named_buffers())
+
+
 def test_l2_tail_matches_quadratic_local_training():
     h = torch.diag(torch.tensor([0.0, 2.0]))
     initial = torch.tensor([1.0, 1.0])

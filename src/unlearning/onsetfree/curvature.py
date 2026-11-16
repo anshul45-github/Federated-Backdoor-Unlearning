@@ -24,10 +24,17 @@ def flatten(named, layout):
 
 
 class BenignCurvature:
-    """Fixed-subsample GGN or exact-Hessian vector product in eval-mode BN."""
+    """Fixed-subsample GGN or exact-Hessian vector product with explicit BN mode."""
 
-    def __init__(self, model, batches, device=None):
+    def __init__(self, model, batches, device=None, bn_mode="eval"):
+        if bn_mode not in ("eval", "train"):
+            raise ValueError("bn_mode must be eval or train")
         self.model = model.eval()
+        self.bn_mode = bn_mode
+        if bn_mode == "train":
+            for module in self.model.modules():
+                if isinstance(module, torch.nn.modules.batchnorm._BatchNorm):
+                    module.train()
         self.device = device or next(model.parameters()).device
         self.layout = parameter_layout(model)
         self.params = {name: value.detach().to(self.device).clone() for name, value in model.named_parameters()}
@@ -39,7 +46,8 @@ class BenignCurvature:
         self.calls = 0
 
     def _logits(self, params, x):
-        return functional_call(self.model, (params, self.buffers), (x,))
+        buffers = {name: value.clone() for name, value in self.buffers.items()} if self.bn_mode == "train" else self.buffers
+        return functional_call(self.model, (params, buffers), (x,))
 
     def ggn(self, vector):
         direction = unflatten(vector, self.layout)

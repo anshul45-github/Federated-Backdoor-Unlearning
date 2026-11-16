@@ -8,6 +8,8 @@ IID whole-vector cosine to the evaluation-only counterfactual displacement was 0
 
 All 50 registered IID L1 eigenmodes had contraction below 0.5; the maximum recorded contraction was 0.0002802. Under this fixed-curvature heavy-ball approximation, stiff modes have effectively a one-round memory. The observed L2 Taylor collapse prevents validating a W saturation claim against a stable time-varying method.
 
+In the matched IID rank-20, 512-example curvature ablation, exact Hessian gave 68.74% CA / 1.32% ASR and GGN gave 68.84% / 1.33%. The result is similar at this registered rank/sample setting, but does not establish equivalence at rank 50 or for non-IID.
+
 The registered IID L2 first-order Taylor window sweep gave approximately **10% CA** at every W in {1,2,5,10} and Bc in {512,2048}; ASR varied between 0% and 100%. This is a failed, unstable approximation under the recorded `eta_eff=eta/(1-momentum)` and weighted local step count. It must not be treated as a successful unlearning result. P4 cannot be confirmed from this sweep. The L2 implementation records that the Taylor recursion is heuristic for many momentum steps; no claim of exact trajectory replay is made.
 
 Pending: non-IID L1/L2, three L1 curvature seeds, rank/sample sweeps, Hessian and BatchNorm ablations, and a stable finite-horizon L2 transfer. No `stage4.DONE` marker is asserted.
