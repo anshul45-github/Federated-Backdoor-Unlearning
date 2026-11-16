@@ -1,0 +1,32 @@
+[
+  {
+    "method": "IID stale",
+    "ca_percent": 67.08,
+    "asr_percent": 0.4666666666666667,
+    "wall_s": 1.446641206741333
+  },
+  {
+    "method": "IID JVP",
+    "ca_percent": 63.27,
+    "asr_percent": 0.45555555555555555,
+    "wall_s": 9.902596712112427
+  },
+  {
+    "method": "IID FedEraser E1",
+    "ca_percent": 75.13,
+    "asr_percent": 2.6,
+    "wall_s": 949.8696143627167
+  },
+  {
+    "method": "Non-IID stale",
+    "ca_percent": 31.44,
+    "asr_percent": 2.6555555555555554,
+    "wall_s": 1.4573945999145508
+  },
+  {
+    "method": "Non-IID JVP",
+    "ca_percent": 10.27,
+    "asr_percent": 0.0,
+    "wall_s": 9.948899507522583
+  }
+]

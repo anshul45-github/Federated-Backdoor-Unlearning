@@ -1,0 +1,18 @@
+{
+  "last_round": 50,
+  "elapsed_s": 9.750062227249146,
+  "method": "jvp",
+  "args": {
+    "trajectory": "results/jacobian/iid_attack_logged",
+    "out_dir": "results/jacobian/iid_jvp_g64_o1",
+    "method": "jvp",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": false,
+    "batch_size": 64,
+    "seed": 123
+  }
+}

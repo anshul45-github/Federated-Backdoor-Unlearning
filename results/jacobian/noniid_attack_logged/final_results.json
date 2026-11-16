@@ -1,0 +1,34 @@
+{
+    "config": {
+        "num_clients": 10,
+        "clients_per_round": 10,
+        "partition_type": "noniid",
+        "dirichlet_alpha": 0.5,
+        "malicious_client_id": 0,
+        "poison_ratio": 0.1,
+        "trigger_size": 3,
+        "target_class": 0,
+        "attack_start_round": 30,
+        "num_rounds": 50,
+        "local_epochs": 2,
+        "batch_size": 64,
+        "seed": 42,
+        "learning_rate": 0.01,
+        "momentum": 0.9,
+        "trigger_type": "white_patch"
+    },
+    "mode": "attack",
+    "clean_accuracy": 70.8,
+    "clean_loss": 0.8142029890060425,
+    "clean_macro_f1": 0.6984569246924168,
+    "triggered_rate": 30.022222222222222,
+    "untriggered_airplane_rate": 3.8333333333333335,
+    "runtime_seconds": 1370.8940873146057,
+    "poisoned_samples": 359,
+    "malicious_client_samples": 3597,
+    "trajectory_logged": true,
+    "evaluation_populations": {
+        "clean": 10000,
+        "triggered_non_target": 9000
+    }
+}
