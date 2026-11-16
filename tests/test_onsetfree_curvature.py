@@ -1,6 +1,6 @@
 import torch
 
-from src.unlearning.onsetfree.curvature import BenignCurvature, heavy_ball_contraction, lanczos_top, spectral_response
+from src.unlearning.onsetfree.curvature import BenignCurvature, heavy_ball_contraction, lanczos_top, l2_tail, spectral_response
 from src.models.small_cnn import SmallCNN
 
 
@@ -70,3 +70,16 @@ def test_ggn_runs_on_smallcnn_with_eval_batchnorm():
     result = operator.ggn(torch.randn(width))
     assert result.shape == (width,)
     assert torch.isfinite(result).all()
+
+
+def test_l2_tail_matches_quadratic_local_training():
+    h = torch.diag(torch.tensor([0.0, 2.0]))
+    initial = torch.tensor([1.0, 1.0])
+    force = torch.tensor([0.1, 0.2])
+    for steps, second_order in ((1, False), (2, True)):
+        exact = initial.clone()
+        for _ in range(steps):
+            exact = exact - 0.1 * (h @ exact)
+        exact -= force
+        actual = l2_tail(initial, [force], [lambda v: h @ v], 0.1, steps, second_order)
+        assert torch.allclose(actual, exact, atol=1e-7)

@@ -103,6 +103,25 @@ def spectral_response(forces, basis, contractions):
     return -flat - basis @ stiff
 
 
+def l2_tail(initial, forces, hvps, learning_rate, steps, second_order=False):
+    """Apply the registered one/two-HVP Taylor recursion over the tail.
+
+    `hvps` contains a curvature operator per tail round. For a quadratic and
+    one local step this is exact. The optional second-order term is exact for
+    two gradient-descent steps on a fixed quadratic with zero momentum.
+    """
+    if len(forces) != len(hvps):
+        raise ValueError("Need one force and curvature operator per round")
+    delta = initial.clone()
+    for force, hvp in zip(forces, hvps):
+        first = hvp(delta)
+        next_delta = delta - learning_rate * steps * first - force
+        if second_order:
+            next_delta += 0.5 * steps * (steps - 1) * learning_rate**2 * hvp(first)
+        delta = next_delta
+    return delta
+
+
 def lanczos_top(matvec, dimension, rank, device, seed=42, iterations=None, dtype=torch.float32):
     """Full-reorthogonalized Lanczos, returning descending Ritz eigenpairs."""
     if rank <= 0 or dimension <= 0:

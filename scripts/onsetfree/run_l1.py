@@ -90,8 +90,8 @@ def main():
             continue
         steps = args.local_epochs * math.ceil(n / args.batch_size)
         contractions += (n / benign_total) * heavy_ball_contraction(eigenvalues, args.learning_rate, args.momentum, steps)
+    torch.save({"eigenvalues": eigenvalues.cpu(), "basis": basis.cpu(), "contractions": contractions.cpu()}, output / "spectrum.pt")
     forces = []
-    last_record = None
     for record in Trajectory(source, counts):
         pm = record.weights[args.malicious_client]
         malicious = flatten(record.deltas[args.malicious_client], layout).to(device)
@@ -100,7 +100,6 @@ def main():
             if i != args.malicious_client:
                 benign += (weight / (1 - pm)) * flatten(record.deltas[i], layout).to(device)
         forces.append(pm * (malicious - benign))
-        last_record = record
     correction = spectral_response(forces, basis, contractions)
     update = {}
     offset = 0
