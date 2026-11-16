@@ -21,6 +21,7 @@ def main():
     parser.add_argument("--malicious-client", type=int, default=0)
     parser.add_argument("--rank", type=int, default=32)
     parser.add_argument("--kappa", default="0.5")
+    parser.add_argument("--shifts", type=int, nargs="+", default=[0, 10, 20], help="Prespecified shifts; +20 is deliberately after the evaluation-only true onset")
     args = parser.parse_args()
     detector = json.loads(Path(args.detector_json).read_text())
     estimated = detector["analyses"][args.kappa]["estimated_onset"]
@@ -33,7 +34,7 @@ def main():
     output = Path(args.output_dir)
     output.mkdir(parents=True, exist_ok=True)
     variants = {}
-    for shift in (0, 10):
+    for shift in args.shifts:
         for alpha in (0.0, 0.5, 1.0):
             for margin in (0, 2, 5):
                 name = f"gate_shift{shift}_alpha{alpha:g}_margin{margin}"
@@ -54,6 +55,7 @@ def main():
         "kappa": args.kappa,
         "estimated_onset": estimated,
         "rank": args.rank,
+        "shifts": args.shifts,
         "variants": variants,
         "selection_status": "not selected; gating is an optional ablation",
     }, indent=2) + "\n")
