@@ -32,6 +32,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss()
     results = {}
     for checkpoint in sorted(Path(args.model_dir).glob("*.pt")):
+        if checkpoint.name == "spectrum.pt":
+            continue
         model = SmallCNN().to(device)
         model.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True))
         clean = evaluate_extended(model, clean_loader, criterion, device)
