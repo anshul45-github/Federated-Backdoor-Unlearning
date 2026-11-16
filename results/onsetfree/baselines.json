@@ -1,0 +1,74 @@
+{
+  "status": "matched_remote_V2_white_patch",
+  "generated_utc": "2026-11-16T20:56:07.832156+00:00",
+  "partitions": {
+    "iid": {
+      "trajectory_verification": "results/onsetfree/iid_trajectory_verification.json",
+      "flop_counting_method": "torch.utils.flop_counter.FlopCounterMode, one fwd+backward on SmallCNN per batch size; optimizer/data/server ops excluded",
+      "methods": {
+        "attack": {
+          "ca_percent": 74.7,
+          "asr_percent": 51.93333333333333,
+          "wall_seconds": 2083.3326864242554,
+          "client_flops": null,
+          "checkpoint_sha256": "9212eb8add09fede204f20423349bfb46b2096fb0405b7254258d8ef6103f1b1"
+        },
+        "counterfactual": {
+          "ca_percent": 74.92,
+          "asr_percent": 3.077777777777778,
+          "wall_seconds": 1454.8286829859717,
+          "client_flops": 157517568000000,
+          "checkpoint_sha256": "c06a7bc912d18c419cb72ccf54ea405f96bfb39b8aafe54d097c9319ab57285d"
+        },
+        "federaser_ecal1": {
+          "ca_percent": 71.99,
+          "asr_percent": 2.3333333333333335,
+          "wall_seconds": 726.3223841369618,
+          "client_flops": 77183608320000,
+          "checkpoint_sha256": "7f8d5632a0c6b8995900a61f853864298dc303384fdc26a8a6a00452b65bb8cb"
+        },
+        "federaser_ecal2": {
+          "ca_percent": 75.15,
+          "asr_percent": 2.8,
+          "wall_seconds": 1409.3912319790106,
+          "client_flops": 154367216640000,
+          "checkpoint_sha256": "d709bac8cda13f22a080abcb764d4314bcd999206f00928f3d1e9dcb5568a1bd"
+        }
+      }
+    },
+    "noniid": {
+      "trajectory_verification": "results/onsetfree/noniid_trajectory_verification.json",
+      "flop_counting_method": "torch.utils.flop_counter.FlopCounterMode, one fwd+backward on SmallCNN per batch size; optimizer/data/server ops excluded",
+      "methods": {
+        "attack": {
+          "ca_percent": 71.59,
+          "asr_percent": 29.322222222222223,
+          "wall_seconds": 2091.0609047412872,
+          "client_flops": null,
+          "checkpoint_sha256": "3537b4fc911c435d33e05ed21923d8a9456ab0bfd363e2c87479f90d510d220f"
+        },
+        "counterfactual": {
+          "ca_percent": 70.32,
+          "asr_percent": 3.411111111111111,
+          "wall_seconds": 1515.3465800440172,
+          "client_flops": 162428615731200,
+          "checkpoint_sha256": "3cce29c49ee7061b38bdf44105ce9541e87beb5fbd11cf18e0d38784be772648"
+        },
+        "federaser_ecal1": {
+          "ca_percent": 67.69,
+          "asr_percent": 2.511111111111111,
+          "wall_seconds": 748.5806413280079,
+          "client_flops": 79590021708288,
+          "checkpoint_sha256": "cd69f8fb4deb41a399c4235fd85c4b990bf03d4f63151ff7822030b84cbea57a"
+        },
+        "federaser_ecal2": {
+          "ca_percent": 69.95,
+          "asr_percent": 2.588888888888889,
+          "wall_seconds": 1473.9707426920068,
+          "client_flops": 159180043416576,
+          "checkpoint_sha256": "5facd95e20a787283cdfd891d8b2635fa261e0f3a38defd74111e5cdd1d62f56"
+        }
+      }
+    }
+  }
+}

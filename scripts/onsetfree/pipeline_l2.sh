@@ -31,6 +31,10 @@ for setting in iid noniid; do
           --model-dir "$output" --attack-config "$source_run/config.json" \
           --output-json "$output/evaluation.json"
       fi
+      if [[ ! -f "$output/cost.json" ]]; then
+        python3 -m scripts.onsetfree.measure_ggn_flops \
+          --metadata "$output/metadata.json" --output-json "$output/cost.json"
+      fi
     done
   done
 done

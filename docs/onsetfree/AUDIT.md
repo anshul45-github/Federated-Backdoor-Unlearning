@@ -1,6 +1,6 @@
 # Stage 1 code and artifact audit
 
-Status: code audit and matched trajectory regeneration complete; the last matched FedEraser Ecal 2 non-IID run is still in progress. Sources are `configs/v2_{iid,noniid}.yaml`, `scripts/run_experiment_v2.py`, `scripts/baseline/run_federaser_v5.py`, `src/training/{fedavg,train_utils}.py`, `src/models/small_cnn.py`, and saved artifact metadata.
+Status: code audit, matched trajectory regeneration, both counterfactuals and all four FedEraser settings complete; see `results/onsetfree/baselines.json` and `stage1.DONE`. Sources are `configs/v2_{iid,noniid}.yaml`, `scripts/run_experiment_v2.py`, `scripts/baseline/run_federaser_v5.py`, `src/training/{fedavg,train_utils}.py`, `src/models/small_cnn.py`, and saved artifact metadata.
 
 | Item | Observed implementation |
 |---|---|
@@ -24,4 +24,4 @@ The user provided SSH access restricted to `/DATA/teaching/new-approach`. A clea
 
 Regenerated white-patch attacked trajectories are at `results/onsetfree/phase2_iid_attack` and `results/onsetfree/phase2_noniid_attack` in that remote clone. `verify_trajectory.py` recorded 50 rounds, 500 client deltas, zero maximum float/integer reconstruction error, and zero final-endpoint mismatch for each. Their attack endpoints were IID **74.70% CA / 51.9333% ASR** and non-IID **71.59% / 29.3222%**, from their `final_results.json`. Relative to the older saved V2 references, IID differs by -0.31 CA and -4.13 ASR points; non-IID differs by +1.79 CA and -2.89 ASR points. The gap is reported rather than assumed away.
 
-The local environment paragraph above is a historical setup blocker; the remote environment resolved execution. Matched counterfactual and FedEraser results are being produced separately before `stage1.DONE` is set.
+The local environment paragraph above is a historical setup blocker; the remote environment resolved execution. Matched counterfactual and FedEraser results are collected in `results/onsetfree/baselines.json`, with SHA-256 checkpoint hashes and forward/backward ATen FLOP counts. The non-IID Ecal 2 endpoint is 69.95% CA / 2.5889% ASR. `stage1.DONE` was set only after the two verified trajectories, two counterfactuals and four FedEraser checkpoints existed.

@@ -154,6 +154,21 @@ def plot_onset_thresholds(root, setting, out):
     save(fig, out / f"onset_threshold_tradeoff_{setting}.png")
 
 
+def plot_benign_validation(root, setting, out):
+    data = read(root / "diagnostics" / f"{setting}_benign_validation.json")
+    if not data:
+        return
+    methods = data["methods"]
+    names = list(methods)
+    fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+    axes[0].bar(names, [methods[name]["loss_change"] for name in names], color="#3478ac")
+    axes[0].set_ylabel("Benign CE loss change")
+    axes[1].bar(names, [methods[name]["half_delta_H_delta"] for name in names], color="#d28634")
+    axes[1].set_ylabel("0.5 delta-transpose H delta")
+    fig.suptitle(f"{setting.upper()} fixed 512-example benign sample")
+    save(fig, out / f"benign_validation_{setting}.png")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="results/onsetfree")
@@ -161,7 +176,7 @@ def main():
     args = parser.parse_args()
     root = Path(args.root)
     out = root / "plots"
-    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_tradeoff, plot_onset_thresholds):
+    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_tradeoff, plot_onset_thresholds, plot_benign_validation):
         function(root, args.setting, out)
 
 

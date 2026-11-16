@@ -1,0 +1,2 @@
+Stage 3 L0 default, BN variants, C1-C4, rank/scale sweep, three random seeds and D1-D4 diagnostics completed for both matched white-patch partitions.
+Default L0 removes most ASR but does not dominate controls and loses substantial non-IID clean accuracy. See docs/onsetfree/L0_SUMMARY.md.
