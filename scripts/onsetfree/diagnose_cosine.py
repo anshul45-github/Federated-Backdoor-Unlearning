@@ -32,6 +32,8 @@ def main():
         "methods": {},
     }
     for path in sorted(Path(args.method_dir).glob("*.pt")):
+        if path.name == "spectrum.pt":
+            continue
         method = torch.load(path, map_location="cpu", weights_only=True)
         displacement = {key: (method[key] - attack[key]).reshape(-1).float() for key in keys}
         result["methods"][path.stem] = {
