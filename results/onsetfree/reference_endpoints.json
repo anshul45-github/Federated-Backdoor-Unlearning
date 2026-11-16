@@ -1,0 +1,16 @@
+{
+  "status": "existing_saved_V2_endpoints_only; not regenerated or matched to an onsetfree trajectory",
+  "metric_units": "percent",
+  "iid": {
+    "attack": {"ca": 75.01, "asr": 56.06666666666667, "source": "results/phase2/iid_attack_logged/final_results.json"},
+    "counterfactual": {"ca": 74.87, "asr": 3.011111111111111, "source": "results/phase2/iid_counterfactual/final_results.json"},
+    "federaser_ecal1": {"ca": 72.11, "asr": 2.6666666666666665, "source": "results/phase2/federaser/iid_Ecal1_v2/eval_results.json"},
+    "federaser_ecal2": {"ca": 74.99, "asr": 2.3444444444444446, "source": "results/phase2/federaser/iid_Ecal2_v2/eval_results.json"}
+  },
+  "noniid": {
+    "attack": {"ca": 69.8, "asr": 32.21111111111111, "source": "results/phase2/noniid_attack_logged/final_results.json"},
+    "counterfactual": {"ca": 69.64, "asr": 3.4, "source": "results/phase2/noniid_counterfactual/final_results.json"},
+    "federaser_ecal1": {"ca": 65.75, "asr": 3.533333333333333, "source": "results/phase2/federaser/noniid_Ecal1_v2/eval_results.json"},
+    "federaser_ecal2": {"ca": 68.89, "asr": 3.088888888888889, "source": "results/phase2/federaser/noniid_Ecal2_v2/eval_results.json"}
+  }
+}
