@@ -99,6 +99,24 @@ def plot_l2(root, setting, out):
     save(fig, out / f"l2_window_{setting}.png")
 
 
+def plot_heavy_ball_l2(root, setting, out):
+    records = []
+    for path in (root / "l2_heavy_ball" / setting).glob("bc512_w*/evaluation.json"):
+        data = read(path)
+        if data and "l2" in data["results"]:
+            records.append((int(path.parent.name.split("_w")[1]), data["results"]["l2"]))
+    if not records:
+        return
+    records.sort()
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+    for ax, key, ylabel in zip(axes, ("ca_percent", "asr_percent"), ("Clean accuracy (%)", "ASR (%)")):
+        ax.plot([window for window, _ in records], [value[key] for _, value in records], marker="o")
+        ax.set_xlabel("Window W")
+        ax.set_ylabel(ylabel)
+    fig.suptitle(f"{setting.upper()} momentum-aware L2, Bc=512")
+    save(fig, out / f"l2_heavy_ball_window_{setting}.png")
+
+
 def plot_tradeoff(root, setting, out):
     cost = read(root / f"{setting}_cost.json")
     l0 = read(root / "l0" / setting / "evaluation.json")
@@ -109,6 +127,13 @@ def plot_tradeoff(root, setting, out):
         value = l0["results"].get(name)
         if value:
             points.append((name, 0, value))
+    half = read(root / "l0_sweep" / setting / "evaluation.json")
+    if half and "l0_k32_s0.5" in half["results"]:
+        points.append(("L0 half scale", 0, half["results"]["l0_k32_s0.5"]))
+    l1_eval = read(root / "l1" / setting / "evaluation.json")
+    l1_cost = read(root / "l1" / setting / "cost.json")
+    if l1_eval and l1_cost:
+        points.append(("L1 default", l1_cost["estimated_total_ggn_flops"], l1_eval["results"]["l1"]))
     for ecal in (1, 2):
         value = read(root / f"federaser_{setting}_ecal{ecal}" / "results.json")
         if value:
@@ -118,12 +143,13 @@ def plot_tradeoff(root, setting, out):
         if value:
             points.append((f"L3 {variant}", value["client_flops"], value))
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
-    for name, flops, value in points:
+    for index, (name, flops, value) in enumerate(points):
         x = flops / 1e12
         axes[0].scatter(x, value["ca_percent"])
         axes[1].scatter(x, value["asr_percent"])
-        axes[0].annotate(name, (x, value["ca_percent"]), fontsize=7, xytext=(3, 3), textcoords="offset points")
-        axes[1].annotate(name, (x, value["asr_percent"]), fontsize=7, xytext=(3, 3), textcoords="offset points")
+        offset = (3, 3 if index % 2 == 0 else -10)
+        axes[0].annotate(name, (x, value["ca_percent"]), fontsize=7, xytext=offset, textcoords="offset points")
+        axes[1].annotate(name, (x, value["asr_percent"]), fontsize=7, xytext=offset, textcoords="offset points")
     for ax, label in zip(axes, ("Clean accuracy (%)", "ASR (%)")):
         ax.set_xlabel("Additional client FLOPs (trillion)")
         ax.set_ylabel(label)
@@ -176,7 +202,7 @@ def main():
     args = parser.parse_args()
     root = Path(args.root)
     out = root / "plots"
-    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_tradeoff, plot_onset_thresholds, plot_benign_validation):
+    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_heavy_ball_l2, plot_tradeoff, plot_onset_thresholds, plot_benign_validation):
         function(root, args.setting, out)
 
 
