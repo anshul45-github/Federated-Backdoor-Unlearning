@@ -21,6 +21,17 @@ def test_ggn_matches_explicit_linear_softmax_matrix():
     assert torch.allclose(operator.ggn(vector), explicit @ vector, atol=1e-6)
 
 
+def test_curvature_snapshots_attack_parameters():
+    model = torch.nn.Linear(2, 2, bias=False).eval()
+    x = torch.tensor([[1.0, 2.0]])
+    operator = BenignCurvature(model, [(x, torch.tensor([0]))])
+    direction = torch.tensor([0.2, -0.4, 0.1, 0.3])
+    before = operator.ggn(direction)
+    with torch.no_grad():
+        model.weight[0].add_(5.0)
+    assert torch.allclose(operator.ggn(direction), before)
+
+
 def test_hessian_matches_finite_difference():
     model = torch.nn.Linear(2, 2, bias=False).eval()
     x = torch.tensor([[1.0, 2.0], [0.3, -1.0]])

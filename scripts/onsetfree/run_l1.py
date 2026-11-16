@@ -23,7 +23,7 @@ from src.unlearning.onsetfree.l0 import apply_update
 from src.unlearning.onsetfree.traj_io import Trajectory
 
 
-def fixed_benign_batches(source, counts, malicious, total_samples, seed, batch_size, data_dir):
+def fixed_benign_batches(source, counts, malicious, total_samples, seed, batch_size, data_dir, exclude_by_client=None):
     partitions = torch.load(source / "client_partitions.pt", map_location="cpu", weights_only=False)
     if not isinstance(partitions, list):
         partitions = partitions.get("partitions", partitions.get("client_partitions"))
@@ -39,11 +39,16 @@ def fixed_benign_batches(source, counts, malicious, total_samples, seed, batch_s
     if remaining:
         raise ValueError("Not enough benign samples for the fixed curvature subsample")
     generator = torch.Generator().manual_seed(seed)
+    exclude_by_client = exclude_by_client or {}
     selected = {}
     indices = []
     for i in benign:
         partition = partitions[i]
         partition_indices = partition.indices if isinstance(partition, Subset) else partition
+        excluded = set(exclude_by_client.get(str(i), exclude_by_client.get(i, [])))
+        partition_indices = [int(index) for index in partition_indices if int(index) not in excluded]
+        if len(partition_indices) < allocations[i]:
+            raise ValueError(f"Not enough disjoint benign validation examples for client {i}")
         chosen = torch.randperm(len(partition_indices), generator=generator)[:allocations[i]].tolist()
         selected[i] = [int(partition_indices[j]) for j in chosen]
         indices.extend(selected[i])

@@ -30,8 +30,8 @@ class BenignCurvature:
         self.model = model.eval()
         self.device = device or next(model.parameters()).device
         self.layout = parameter_layout(model)
-        self.params = {name: value.detach().to(self.device) for name, value in model.named_parameters()}
-        self.buffers = {name: value.detach().to(self.device) for name, value in model.named_buffers()}
+        self.params = {name: value.detach().to(self.device).clone() for name, value in model.named_parameters()}
+        self.buffers = {name: value.detach().to(self.device).clone() for name, value in model.named_buffers()}
         self.batches = [(x.to(self.device), y.to(self.device)) for x, y in batches]
         self.total = sum(len(y) for _, y in self.batches)
         if self.total <= 0:
