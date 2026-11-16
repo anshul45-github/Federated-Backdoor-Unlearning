@@ -1,6 +1,7 @@
 import torch
 
 from src.unlearning.onsetfree.curvature import BenignCurvature, heavy_ball_contraction, lanczos_top, spectral_response
+from src.models.small_cnn import SmallCNN
 
 
 def test_ggn_matches_explicit_linear_softmax_matrix():
@@ -58,3 +59,14 @@ def test_spectral_response_matches_linear_quadratic_recursion():
     for force in forces:
         exact = transition @ exact - force
     assert torch.allclose(spectral_response(forces, basis, rho), exact)
+
+
+def test_ggn_runs_on_smallcnn_with_eval_batchnorm():
+    model = SmallCNN().eval()
+    x = torch.randn(2, 3, 32, 32)
+    y = torch.tensor([0, 1])
+    operator = BenignCurvature(model, [(x, y)])
+    width = sum(parameter.numel() for parameter in model.parameters())
+    result = operator.ggn(torch.randn(width))
+    assert result.shape == (width,)
+    assert torch.isfinite(result).all()
