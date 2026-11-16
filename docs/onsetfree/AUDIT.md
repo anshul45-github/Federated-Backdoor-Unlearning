@@ -1,6 +1,6 @@
 # Stage 1 code and artifact audit
 
-Status: code audit complete; matched trajectory and baseline regeneration pending. Sources are `configs/v2_{iid,noniid}.yaml`, `scripts/run_experiment_v2.py`, `scripts/baseline/run_federaser_v5.py`, `src/training/{fedavg,train_utils}.py`, `src/models/small_cnn.py`, and saved artifact metadata.
+Status: code audit and matched trajectory regeneration complete; matched FedEraser baselines pending. Sources are `configs/v2_{iid,noniid}.yaml`, `scripts/run_experiment_v2.py`, `scripts/baseline/run_federaser_v5.py`, `src/training/{fedavg,train_utils}.py`, `src/models/small_cnn.py`, and saved artifact metadata.
 
 | Item | Observed implementation |
 |---|---|
@@ -16,4 +16,12 @@ Status: code audit complete; matched trajectory and baseline regeneration pendin
 
 The original V2 saved endpoints record attacked IID 75.01% CA / 56.0667% ASR and non-IID 69.8% / 32.2111%. These come from `results/phase2/*_attack_logged/final_results.json`; they are **not** results of regenerated trajectories. The checkerboard trajectories are from a different trigger and cannot be used for a matched V2 claim.
 
-Environment: Python 3.9.13, no PyTorch in the available Python environments, no usable GPU found, and about 0.56 GB free on E: at audit time. The existing two checkerboard trajectories occupy 1,203,304,700 bytes each. Regeneration and numerical verification have not run.
+Local setup at audit time: Python 3.9.13, no usable PyTorch/GPU runtime, and about 0.56 GB free on E:. The existing two checkerboard trajectories occupy 1,203,304,700 bytes each. This prevented local regeneration; the remote run below resolved it.
+
+## Designated remote-folder execution
+
+The user provided SSH access restricted to `/DATA/teaching/new-approach`. A clean clone and all new data, dependencies, logs and results were placed within that folder. The remote runtime is Python 3.10.12, PyTorch 2.6.0+cu124, torchvision 0.21.0+cu124 and NVIDIA RTX A5000. This differs from the PDF's suggested Python/PyTorch versions; the clone's `requirements.txt` does not pin those versions. At setup the folder's filesystem had 403 GB available.
+
+Regenerated white-patch attacked trajectories are at `results/onsetfree/phase2_iid_attack` and `results/onsetfree/phase2_noniid_attack` in that remote clone. `verify_trajectory.py` recorded 50 rounds, 500 client deltas, zero maximum float/integer reconstruction error, and zero final-endpoint mismatch for each. Their attack endpoints were IID **74.70% CA / 51.9333% ASR** and non-IID **71.59% / 29.3222%**, from their `final_results.json`. Relative to the older saved V2 references, IID differs by -0.31 CA and -4.13 ASR points; non-IID differs by +1.79 CA and -2.89 ASR points. The gap is reported rather than assumed away.
+
+The local environment paragraph above is a historical setup blocker; the remote environment resolved execution. Matched counterfactual and FedEraser results are being produced separately before `stage1.DONE` is set.

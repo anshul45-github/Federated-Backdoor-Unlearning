@@ -25,5 +25,5 @@ Branch: `onsetfree`. Source proposal: `Onset_Free_Federated_Unlearning.pdf` and 
 ## Current progress
 
 - Branch created without discarding pre-existing worktree changes.
-- Code/protocol audit, environment audit, trajectory loader and trigger-free L0 checkpoint runner are written. Numerical tests and L0 evaluations have not run.
-- Stage 2's specified abstract-level literature check is complete. Stages 1 and 3-6 are incomplete. The primary blockers for experimental claims are a PyTorch/GPU execution environment, free disk, and matched V2 trajectories. The saved checkerboard trajectories can validate mechanics, but cannot substitute for the specified V2 baseline comparison.
+- The designated remote folder now contains a clean `onsetfree` checkout, CIFAR-10 data and isolated dependencies. All new remote project files remain under `/DATA/teaching/new-approach`. Both V2 white-patch trajectories passed 50-round / 500-delta reconstruction checks; their endpoints and L0 variants have been evaluated.
+- The Stage 2 abstract-level literature check is complete. Stages 1 and 3-6 are incomplete. Matched FedEraser and non-IID counterfactual jobs are in the logged pipeline, followed by default L1 and a separate L2 watcher. The registered L0 sweeps and onset detector have run, with interim summaries in `docs/onsetfree/`. Only genuine completed gates receive `.DONE` markers.

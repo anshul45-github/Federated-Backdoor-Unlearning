@@ -1,12 +1,12 @@
-# Execution status, 2026-11-16
+# Execution status, 2026-11-17 (India time)
 
 | Stage | State | Evidence / next required gate |
 |---|---|---|
-| 1 | Partial | Code audit, trajectory loader and 50-round verification command written. Synthetic reconstruction test is unrun because PyTorch is unavailable. Original V2 trajectories are absent; existing endpoint metrics are inventoried separately in `results/onsetfree/reference_endpoints.json`. Regenerate and verify matched trajectories and baselines before a completion marker. |
+| 1 | Partial | Remote IID/non-IID V2 trajectories regenerated and verified at 50 rounds / 500 deltas each with zero reconstruction error. IID counterfactual completed; non-IID counterfactual and four matched FedEraser settings are still running/pending. PyTorch tests pass remotely. No `stage1.DONE` yet. |
 | 2 | Complete at specified abstract level | 11 requested and four additional primary abstracts reviewed in `NOVELTY_CHECK.md`; `stage2.DONE` records its limited scope. |
-| 3 | Partial | L0/C1-C4 parameter-only runner and separate test-only CA/ASR evaluator written. No PyTorch run, BN recalibration, sweeps, metrics or diagnostic plots yet. |
-| 4 | Pending | GGN/Hessian products, momentum-aware spectral model, recursion and evaluations need a GPU host and matched trajectory. |
-| 5 | Pending, optional | CUSUM null calibration and gated ablation. |
+| 3 | Partial | Default L0/C1-C4, rank/scale sweeps, three random seeds and BN recalibration evaluated for both partitions; see `L0_SUMMARY.md`. D1 and IID D2 saved. Full benign validation/Hessian D3, non-IID D2 and plots remain; no `stage3.DONE`. |
+| 4 | Partial | GGN/Hessian products and spectral/recursion unit tests pass remotely. Default L1 and L2 W/Bc sweeps are queued after matched baselines. Full curvature and BN ablations remain. |
+| 5 | Partial, optional | Leave-one-out CUSUM run for both partitions. IID alarmed 15/18 rounds early; non-IID did not alarm. See `ONSET_SUMMARY.md`; gating ablation remains. |
 | 6 | Pending | No S0/S1/S2 or P1-P4 verdict can be made without L0-L2 measurements. |
 
-The PDF's instruction to use SSH and `nohup` is environmental guidance for an assumed remote Linux machine, not a description of this Windows session. The existing checkerboard trajectories are 4x4-trigger runs. The V2 original white-patch artifacts lack trajectory files here. New onset-free outputs must remain isolated from both. Pre-existing uncommitted project changes were left untouched.
+The remote clone is contained under `/DATA/teaching/new-approach`. Its white-patch V2 trajectories are new, matched sources; the existing checkerboard trajectories in the local checkout are different 4x4-trigger runs. Pre-existing uncommitted local changes were left untouched.
