@@ -131,6 +131,29 @@ def plot_tradeoff(root, setting, out):
     save(fig, out / f"ca_asr_cost_{setting}.png")
 
 
+def plot_onset_thresholds(root, setting, out):
+    data = read(root / "onset" / setting / "detector.json")
+    if not data:
+        return
+    fig, ax = plt.subplots(figsize=(7, 4))
+    for kappa, analysis in data["analyses"].items():
+        maxima = list(analysis["benign_pseudo_target_maxima"].values())
+        candidates = sorted({0.0, *maxima, max(maxima) + 1e-6})
+        false_alarm = []
+        estimated = []
+        for threshold in candidates:
+            false_alarm.append(sum(value > threshold for value in maxima) / len(maxima))
+            estimated.append(next((i + 1 for i, value in enumerate(analysis["cusum"]) if value > threshold), None))
+        ax.plot(false_alarm, [value if value is not None else float("nan") for value in estimated], marker="o", label=f"kappa={kappa}")
+    if data.get("true_onset_evaluation_only") is not None:
+        ax.axhline(data["true_onset_evaluation_only"], color="black", linestyle="--", label="true onset, evaluation only")
+    ax.set_xlabel("Empirical benign pseudo-target false-alarm fraction")
+    ax.set_ylabel("First malicious-client alarm round")
+    ax.set_title(f"{setting.upper()} threshold trade-off, 9 pseudo-targets")
+    ax.legend()
+    save(fig, out / f"onset_threshold_tradeoff_{setting}.png")
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default="results/onsetfree")
@@ -138,7 +161,7 @@ def main():
     args = parser.parse_args()
     root = Path(args.root)
     out = root / "plots"
-    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_tradeoff):
+    for function in (plot_energy, plot_cosine, plot_spectrum, plot_l2, plot_tradeoff, plot_onset_thresholds):
         function(root, args.setting, out)
 
 

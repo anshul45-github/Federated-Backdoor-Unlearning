@@ -36,9 +36,9 @@ FLOPs count forward/backward ATen operations via `torch.utils.flop_counter.FlopC
 | Prediction | Current outcome |
 |---|---|
 | P1: C1 benign loss/quadratic much larger than L1 | Supported on one IID 512-example benign sample: actual loss change 0.2733 vs 0.0909; half-delta-H-delta 0.3986 vs 0.1567. Non-IID pending. This sample is disjoint from the curvature sample but comes from the original training clients. |
-| P2: L1 per-layer cosine to counterfactual beats C1 and L0 | IID whole-vector cosine refuted (L1 0.0834, C1 0.2353, L0 0.1803). Per-layer verdict and non-IID pending. |
+| P2: L1 per-layer cosine to counterfactual beats C1 and L0 | Refuted for IID: whole-vector cosine L1 0.0834, C1 0.2353, L0 0.1803; L1 beat both in only 2 of 10 layers with all cosines defined. Non-IID pending. |
 | P3: onset within about 5 rounds on IID | Refuted: registered kappa values alarm at rounds 15 and 12 versus true onset 30; non-IID has no alarm. |
-| P4: ASR removal versus W saturates near memory horizon | Inconclusive: IID L2 first-order Taylor outputs collapse to roughly 10% CA and erratic ASR (0-100%) across W=1,2,5,10 and Bc=512/2048. |
+| P4: ASR removal versus W saturates near memory horizon | Inconclusive: all 50 IID L1 stiff modes had contraction <0.5 (maximum 0.0002802), suggesting a short memory under the fixed-curvature model, but IID L2 first-order Taylor outputs collapse to roughly 10% CA and erratic ASR (0-100%) across W=1,2,5,10 and Bc=512/2048. |
 
 The default L0 is better than C1 in CA (+3.32 IID and +7.15 non-IID points) but does not dominate C1 in both CA and ASR. Random-subspace seeds, rank/scale sweeps, C2/C4 and BatchNorm recalibration are in `l0_sweep/` and `l0/`; see `docs/onsetfree/L0_SUMMARY.md`. IID L2 instability is detailed in `docs/onsetfree/L1_L2_SUMMARY.md`. IID gates with a detected onset at round 15 improve CA when the early flat correction is suppressed, but detector P3 fails and the non-IID detector has no alarm. The +20 delayed gate reached 72.96% CA / 1.16% ASR with zero client FLOPs; it was added after inspecting the onset error and is **evaluation-informed post-hoc**, so it is excluded from the success verdict. These gates are ablations, not a selected deployable method.
 
