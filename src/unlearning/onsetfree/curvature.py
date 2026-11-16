@@ -130,6 +130,26 @@ def l2_tail(initial, forces, hvps, learning_rate, steps, second_order=False):
     return delta
 
 
+def heavy_ball_tail(initial, forces, hvps, learning_rate, momentum, steps):
+    """Constant-H per-round heavy-ball transfer with fresh local momentum.
+
+    `steps` is an integer aggregate-client approximation. It is exact for a
+    shared quadratic Hessian and identical local step count across clients.
+    """
+    if len(forces) != len(hvps):
+        raise ValueError("Need one force and curvature operator per round")
+    if steps <= 0 or not isinstance(steps, int):
+        raise ValueError("steps must be a positive integer")
+    delta = initial.clone()
+    for force, hvp in zip(forces, hvps):
+        velocity = torch.zeros_like(delta)
+        for _ in range(steps):
+            velocity = momentum * velocity + hvp(delta)
+            delta = delta - learning_rate * velocity
+        delta = delta - force
+    return delta
+
+
 def lanczos_top(matvec, dimension, rank, device, seed=42, iterations=None, dtype=torch.float32):
     """Full-reorthogonalized Lanczos, returning descending Ritz eigenpairs."""
     if rank <= 0 or dimension <= 0:

@@ -14,7 +14,7 @@ import torch
 
 from scripts.onsetfree.run_l1 import fixed_benign_batches
 from src.models.small_cnn import SmallCNN
-from src.unlearning.onsetfree.curvature import BenignCurvature, flatten, l2_tail, parameter_layout, spectral_response
+from src.unlearning.onsetfree.curvature import BenignCurvature, flatten, heavy_ball_tail, l2_tail, parameter_layout, spectral_response
 from src.unlearning.onsetfree.l0 import apply_update
 from src.unlearning.onsetfree.traj_io import Trajectory
 
@@ -35,6 +35,7 @@ def main():
     parser.add_argument("--local-epochs", type=int, default=2)
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument("--second-order", action="store_true")
+    parser.add_argument("--transfer", choices=("taylor", "heavy_ball"), default="taylor")
     args = parser.parse_args()
     if not 0 <= args.momentum < 1:
         raise ValueError("Momentum must be in [0, 1)")
@@ -74,7 +75,12 @@ def main():
         operator = BenignCurvature(model, batches, device)
         operators.append(operator)
         hvps.append(operator.ggn)
-    correction = l2_tail(prefix, forces[-args.window:], hvps, eta_eff, weighted_steps, args.second_order)
+    if args.transfer == "heavy_ball":
+        if args.second_order:
+            raise ValueError("second-order Taylor term does not apply to heavy-ball transfer")
+        correction = heavy_ball_tail(prefix, forces[-args.window:], hvps, args.learning_rate, args.momentum, round(weighted_steps))
+    else:
+        correction = l2_tail(prefix, forces[-args.window:], hvps, eta_eff, weighted_steps, args.second_order)
     if not torch.isfinite(correction).all():
         raise ArithmeticError("L2 Taylor recursion produced a non-finite correction; record as an unstable ablation")
     final_state = torch.load(source / "final_model.pt", map_location=device, weights_only=True)
@@ -92,6 +98,8 @@ def main():
         "sample_seed": args.seed,
         "sample_indices_by_client": selected,
         "weighted_local_steps": weighted_steps,
+        "transfer": args.transfer,
+        "transfer_step_rounding": "nearest integer" if args.transfer == "heavy_ball" else None,
         "eta_eff": eta_eff,
         "eta_eff_note": "heuristic eta/(1-momentum); registered first/second-order recursion is not exact for many momentum steps",
         "second_order": args.second_order,

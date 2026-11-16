@@ -106,3 +106,20 @@ def test_l2_tail_matches_quadratic_local_training():
         exact -= force
         actual = l2_tail(initial, [force], [lambda v: h @ v], 0.1, steps, second_order)
         assert torch.allclose(actual, exact, atol=1e-7)
+
+
+def test_heavy_ball_tail_matches_quadratic_local_training():
+    from src.unlearning.onsetfree.curvature import heavy_ball_tail
+
+    h = torch.diag(torch.tensor([0.0, 2.0]))
+    initial = torch.tensor([1.0, 1.0])
+    forces = [torch.tensor([0.1, 0.2]), torch.tensor([0.2, 0.1])]
+    exact = initial.clone()
+    for force in forces:
+        velocity = torch.zeros_like(exact)
+        for _ in range(3):
+            velocity = 0.9 * velocity + h @ exact
+            exact = exact - 0.01 * velocity
+        exact -= force
+    actual = heavy_ball_tail(initial, forces, [lambda v: h @ v] * 2, 0.01, 0.9, 3)
+    assert torch.allclose(actual, exact, atol=1e-7)
