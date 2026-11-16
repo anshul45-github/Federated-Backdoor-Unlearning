@@ -1,0 +1,3 @@
+Stage 6 matched single-trajectory evaluation, compact metrics, plots, cost accounting, per-class ASR and final S0-S2/P1-P4 verdicts verified.
+Fourteen focused onset-free tests passed on the authorized remote GPU clone. See results/onsetfree/REPORT.md and summary_metrics.json.
+Limitations remain explicit: one attacked trajectory seed per partition; simulated clients; no independent benign validation population; aggregate-K L2 approximation for non-IID; no adaptive attacker test.

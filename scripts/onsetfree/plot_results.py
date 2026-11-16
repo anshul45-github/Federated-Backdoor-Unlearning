@@ -134,6 +134,10 @@ def plot_tradeoff(root, setting, out):
     l1_cost = read(root / "l1" / setting / "cost.json")
     if l1_eval and l1_cost:
         points.append(("L1 default", l1_cost["estimated_total_ggn_flops"], l1_eval["results"]["l1"]))
+        stable_eval = read(root / "l2_heavy_ball" / setting / "bc2048_w5" / "evaluation.json")
+        stable_cost = read(root / "l2_heavy_ball" / setting / "bc2048_w5" / "cost.json")
+        if stable_eval and stable_cost:
+            points.append(("L2 momentum", l1_cost["estimated_total_ggn_flops"] + stable_cost["estimated_total_ggn_flops"], stable_eval["results"]["l2"]))
     for ecal in (1, 2):
         value = read(root / f"federaser_{setting}_ecal{ecal}" / "results.json")
         if value:

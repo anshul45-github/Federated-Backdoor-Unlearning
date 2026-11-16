@@ -1,0 +1,2 @@
+Stage 4 registered L1 rank/Bc sweeps, three curvature seeds, GGN/Hessian and eval/train-BN controls, L2 Taylor W/Bc sweeps, and momentum-aware L2 W sweep completed on both matched trajectories.
+P1 supported on fixed benign samples; P2 refuted; P4 inconclusive. L2 Taylor collapsed, while stable aggregate-K transfer incurred high GGN cost. See docs/onsetfree/L1_L2_SUMMARY.md and summary_metrics.json.

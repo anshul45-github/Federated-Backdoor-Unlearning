@@ -1,0 +1,2462 @@
+{
+  "generated_utc": "2026-11-16T21:40:19.630592+00:00",
+  "provenance": "Matched V2 white-patch trajectories in /DATA/teaching/new-approach/repo; test metrics are evaluation-only",
+  "partitions": {
+    "iid": {
+      "baselines": {
+        "trajectory_verification": "results/onsetfree/iid_trajectory_verification.json",
+        "flop_counting_method": "torch.utils.flop_counter.FlopCounterMode, one fwd+backward on SmallCNN per batch size; optimizer/data/server ops excluded",
+        "methods": {
+          "attack": {
+            "ca_percent": 74.7,
+            "asr_percent": 51.93333333333333,
+            "wall_seconds": 2083.3326864242554,
+            "client_flops": null,
+            "checkpoint_sha256": "9212eb8add09fede204f20423349bfb46b2096fb0405b7254258d8ef6103f1b1"
+          },
+          "counterfactual": {
+            "ca_percent": 74.92,
+            "asr_percent": 3.077777777777778,
+            "wall_seconds": 1454.8286829859717,
+            "client_flops": 157517568000000,
+            "checkpoint_sha256": "c06a7bc912d18c419cb72ccf54ea405f96bfb39b8aafe54d097c9319ab57285d"
+          },
+          "federaser_ecal1": {
+            "ca_percent": 71.99,
+            "asr_percent": 2.3333333333333335,
+            "wall_seconds": 726.3223841369618,
+            "client_flops": 77183608320000,
+            "checkpoint_sha256": "7f8d5632a0c6b8995900a61f853864298dc303384fdc26a8a6a00452b65bb8cb"
+          },
+          "federaser_ecal2": {
+            "ca_percent": 75.15,
+            "asr_percent": 2.8,
+            "wall_seconds": 1409.3912319790106,
+            "client_flops": 154367216640000,
+            "checkpoint_sha256": "d709bac8cda13f22a080abcb764d4314bcd999206f00928f3d1e9dcb5568a1bd"
+          }
+        }
+      },
+      "evaluations": {
+        "l0/iid/evaluation.json": {
+          "c1": {
+            "ca_percent": 64.31,
+            "asr_percent": 0.1111111111111111,
+            "clean_loss": 1.0178570140838623,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2": {
+            "ca_percent": 64.46,
+            "asr_percent": 0.07777777777777778,
+            "clean_loss": 1.032406658935547,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random": {
+            "ca_percent": 65.37,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 0.995506081199646,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious": {
+            "ca_percent": 74.97,
+            "asr_percent": 45.2,
+            "clean_loss": 0.7261267966270447,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174987916946411,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_bn_recalibrated": {
+            "ca_percent": 67.53,
+            "asr_percent": 0.4111111111111111,
+            "clean_loss": 0.9424960166931152,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l0_sweep/iid/evaluation.json": {
+          "c1_s0.5": {
+            "ca_percent": 72.63,
+            "asr_percent": 1.288888888888889,
+            "clean_loss": 0.792372488117218,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c1_s1": {
+            "ca_percent": 64.31,
+            "asr_percent": 0.1111111111111111,
+            "clean_loss": 1.0178570140838623,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2_s0.5": {
+            "ca_percent": 72.44,
+            "asr_percent": 1.1222222222222222,
+            "clean_loss": 0.7888453614234925,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2_s1": {
+            "ca_percent": 64.46,
+            "asr_percent": 0.07777777777777778,
+            "clean_loss": 1.032406658935547,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k16_s0.5": {
+            "ca_percent": 72.8,
+            "asr_percent": 1.1444444444444444,
+            "clean_loss": 0.7846320164680481,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k16_s1": {
+            "ca_percent": 64.63,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 1.0245353918075562,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k32_s0.5": {
+            "ca_percent": 72.88,
+            "asr_percent": 1.2777777777777777,
+            "clean_loss": 0.7779204546928405,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k32_s1": {
+            "ca_percent": 65.37,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 0.9955057317733764,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k4_s0.5": {
+            "ca_percent": 72.67,
+            "asr_percent": 1.1888888888888889,
+            "clean_loss": 0.7864530826568603,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k4_s1": {
+            "ca_percent": 64.87,
+            "asr_percent": 0.12222222222222222,
+            "clean_loss": 1.0218866300582885,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k64_s0.5": {
+            "ca_percent": 72.87,
+            "asr_percent": 1.2666666666666666,
+            "clean_loss": 0.7744510562896728,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k64_s1": {
+            "ca_percent": 66.02,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 0.9687353176116943,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k8_s0.5": {
+            "ca_percent": 72.41,
+            "asr_percent": 1.1222222222222222,
+            "clean_loss": 0.791430334186554,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k8_s1": {
+            "ca_percent": 64.06,
+            "asr_percent": 0.06666666666666667,
+            "clean_loss": 1.0457024446487426,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k16_s0.5": {
+            "ca_percent": 72.95,
+            "asr_percent": 1.2222222222222223,
+            "clean_loss": 0.7775771231651306,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k16_s1": {
+            "ca_percent": 65.58,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 0.9891869718551636,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k32_s0.5": {
+            "ca_percent": 72.68,
+            "asr_percent": 1.2222222222222223,
+            "clean_loss": 0.7791017706871033,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k32_s1": {
+            "ca_percent": 65.33,
+            "asr_percent": 0.06666666666666667,
+            "clean_loss": 0.9902694198608398,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k4_s0.5": {
+            "ca_percent": 72.6,
+            "asr_percent": 1.1777777777777778,
+            "clean_loss": 0.7872758255004882,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k4_s1": {
+            "ca_percent": 64.68,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 1.031717879676819,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k64_s0.5": {
+            "ca_percent": 72.89,
+            "asr_percent": 1.2666666666666666,
+            "clean_loss": 0.7748242830276489,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k64_s1": {
+            "ca_percent": 66.04,
+            "asr_percent": 0.1,
+            "clean_loss": 0.9662314241409302,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k8_s0.5": {
+            "ca_percent": 72.68,
+            "asr_percent": 1.2,
+            "clean_loss": 0.7873495974540711,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k8_s1": {
+            "ca_percent": 64.54,
+            "asr_percent": 0.07777777777777778,
+            "clean_loss": 1.0257150508880615,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k16_s0.5": {
+            "ca_percent": 72.6,
+            "asr_percent": 1.1222222222222222,
+            "clean_loss": 0.7859666982650757,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k16_s1": {
+            "ca_percent": 64.7,
+            "asr_percent": 0.07777777777777778,
+            "clean_loss": 1.017656212234497,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k32_s0.5": {
+            "ca_percent": 72.94,
+            "asr_percent": 1.2666666666666666,
+            "clean_loss": 0.776929806804657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k32_s1": {
+            "ca_percent": 65.66,
+            "asr_percent": 0.07777777777777778,
+            "clean_loss": 0.9881734952926636,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k4_s0.5": {
+            "ca_percent": 72.58,
+            "asr_percent": 1.1666666666666667,
+            "clean_loss": 0.7865007618904114,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k4_s1": {
+            "ca_percent": 64.87,
+            "asr_percent": 0.1,
+            "clean_loss": 1.0227742733001708,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k64_s0.5": {
+            "ca_percent": 72.9,
+            "asr_percent": 1.2777777777777777,
+            "clean_loss": 0.7746302408218384,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k64_s1": {
+            "ca_percent": 65.99,
+            "asr_percent": 0.08888888888888889,
+            "clean_loss": 0.9678887935638427,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k8_s0.5": {
+            "ca_percent": 72.89,
+            "asr_percent": 1.2333333333333334,
+            "clean_loss": 0.7816600124359131,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k8_s1": {
+            "ca_percent": 64.95,
+            "asr_percent": 0.1,
+            "clean_loss": 1.0017857233047485,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k16_s0.5": {
+            "ca_percent": 74.97,
+            "asr_percent": 49.166666666666664,
+            "clean_loss": 0.7207241218566894,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k16_s1": {
+            "ca_percent": 74.82,
+            "asr_percent": 45.74444444444445,
+            "clean_loss": 0.7288069741249085,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k32_s0.5": {
+            "ca_percent": 74.93,
+            "asr_percent": 49.0,
+            "clean_loss": 0.7195685327529907,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k32_s1": {
+            "ca_percent": 74.97,
+            "asr_percent": 45.2,
+            "clean_loss": 0.7261266496658325,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k4_s0.5": {
+            "ca_percent": 74.86,
+            "asr_percent": 49.27777777777778,
+            "clean_loss": 0.7231159713745117,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k4_s1": {
+            "ca_percent": 74.38,
+            "asr_percent": 46.18888888888889,
+            "clean_loss": 0.7404616877555847,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k64_s0.5": {
+            "ca_percent": 74.75,
+            "asr_percent": 48.922222222222224,
+            "clean_loss": 0.719584912109375,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k64_s1": {
+            "ca_percent": 75.03,
+            "asr_percent": 45.044444444444444,
+            "clean_loss": 0.7228734308242798,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k8_s0.5": {
+            "ca_percent": 74.94,
+            "asr_percent": 49.55555555555556,
+            "clean_loss": 0.7214173889160156,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k8_s1": {
+            "ca_percent": 74.87,
+            "asr_percent": 46.888888888888886,
+            "clean_loss": 0.7314745277404785,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k16_s0.5": {
+            "ca_percent": 73.15,
+            "asr_percent": 1.3555555555555556,
+            "clean_loss": 0.7830029576301575,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k16_s1": {
+            "ca_percent": 66.71,
+            "asr_percent": 0.1,
+            "clean_loss": 0.9671599420547485,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k32_s0.5": {
+            "ca_percent": 73.54,
+            "asr_percent": 1.6555555555555554,
+            "clean_loss": 0.7715563736915588,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k32_s1": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174996063232422,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k4_s0.5": {
+            "ca_percent": 72.59,
+            "asr_percent": 1.1555555555555554,
+            "clean_loss": 0.789769623374939,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k4_s1": {
+            "ca_percent": 64.64,
+            "asr_percent": 0.06666666666666667,
+            "clean_loss": 1.0105548301696778,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k64_s0.5": {
+            "ca_percent": 73.72,
+            "asr_percent": 2.022222222222222,
+            "clean_loss": 0.7655747693061828,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k64_s1": {
+            "ca_percent": 68.98,
+            "asr_percent": 0.43333333333333335,
+            "clean_loss": 0.8926590701103211,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k8_s0.5": {
+            "ca_percent": 72.76,
+            "asr_percent": 1.2333333333333334,
+            "clean_loss": 0.7831269772529602,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k8_s1": {
+            "ca_percent": 65.82,
+            "asr_percent": 0.06666666666666667,
+            "clean_loss": 0.9824186046600342,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1/iid/evaluation.json": {
+          "l1": {
+            "ca_percent": 70.27,
+            "asr_percent": 1.3444444444444446,
+            "clean_loss": 0.8521314449310303,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/k100_bc2048/evaluation.json": {
+          "l1": {
+            "ca_percent": 71.52,
+            "asr_percent": 1.7555555555555555,
+            "clean_loss": 0.8317318099021912,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/k100_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 70.59,
+            "asr_percent": 1.6555555555555554,
+            "clean_loss": 0.8562843307495117,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/k20_bc2048/evaluation.json": {
+          "l1": {
+            "ca_percent": 69.39,
+            "asr_percent": 1.211111111111111,
+            "clean_loss": 0.8790964567184448,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/k20_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 68.84,
+            "asr_percent": 1.3333333333333333,
+            "clean_loss": 0.8935651252746583,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/k50_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 69.68,
+            "asr_percent": 1.288888888888889,
+            "clean_loss": 0.8710646821975708,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/iid/rank20_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 68.84,
+            "asr_percent": 1.3333333333333333,
+            "clean_loss": 0.8935636003494263,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_seeds/iid/seed43/evaluation.json": {
+          "l1": {
+            "ca_percent": 70.22,
+            "asr_percent": 1.3,
+            "clean_loss": 0.8505565498352051,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_seeds/iid/seed44/evaluation.json": {
+          "l1": {
+            "ca_percent": 69.82,
+            "asr_percent": 1.1444444444444444,
+            "clean_loss": 0.8638218427658081,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_hessian/iid/evaluation.json": {
+          "l1": {
+            "ca_percent": 68.74,
+            "asr_percent": 1.3222222222222222,
+            "clean_loss": 0.8984082990646363,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_bn_train/iid/evaluation.json": {
+          "l1": {
+            "ca_percent": 68.01,
+            "asr_percent": 0.7222222222222222,
+            "clean_loss": 0.9215605340957641,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc2048_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.17,
+            "asr_percent": 19.42222222222222,
+            "clean_loss": 107.75353592529297,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc2048_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc2048_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 0.0,
+            "clean_loss": 103535892547554.52,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc2048_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc512_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.04,
+            "asr_percent": 97.76666666666667,
+            "clean_loss": 1079.24147578125,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc512_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc512_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 0.0,
+            "clean_loss": 8015431280490657.0,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/iid/bc512_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/iid/bc2048_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 74.42,
+            "asr_percent": 2.1666666666666665,
+            "clean_loss": 0.7435123170852661,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/iid/bc512_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 73.0,
+            "asr_percent": 1.8333333333333333,
+            "clean_loss": 0.7806444897651672,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/iid/bc512_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 74.0,
+            "asr_percent": 2.066666666666667,
+            "clean_loss": 0.7557636080741882,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/iid/bc512_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 73.5,
+            "asr_percent": 1.9555555555555555,
+            "clean_loss": 0.7708321592330932,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/iid/bc512_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 73.79,
+            "asr_percent": 2.0,
+            "clean_loss": 0.7608152494430542,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l3/iid/default/results.json": {
+          "source_run": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_iid_attack",
+          "input_model": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/iid/l0.pt",
+          "repair_rounds": 3,
+          "communication_rounds": 3,
+          "local_epochs_per_round": 2,
+          "ca_percent": 74.67,
+          "asr_percent": 1.5666666666666667,
+          "wall_seconds": 92.27028435299871,
+          "client_flops": 9451054080000,
+          "flops_formula": "repair_rounds * local_epochs_per_round * one_retained_client_epoch_flops; forward/backward ATen FLOPs only",
+          "cost_json": "/DATA/teaching/new-approach/repo/results/onsetfree/iid_cost.json"
+        },
+        "l3/iid/half_scale/results.json": {
+          "source_run": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_iid_attack",
+          "input_model": "/DATA/teaching/new-approach/repo/results/onsetfree/l0_sweep/iid/l0_k32_s0.5.pt",
+          "repair_rounds": 3,
+          "communication_rounds": 3,
+          "local_epochs_per_round": 2,
+          "ca_percent": 74.93,
+          "asr_percent": 3.188888888888889,
+          "wall_seconds": 93.18799296900397,
+          "client_flops": 9451054080000,
+          "flops_formula": "repair_rounds * local_epochs_per_round * one_retained_client_epoch_flops; forward/backward ATen FLOPs only",
+          "cost_json": "/DATA/teaching/new-approach/repo/results/onsetfree/iid_cost.json"
+        },
+        "gating/iid/evaluation.json": {
+          "gate_shift0_alpha0.5_margin0": {
+            "ca_percent": 68.74,
+            "asr_percent": 0.3111111111111111,
+            "clean_loss": 0.8870004564285279,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha0.5_margin2": {
+            "ca_percent": 68.59,
+            "asr_percent": 0.2777777777777778,
+            "clean_loss": 0.8941396699905395,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha0.5_margin5": {
+            "ca_percent": 68.13,
+            "asr_percent": 0.25555555555555554,
+            "clean_loss": 0.9016816312789917,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha0_margin0": {
+            "ca_percent": 69.82,
+            "asr_percent": 0.4444444444444444,
+            "clean_loss": 0.8665977579116821,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha0_margin2": {
+            "ca_percent": 69.14,
+            "asr_percent": 0.37777777777777777,
+            "clean_loss": 0.8772966506958008,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha0_margin5": {
+            "ca_percent": 68.72,
+            "asr_percent": 0.32222222222222224,
+            "clean_loss": 0.8900905103683472,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha1_margin0": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha1_margin2": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift0_alpha1_margin5": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0.5_margin0": {
+            "ca_percent": 69.74,
+            "asr_percent": 0.37777777777777777,
+            "clean_loss": 0.8618199780464172,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0.5_margin2": {
+            "ca_percent": 69.52,
+            "asr_percent": 0.3333333333333333,
+            "clean_loss": 0.867833355140686,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0.5_margin5": {
+            "ca_percent": 69.24,
+            "asr_percent": 0.36666666666666664,
+            "clean_loss": 0.8763509307861328,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0_margin0": {
+            "ca_percent": 71.04,
+            "asr_percent": 0.45555555555555555,
+            "clean_loss": 0.8266144864082337,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0_margin2": {
+            "ca_percent": 70.83,
+            "asr_percent": 0.43333333333333335,
+            "clean_loss": 0.8348266412734985,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha0_margin5": {
+            "ca_percent": 70.28,
+            "asr_percent": 0.4222222222222222,
+            "clean_loss": 0.8490305594444275,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha1_margin0": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha1_margin2": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift10_alpha1_margin5": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993432998657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0.5_margin0": {
+            "ca_percent": 71.08,
+            "asr_percent": 0.6333333333333333,
+            "clean_loss": 0.8265676383972168,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0.5_margin2": {
+            "ca_percent": 70.88,
+            "asr_percent": 0.5222222222222223,
+            "clean_loss": 0.8339913114547729,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0.5_margin5": {
+            "ca_percent": 70.38,
+            "asr_percent": 0.4,
+            "clean_loss": 0.8478665766716004,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0_margin0": {
+            "ca_percent": 72.96,
+            "asr_percent": 1.1555555555555554,
+            "clean_loss": 0.776355605506897,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0_margin2": {
+            "ca_percent": 72.47,
+            "asr_percent": 0.8111111111111111,
+            "clean_loss": 0.786336524772644,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha0_margin5": {
+            "ca_percent": 71.77,
+            "asr_percent": 0.5444444444444444,
+            "clean_loss": 0.8067320707321167,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha1_margin0": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993288040161,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha1_margin2": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993288040161,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "gate_shift20_alpha1_margin5": {
+            "ca_percent": 67.63,
+            "asr_percent": 0.24444444444444444,
+            "clean_loss": 0.9174993288040161,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        }
+      },
+      "costs": {
+        "l1/iid/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 100,
+          "estimated_total_ggn_flops": 14699986944000
+        },
+        "l1_sweep/iid/k100_bc2048/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 200,
+          "estimated_total_ggn_flops": 29399973888000
+        },
+        "l1_sweep/iid/k100_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 200,
+          "estimated_total_ggn_flops": 7349993472000
+        },
+        "l1_sweep/iid/k20_bc2048/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 40,
+          "estimated_total_ggn_flops": 5879994777600
+        },
+        "l1_sweep/iid/k20_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 40,
+          "estimated_total_ggn_flops": 1469998694400
+        },
+        "l1_sweep/iid/k50_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 100,
+          "estimated_total_ggn_flops": 3674996736000
+        },
+        "l2/iid/bc2048_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 1,
+          "estimated_total_ggn_flops": 146999869440
+        },
+        "l2/iid/bc2048_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 10,
+          "estimated_total_ggn_flops": 1469998694400
+        },
+        "l2/iid/bc2048_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 2,
+          "estimated_total_ggn_flops": 293999738880
+        },
+        "l2/iid/bc2048_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 5,
+          "estimated_total_ggn_flops": 734999347200
+        },
+        "l2/iid/bc512_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 1,
+          "estimated_total_ggn_flops": 36749967360
+        },
+        "l2/iid/bc512_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 10,
+          "estimated_total_ggn_flops": 367499673600
+        },
+        "l2/iid/bc512_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 2,
+          "estimated_total_ggn_flops": 73499934720
+        },
+        "l2/iid/bc512_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 5,
+          "estimated_total_ggn_flops": 183749836800
+        },
+        "l2_heavy_ball/iid/bc2048_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 790,
+          "estimated_total_ggn_flops": 116129896857600
+        },
+        "l2_heavy_ball/iid/bc512_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 158,
+          "estimated_total_ggn_flops": 5806494842880
+        },
+        "l2_heavy_ball/iid/bc512_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 1580,
+          "estimated_total_ggn_flops": 58064948428800
+        },
+        "l2_heavy_ball/iid/bc512_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 316,
+          "estimated_total_ggn_flops": 11612989685760
+        },
+        "l2_heavy_ball/iid/bc512_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 790,
+          "estimated_total_ggn_flops": 29032474214400
+        }
+      },
+      "diagnostics": {
+        "iid_benign_validation": {
+          "baseline": {
+            "loss": 0.682722270488739,
+            "accuracy_percent": 76.953125
+          },
+          "methods": {
+            "c1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/iid/c1.pt",
+              "loss": 0.955973319709301,
+              "accuracy_percent": 65.625,
+              "loss_change": 0.273251049220562,
+              "accuracy_change_points": -11.328125,
+              "half_delta_H_delta": 0.39860236644744873
+            },
+            "l0": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/iid/l0.pt",
+              "loss": 0.8396777510643005,
+              "accuracy_percent": 70.1171875,
+              "loss_change": 0.15695548057556152,
+              "accuracy_change_points": -6.8359375,
+              "half_delta_H_delta": 0.2785324454307556
+            },
+            "l1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l1/iid/l1.pt",
+              "loss": 0.773589015007019,
+              "accuracy_percent": 73.046875,
+              "loss_change": 0.09086674451828003,
+              "accuracy_change_points": -3.90625,
+              "half_delta_H_delta": 0.1566830277442932
+            }
+          },
+          "sample_count": 512
+        },
+        "iid_l1_cosine": {
+          "role": "diagnostic only; counterfactual never enters method selection",
+          "attack_model": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_iid_attack/final_model.pt",
+          "counterfactual_model": "/DATA/teaching/new-approach/repo/results/onsetfree/counterfactual_iid/final_model.pt",
+          "methods": {
+            "l1": {
+              "per_layer_cosine": {
+                "features.0.weight": 0.15181736648082733,
+                "features.0.bias": 0.1346161663532257,
+                "features.1.weight": -0.009692280553281307,
+                "features.1.bias": 0.3039388358592987,
+                "features.4.weight": 0.1021205335855484,
+                "features.4.bias": 0.14724910259246826,
+                "features.5.weight": 0.03140977770090103,
+                "features.5.bias": 0.04778697341680527,
+                "classifier.0.weight": 0.07576654851436615,
+                "classifier.0.bias": -0.13590207695960999,
+                "classifier.3.weight": 0.10679817199707031,
+                "classifier.3.bias": 0.0819367915391922
+              },
+              "whole_vector_cosine": 0.08341109752655029
+            }
+          }
+        },
+        "iid_per_class_asr": {
+          "role": "evaluation only; attack metadata and test data never enter method construction",
+          "target_class": 0,
+          "trigger_size": 3,
+          "models": {
+            "attack": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_iid_attack/final_model.pt",
+              "overall_asr_percent": 51.93333333333333,
+              "per_source_class_asr_percent": {
+                "1": 48.2,
+                "2": 61.0,
+                "3": 56.1,
+                "4": 54.9,
+                "5": 46.5,
+                "6": 35.4,
+                "7": 46.2,
+                "8": 76.5,
+                "9": 42.6
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "counterfactual": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/counterfactual_iid/final_model.pt",
+              "overall_asr_percent": 3.077777777777778,
+              "per_source_class_asr_percent": {
+                "1": 2.5,
+                "2": 6.5,
+                "3": 1.9,
+                "4": 2.0,
+                "5": 1.1,
+                "6": 0.6,
+                "7": 1.4,
+                "8": 7.4,
+                "9": 4.3
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "federaser_ecal1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/federaser_iid_ecal1/final_model.pt",
+              "overall_asr_percent": 2.3333333333333335,
+              "per_source_class_asr_percent": {
+                "1": 1.9,
+                "2": 5.2,
+                "3": 1.2,
+                "4": 1.5,
+                "5": 0.7,
+                "6": 0.3,
+                "7": 0.9,
+                "8": 6.3,
+                "9": 3.0
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "federaser_ecal2": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/federaser_iid_ecal2/final_model.pt",
+              "overall_asr_percent": 2.8,
+              "per_source_class_asr_percent": {
+                "1": 1.6,
+                "2": 6.2,
+                "3": 2.1,
+                "4": 1.8,
+                "5": 1.1,
+                "6": 0.4,
+                "7": 1.0,
+                "8": 7.9,
+                "9": 3.1
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "c1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/iid/c1.pt",
+              "overall_asr_percent": 0.1111111111111111,
+              "per_source_class_asr_percent": {
+                "1": 0.0,
+                "2": 0.5,
+                "3": 0.1,
+                "4": 0.1,
+                "5": 0.0,
+                "6": 0.0,
+                "7": 0.0,
+                "8": 0.3,
+                "9": 0.0
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l0_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/iid/l0.pt",
+              "overall_asr_percent": 0.24444444444444444,
+              "per_source_class_asr_percent": {
+                "1": 0.0,
+                "2": 0.8,
+                "3": 0.1,
+                "4": 0.2,
+                "5": 0.0,
+                "6": 0.0,
+                "7": 0.1,
+                "8": 0.7,
+                "9": 0.3
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l0_half_scale": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0_sweep/iid/l0_k32_s0.5.pt",
+              "overall_asr_percent": 1.6555555555555554,
+              "per_source_class_asr_percent": {
+                "1": 0.6,
+                "2": 3.2,
+                "3": 0.9,
+                "4": 1.5,
+                "5": 0.8,
+                "6": 0.2,
+                "7": 1.4,
+                "8": 4.1,
+                "9": 2.2
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l1_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l1/iid/l1.pt",
+              "overall_asr_percent": 1.3444444444444446,
+              "per_source_class_asr_percent": {
+                "1": 0.7,
+                "2": 2.5,
+                "3": 1.0,
+                "4": 1.0,
+                "5": 0.5,
+                "6": 0.2,
+                "7": 0.7,
+                "8": 4.1,
+                "9": 1.4
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l3_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l3/iid/default/final_model.pt",
+              "overall_asr_percent": 1.5666666666666667,
+              "per_source_class_asr_percent": {
+                "1": 0.5,
+                "2": 3.8,
+                "3": 1.1,
+                "4": 0.9,
+                "5": 0.5,
+                "6": 0.2,
+                "7": 0.5,
+                "8": 4.8,
+                "9": 1.8
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            }
+          }
+        },
+        "onset": {
+          "true_onset_evaluation_only": 30,
+          "analyses": {
+            "0.5": {
+              "threshold": 20.268409563256984,
+              "empirical_benign_false_alarm_rate": 0.0,
+              "estimated_onset": 15,
+              "onset_error_rounds": -15
+            },
+            "1.0": {
+              "threshold": 8.213807234070744,
+              "empirical_benign_false_alarm_rate": 0.0,
+              "estimated_onset": 12,
+              "onset_error_rounds": -18
+            }
+          }
+        }
+      }
+    },
+    "noniid": {
+      "baselines": {
+        "trajectory_verification": "results/onsetfree/noniid_trajectory_verification.json",
+        "flop_counting_method": "torch.utils.flop_counter.FlopCounterMode, one fwd+backward on SmallCNN per batch size; optimizer/data/server ops excluded",
+        "methods": {
+          "attack": {
+            "ca_percent": 71.59,
+            "asr_percent": 29.322222222222223,
+            "wall_seconds": 2091.0609047412872,
+            "client_flops": null,
+            "checkpoint_sha256": "3537b4fc911c435d33e05ed21923d8a9456ab0bfd363e2c87479f90d510d220f"
+          },
+          "counterfactual": {
+            "ca_percent": 70.32,
+            "asr_percent": 3.411111111111111,
+            "wall_seconds": 1515.3465800440172,
+            "client_flops": 162428615731200,
+            "checkpoint_sha256": "3cce29c49ee7061b38bdf44105ce9541e87beb5fbd11cf18e0d38784be772648"
+          },
+          "federaser_ecal1": {
+            "ca_percent": 67.69,
+            "asr_percent": 2.511111111111111,
+            "wall_seconds": 748.5806413280079,
+            "client_flops": 79590021708288,
+            "checkpoint_sha256": "cd69f8fb4deb41a399c4235fd85c4b990bf03d4f63151ff7822030b84cbea57a"
+          },
+          "federaser_ecal2": {
+            "ca_percent": 69.95,
+            "asr_percent": 2.588888888888889,
+            "wall_seconds": 1473.9707426920068,
+            "client_flops": 159180043416576,
+            "checkpoint_sha256": "5facd95e20a787283cdfd891d8b2635fa261e0f3a38defd74111e5cdd1d62f56"
+          }
+        }
+      },
+      "evaluations": {
+        "l0/noniid/evaluation.json": {
+          "c1": {
+            "ca_percent": 27.15,
+            "asr_percent": 1.0555555555555556,
+            "clean_loss": 7.852297297668457,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2": {
+            "ca_percent": 26.69,
+            "asr_percent": 1.0555555555555556,
+            "clean_loss": 8.372798503112794,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random": {
+            "ca_percent": 29.58,
+            "asr_percent": 2.2333333333333334,
+            "clean_loss": 6.578959227752685,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious": {
+            "ca_percent": 70.13,
+            "asr_percent": 29.677777777777777,
+            "clean_loss": 0.8440990900993347,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0": {
+            "ca_percent": 34.3,
+            "asr_percent": 0.6888888888888889,
+            "clean_loss": 3.0112030632019042,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_bn_recalibrated": {
+            "ca_percent": 43.23,
+            "asr_percent": 0.7444444444444445,
+            "clean_loss": 2.168682977485657,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l0_sweep/noniid/evaluation.json": {
+          "c1_s0.5": {
+            "ca_percent": 39.62,
+            "asr_percent": 3.6666666666666665,
+            "clean_loss": 2.871787237930298,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c1_s1": {
+            "ca_percent": 27.15,
+            "asr_percent": 1.0555555555555556,
+            "clean_loss": 7.852297297668457,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2_s0.5": {
+            "ca_percent": 39.32,
+            "asr_percent": 3.511111111111111,
+            "clean_loss": 3.020867762374878,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c2_s1": {
+            "ca_percent": 26.69,
+            "asr_percent": 1.0555555555555556,
+            "clean_loss": 8.372798503112794,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k16_s0.5": {
+            "ca_percent": 43.56,
+            "asr_percent": 3.6555555555555554,
+            "clean_loss": 2.3183993656158446,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k16_s1": {
+            "ca_percent": 30.34,
+            "asr_percent": 1.8888888888888888,
+            "clean_loss": 5.87721607055664,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k32_s0.5": {
+            "ca_percent": 43.2,
+            "asr_percent": 3.9444444444444446,
+            "clean_loss": 2.388276696395874,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k32_s1": {
+            "ca_percent": 29.58,
+            "asr_percent": 2.2333333333333334,
+            "clean_loss": 6.578959233093261,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k4_s0.5": {
+            "ca_percent": 39.93,
+            "asr_percent": 3.422222222222222,
+            "clean_loss": 2.8443005111694335,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k4_s1": {
+            "ca_percent": 26.96,
+            "asr_percent": 1.1333333333333333,
+            "clean_loss": 7.927915817260742,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k64_s0.5": {
+            "ca_percent": 47.77,
+            "asr_percent": 3.7111111111111112,
+            "clean_loss": 1.8845372930526734,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k64_s1": {
+            "ca_percent": 35.29,
+            "asr_percent": 2.2111111111111112,
+            "clean_loss": 4.443991967010498,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k8_s0.5": {
+            "ca_percent": 40.75,
+            "asr_percent": 3.7111111111111112,
+            "clean_loss": 2.765975471496582,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed42_k8_s1": {
+            "ca_percent": 28.17,
+            "asr_percent": 1.7,
+            "clean_loss": 7.636392897033692,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k16_s0.5": {
+            "ca_percent": 42.26,
+            "asr_percent": 3.2222222222222223,
+            "clean_loss": 2.629956806945801,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k16_s1": {
+            "ca_percent": 28.47,
+            "asr_percent": 1.211111111111111,
+            "clean_loss": 7.328199547576904,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k32_s0.5": {
+            "ca_percent": 43.49,
+            "asr_percent": 4.011111111111111,
+            "clean_loss": 2.321536644363403,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k32_s1": {
+            "ca_percent": 30.11,
+            "asr_percent": 1.8555555555555556,
+            "clean_loss": 6.132934535980224,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k4_s0.5": {
+            "ca_percent": 39.53,
+            "asr_percent": 3.7777777777777777,
+            "clean_loss": 2.8981026176452636,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k4_s1": {
+            "ca_percent": 26.26,
+            "asr_percent": 1.288888888888889,
+            "clean_loss": 7.981748059082031,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k64_s0.5": {
+            "ca_percent": 47.9,
+            "asr_percent": 3.7444444444444445,
+            "clean_loss": 1.878729873275757,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k64_s1": {
+            "ca_percent": 35.66,
+            "asr_percent": 2.4555555555555557,
+            "clean_loss": 4.407308393859863,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k8_s0.5": {
+            "ca_percent": 40.59,
+            "asr_percent": 3.488888888888889,
+            "clean_loss": 2.804647136306763,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed43_k8_s1": {
+            "ca_percent": 27.06,
+            "asr_percent": 1.3333333333333333,
+            "clean_loss": 7.934511883544922,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k16_s0.5": {
+            "ca_percent": 41.63,
+            "asr_percent": 3.9,
+            "clean_loss": 2.665851025390625,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k16_s1": {
+            "ca_percent": 28.42,
+            "asr_percent": 1.5777777777777777,
+            "clean_loss": 7.251722409820557,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k32_s0.5": {
+            "ca_percent": 44.73,
+            "asr_percent": 3.8666666666666667,
+            "clean_loss": 2.2112366107940673,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k32_s1": {
+            "ca_percent": 31.81,
+            "asr_percent": 2.433333333333333,
+            "clean_loss": 5.793239740753174,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k4_s0.5": {
+            "ca_percent": 40.44,
+            "asr_percent": 3.2888888888888888,
+            "clean_loss": 2.7905767948150633,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k4_s1": {
+            "ca_percent": 27.17,
+            "asr_percent": 1.0222222222222221,
+            "clean_loss": 7.7678556167602535,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k64_s0.5": {
+            "ca_percent": 47.95,
+            "asr_percent": 3.933333333333333,
+            "clean_loss": 1.8787260217666626,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k64_s1": {
+            "ca_percent": 35.6,
+            "asr_percent": 2.7222222222222223,
+            "clean_loss": 4.427033965301514,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k8_s0.5": {
+            "ca_percent": 41.34,
+            "asr_percent": 3.6666666666666665,
+            "clean_loss": 2.600055342102051,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c3_random_seed44_k8_s1": {
+            "ca_percent": 27.42,
+            "asr_percent": 1.3444444444444446,
+            "clean_loss": 7.031923157501221,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k16_s0.5": {
+            "ca_percent": 70.96,
+            "asr_percent": 29.155555555555555,
+            "clean_loss": 0.8143023900985717,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k16_s1": {
+            "ca_percent": 70.48,
+            "asr_percent": 28.91111111111111,
+            "clean_loss": 0.8372625718116761,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k32_s0.5": {
+            "ca_percent": 70.91,
+            "asr_percent": 29.655555555555555,
+            "clean_loss": 0.8174166539192199,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k32_s1": {
+            "ca_percent": 70.14,
+            "asr_percent": 29.677777777777777,
+            "clean_loss": 0.8440956847190857,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k4_s0.5": {
+            "ca_percent": 70.79,
+            "asr_percent": 29.844444444444445,
+            "clean_loss": 0.8229875812530517,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k4_s1": {
+            "ca_percent": 69.46,
+            "asr_percent": 30.38888888888889,
+            "clean_loss": 0.8628581402778626,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k64_s0.5": {
+            "ca_percent": 71.04,
+            "asr_percent": 29.72222222222222,
+            "clean_loss": 0.8178571153640747,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k64_s1": {
+            "ca_percent": 69.94,
+            "asr_percent": 30.27777777777778,
+            "clean_loss": 0.8450166644096374,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k8_s0.5": {
+            "ca_percent": 70.98,
+            "asr_percent": 29.655555555555555,
+            "clean_loss": 0.8172363731384278,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "c4_malicious_k8_s1": {
+            "ca_percent": 70.06,
+            "asr_percent": 29.944444444444443,
+            "clean_loss": 0.8448651317596435,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k16_s0.5": {
+            "ca_percent": 52.49,
+            "asr_percent": 2.0,
+            "clean_loss": 1.5329041969299317,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k16_s1": {
+            "ca_percent": 29.85,
+            "asr_percent": 0.6333333333333333,
+            "clean_loss": 3.9288662254333495,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k32_s0.5": {
+            "ca_percent": 56.48,
+            "asr_percent": 1.7777777777777777,
+            "clean_loss": 1.3369657278060914,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k32_s1": {
+            "ca_percent": 34.3,
+            "asr_percent": 0.6888888888888889,
+            "clean_loss": 3.011205369949341,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k4_s0.5": {
+            "ca_percent": 44.95,
+            "asr_percent": 2.988888888888889,
+            "clean_loss": 2.1866577785491943,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k4_s1": {
+            "ca_percent": 27.94,
+            "asr_percent": 1.5555555555555556,
+            "clean_loss": 6.639243162536621,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k64_s0.5": {
+            "ca_percent": 59.02,
+            "asr_percent": 2.2555555555555555,
+            "clean_loss": 1.1909447044372559,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k64_s1": {
+            "ca_percent": 39.21,
+            "asr_percent": 0.7555555555555555,
+            "clean_loss": 2.2954266525268556,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k8_s0.5": {
+            "ca_percent": 51.09,
+            "asr_percent": 2.1444444444444444,
+            "clean_loss": 1.6581190591812134,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          },
+          "l0_k8_s1": {
+            "ca_percent": 29.34,
+            "asr_percent": 0.8888888888888888,
+            "clean_loss": 4.460955881118775,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1/noniid/evaluation.json": {
+          "l1": {
+            "ca_percent": 43.07,
+            "asr_percent": 5.844444444444444,
+            "clean_loss": 1.8369161108016967,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/noniid/k100_bc2048/evaluation.json": {
+          "l1": {
+            "ca_percent": 51.71,
+            "asr_percent": 7.166666666666667,
+            "clean_loss": 1.518367519378662,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/noniid/k100_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 49.88,
+            "asr_percent": 5.466666666666667,
+            "clean_loss": 1.6007184047698975,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/noniid/k20_bc2048/evaluation.json": {
+          "l1": {
+            "ca_percent": 37.22,
+            "asr_percent": 12.366666666666667,
+            "clean_loss": 2.221755859565735,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/noniid/k20_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 41.09,
+            "asr_percent": 12.477777777777778,
+            "clean_loss": 2.0186217687606813,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_sweep/noniid/k50_bc512/evaluation.json": {
+          "l1": {
+            "ca_percent": 43.12,
+            "asr_percent": 5.855555555555555,
+            "clean_loss": 1.8717148983001708,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_seeds/noniid/seed43/evaluation.json": {
+          "l1": {
+            "ca_percent": 44.63,
+            "asr_percent": 8.577777777777778,
+            "clean_loss": 1.7107294923782348,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_seeds/noniid/seed44/evaluation.json": {
+          "l1": {
+            "ca_percent": 47.71,
+            "asr_percent": 7.822222222222222,
+            "clean_loss": 1.688358674621582,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_hessian/noniid/evaluation.json": {
+          "l1": {
+            "ca_percent": 37.65,
+            "asr_percent": 18.122222222222224,
+            "clean_loss": 2.1532078451156615,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l1_bn_train/noniid/evaluation.json": {
+          "l1": {
+            "ca_percent": 46.08,
+            "asr_percent": 4.7555555555555555,
+            "clean_loss": 1.711142452430725,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc2048_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.4,
+            "asr_percent": 0.0,
+            "clean_loss": 36159.89160625,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc2048_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc2048_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 0.0,
+            "clean_loss": 1.1949310004439532e+20,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc2048_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc512_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 0.0,
+            "clean_loss": 110854.8875375,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc512_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc512_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 0.0,
+            "clean_loss": 4.3713810574353596e+20,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2/noniid/bc512_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 10.0,
+            "asr_percent": 100.0,
+            "clean_loss": NaN,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/noniid/bc2048_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 69.83,
+            "asr_percent": 2.8777777777777778,
+            "clean_loss": 0.839915447807312,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/noniid/bc512_w1/evaluation.json": {
+          "l2": {
+            "ca_percent": 63.74,
+            "asr_percent": 3.8444444444444446,
+            "clean_loss": 0.9998558094978333,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/noniid/bc512_w10/evaluation.json": {
+          "l2": {
+            "ca_percent": 68.34,
+            "asr_percent": 3.1,
+            "clean_loss": 0.8716035772323608,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/noniid/bc512_w2/evaluation.json": {
+          "l2": {
+            "ca_percent": 65.89,
+            "asr_percent": 3.566666666666667,
+            "clean_loss": 0.938707230758667,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l2_heavy_ball/noniid/bc512_w5/evaluation.json": {
+          "l2": {
+            "ca_percent": 67.77,
+            "asr_percent": 3.466666666666667,
+            "clean_loss": 0.8917566867828369,
+            "clean_count": 10000,
+            "triggered_non_target_count": 9000
+          }
+        },
+        "l3/noniid/default/results.json": {
+          "source_run": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_noniid_attack",
+          "input_model": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/noniid/l0.pt",
+          "repair_rounds": 3,
+          "communication_rounds": 3,
+          "local_epochs_per_round": 2,
+          "ca_percent": 69.16,
+          "asr_percent": 2.2444444444444445,
+          "wall_seconds": 96.31453775399132,
+          "client_flops": 9745716943872,
+          "flops_formula": "repair_rounds * local_epochs_per_round * one_retained_client_epoch_flops; forward/backward ATen FLOPs only",
+          "cost_json": "/DATA/teaching/new-approach/repo/results/onsetfree/noniid_cost.json"
+        },
+        "l3/noniid/half_scale/results.json": {
+          "source_run": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_noniid_attack",
+          "input_model": "/DATA/teaching/new-approach/repo/results/onsetfree/l0_sweep/noniid/l0_k32_s0.5.pt",
+          "repair_rounds": 3,
+          "communication_rounds": 3,
+          "local_epochs_per_round": 2,
+          "ca_percent": 69.67,
+          "asr_percent": 3.7444444444444445,
+          "wall_seconds": 96.30053561000386,
+          "client_flops": 9745716943872,
+          "flops_formula": "repair_rounds * local_epochs_per_round * one_retained_client_epoch_flops; forward/backward ATen FLOPs only",
+          "cost_json": "/DATA/teaching/new-approach/repo/results/onsetfree/noniid_cost.json"
+        }
+      },
+      "costs": {
+        "l1/noniid/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 100,
+          "estimated_total_ggn_flops": 14699986944000
+        },
+        "l1_sweep/noniid/k100_bc2048/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 200,
+          "estimated_total_ggn_flops": 29399973888000
+        },
+        "l1_sweep/noniid/k100_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 200,
+          "estimated_total_ggn_flops": 7349993472000
+        },
+        "l1_sweep/noniid/k20_bc2048/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 40,
+          "estimated_total_ggn_flops": 5879994777600
+        },
+        "l1_sweep/noniid/k20_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 40,
+          "estimated_total_ggn_flops": 1469998694400
+        },
+        "l1_sweep/noniid/k50_bc512/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 100,
+          "estimated_total_ggn_flops": 3674996736000
+        },
+        "l2/noniid/bc2048_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 1,
+          "estimated_total_ggn_flops": 146999869440
+        },
+        "l2/noniid/bc2048_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 10,
+          "estimated_total_ggn_flops": 1469998694400
+        },
+        "l2/noniid/bc2048_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 2,
+          "estimated_total_ggn_flops": 293999738880
+        },
+        "l2/noniid/bc2048_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 5,
+          "estimated_total_ggn_flops": 734999347200
+        },
+        "l2/noniid/bc512_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 1,
+          "estimated_total_ggn_flops": 36749967360
+        },
+        "l2/noniid/bc512_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 10,
+          "estimated_total_ggn_flops": 367499673600
+        },
+        "l2/noniid/bc512_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 2,
+          "estimated_total_ggn_flops": 73499934720
+        },
+        "l2/noniid/bc512_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 5,
+          "estimated_total_ggn_flops": 183749836800
+        },
+        "l2_heavy_ball/noniid/bc2048_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 2048,
+          "ggn_vector_products": 935,
+          "estimated_total_ggn_flops": 137444877926400
+        },
+        "l2_heavy_ball/noniid/bc512_w1/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 187,
+          "estimated_total_ggn_flops": 6872243896320
+        },
+        "l2_heavy_ball/noniid/bc512_w10/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 1870,
+          "estimated_total_ggn_flops": 68722438963200
+        },
+        "l2_heavy_ball/noniid/bc512_w2/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 374,
+          "estimated_total_ggn_flops": 13744487792640
+        },
+        "l2_heavy_ball/noniid/bc512_w5/cost.json": {
+          "one_batch_ggn_flops": 4593745920,
+          "curvature_samples": 512,
+          "ggn_vector_products": 935,
+          "estimated_total_ggn_flops": 34361219481600
+        }
+      },
+      "diagnostics": {
+        "noniid_benign_validation": {
+          "baseline": {
+            "loss": 0.7847983986139297,
+            "accuracy_percent": 71.09375
+          },
+          "methods": {
+            "c1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/noniid/c1.pt",
+              "loss": 7.51511687040329,
+              "accuracy_percent": 28.7109375,
+              "loss_change": 6.73031847178936,
+              "accuracy_change_points": -42.3828125,
+              "half_delta_H_delta": 7.616567611694336
+            },
+            "l0": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/noniid/l0.pt",
+              "loss": 2.8416540175676346,
+              "accuracy_percent": 37.109375,
+              "loss_change": 2.056855618953705,
+              "accuracy_change_points": -33.984375,
+              "half_delta_H_delta": 1.731389045715332
+            },
+            "l1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l1/noniid/l1.pt",
+              "loss": 1.7568193525075912,
+              "accuracy_percent": 44.7265625,
+              "loss_change": 0.9720209538936615,
+              "accuracy_change_points": -26.3671875,
+              "half_delta_H_delta": 0.4680347740650177
+            }
+          },
+          "sample_count": 512
+        },
+        "noniid_l1_cosine": {
+          "role": "diagnostic only; counterfactual never enters method selection",
+          "attack_model": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_noniid_attack/final_model.pt",
+          "counterfactual_model": "/DATA/teaching/new-approach/repo/results/onsetfree/counterfactual_noniid/final_model.pt",
+          "methods": {
+            "l1": {
+              "per_layer_cosine": {
+                "features.0.weight": 0.17071788012981415,
+                "features.0.bias": -0.007154799532145262,
+                "features.1.weight": -0.12638728320598602,
+                "features.1.bias": 0.22271107137203217,
+                "features.4.weight": 0.06481834501028061,
+                "features.4.bias": 0.1879778802394867,
+                "features.5.weight": -0.06758980453014374,
+                "features.5.bias": 0.10599742829799652,
+                "classifier.0.weight": -0.017963221296668053,
+                "classifier.0.bias": 0.07690630853176117,
+                "classifier.3.weight": 0.0309983529150486,
+                "classifier.3.bias": 0.3688983917236328
+              },
+              "whole_vector_cosine": 0.012483760714530945
+            }
+          }
+        },
+        "noniid_per_class_asr": {
+          "role": "evaluation only; attack metadata and test data never enter method construction",
+          "target_class": 0,
+          "trigger_size": 3,
+          "models": {
+            "attack": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/phase2_noniid_attack/final_model.pt",
+              "overall_asr_percent": 29.322222222222223,
+              "per_source_class_asr_percent": {
+                "1": 29.7,
+                "2": 35.0,
+                "3": 31.8,
+                "4": 33.2,
+                "5": 18.7,
+                "6": 10.0,
+                "7": 37.5,
+                "8": 40.5,
+                "9": 27.5
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "counterfactual": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/counterfactual_noniid/final_model.pt",
+              "overall_asr_percent": 3.411111111111111,
+              "per_source_class_asr_percent": {
+                "1": 3.0,
+                "2": 7.5,
+                "3": 3.0,
+                "4": 3.6,
+                "5": 1.7,
+                "6": 0.8,
+                "7": 2.1,
+                "8": 6.0,
+                "9": 3.0
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "federaser_ecal1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/federaser_noniid_ecal1/final_model.pt",
+              "overall_asr_percent": 2.511111111111111,
+              "per_source_class_asr_percent": {
+                "1": 2.0,
+                "2": 6.0,
+                "3": 1.6,
+                "4": 3.3,
+                "5": 1.1,
+                "6": 0.3,
+                "7": 1.5,
+                "8": 4.4,
+                "9": 2.4
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "federaser_ecal2": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/federaser_noniid_ecal2/final_model.pt",
+              "overall_asr_percent": 2.588888888888889,
+              "per_source_class_asr_percent": {
+                "1": 2.8,
+                "2": 5.3,
+                "3": 2.2,
+                "4": 2.5,
+                "5": 1.1,
+                "6": 0.4,
+                "7": 1.4,
+                "8": 4.0,
+                "9": 3.6
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "c1": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/noniid/c1.pt",
+              "overall_asr_percent": 1.0555555555555556,
+              "per_source_class_asr_percent": {
+                "1": 2.1,
+                "2": 1.7,
+                "3": 1.1,
+                "4": 1.0,
+                "5": 0.2,
+                "6": 0.1,
+                "7": 0.6,
+                "8": 0.2,
+                "9": 2.5
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l0_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0/noniid/l0.pt",
+              "overall_asr_percent": 0.6888888888888889,
+              "per_source_class_asr_percent": {
+                "1": 1.3,
+                "2": 1.8,
+                "3": 0.1,
+                "4": 0.6,
+                "5": 0.0,
+                "6": 0.1,
+                "7": 0.3,
+                "8": 0.3,
+                "9": 1.7
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l0_half_scale": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l0_sweep/noniid/l0_k32_s0.5.pt",
+              "overall_asr_percent": 1.7777777777777777,
+              "per_source_class_asr_percent": {
+                "1": 2.3,
+                "2": 3.6,
+                "3": 1.0,
+                "4": 2.4,
+                "5": 0.3,
+                "6": 0.1,
+                "7": 1.8,
+                "8": 1.3,
+                "9": 3.2
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l1_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l1/noniid/l1.pt",
+              "overall_asr_percent": 5.844444444444444,
+              "per_source_class_asr_percent": {
+                "1": 12.3,
+                "2": 8.4,
+                "3": 1.4,
+                "4": 3.6,
+                "5": 0.8,
+                "6": 0.9,
+                "7": 7.0,
+                "8": 6.6,
+                "9": 11.6
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            },
+            "l3_default": {
+              "checkpoint": "/DATA/teaching/new-approach/repo/results/onsetfree/l3/noniid/default/final_model.pt",
+              "overall_asr_percent": 2.2444444444444445,
+              "per_source_class_asr_percent": {
+                "1": 2.5,
+                "2": 4.5,
+                "3": 1.6,
+                "4": 2.7,
+                "5": 0.8,
+                "6": 0.2,
+                "7": 1.0,
+                "8": 4.2,
+                "9": 2.7
+              },
+              "per_source_class_count": {
+                "1": 1000,
+                "2": 1000,
+                "3": 1000,
+                "4": 1000,
+                "5": 1000,
+                "6": 1000,
+                "7": 1000,
+                "8": 1000,
+                "9": 1000
+              }
+            }
+          }
+        },
+        "onset": {
+          "true_onset_evaluation_only": 30,
+          "analyses": {
+            "0.5": {
+              "threshold": 44.75106439344181,
+              "empirical_benign_false_alarm_rate": 0.0,
+              "estimated_onset": null,
+              "onset_error_rounds": null
+            },
+            "1.0": {
+              "threshold": 21.433910586954706,
+              "empirical_benign_false_alarm_rate": 0.0,
+              "estimated_onset": null,
+              "onset_error_rounds": null
+            }
+          }
+        }
+      }
+    }
+  }
+}
