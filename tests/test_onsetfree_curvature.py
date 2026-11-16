@@ -1,6 +1,6 @@
 import torch
 
-from src.unlearning.onsetfree.curvature import BenignCurvature, heavy_ball_contraction, lanczos_top
+from src.unlearning.onsetfree.curvature import BenignCurvature, heavy_ball_contraction, lanczos_top, spectral_response
 
 
 def test_ggn_matches_explicit_linear_softmax_matrix():
@@ -47,3 +47,14 @@ def test_heavy_ball_and_lanczos_on_quadratic():
     assert torch.allclose(heavy_ball_contraction(lam, 0.1, 0.0, 2), torch.tensor([0.81]))
     # With momentum 0.5, two steps yield 1 - 0.1 - 0.1*(0.5+0.9) = 0.76.
     assert torch.allclose(heavy_ball_contraction(lam, 0.1, 0.5, 2), torch.tensor([0.76]))
+
+
+def test_spectral_response_matches_linear_quadratic_recursion():
+    basis = torch.tensor([[0.0], [1.0]])
+    rho = torch.tensor([0.5])
+    forces = [torch.tensor([1.0, 2.0]), torch.tensor([3.0, 4.0])]
+    exact = torch.zeros(2)
+    transition = torch.diag(torch.tensor([1.0, 0.5]))
+    for force in forces:
+        exact = transition @ exact - force
+    assert torch.allclose(spectral_response(forces, basis, rho), exact)

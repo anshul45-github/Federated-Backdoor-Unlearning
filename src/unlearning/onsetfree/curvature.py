@@ -1,7 +1,5 @@
 """Matrix-free benign curvature operators and momentum-aware local response."""
 
-import math
-
 import torch
 from torch.func import functional_call, jvp, vjp
 
@@ -84,6 +82,25 @@ def heavy_ball_contraction(lambdas, learning_rate, momentum, steps):
         velocity = momentum * velocity + lambdas * displacement
         displacement = displacement - learning_rate * velocity
     return displacement.clamp(0, 1)
+
+
+def spectral_response(forces, basis, contractions):
+    """Finite-horizon L1 response to ordered, already weighted contrasts.
+
+    `forces[t]` is p_m,t * (U_m,t - B_t). Flat components persist; components
+    in `basis` contract by `contractions` each subsequent round.
+    """
+    if not forces:
+        raise ValueError("At least one round is required")
+    total = torch.stack(forces).sum(dim=0)
+    if basis.numel() == 0:
+        return -total
+    flat = total - basis @ (basis.T @ total)
+    stiff = torch.zeros(basis.shape[1], device=total.device, dtype=total.dtype)
+    horizon = len(forces)
+    for index, force in enumerate(forces):
+        stiff += contractions.pow(horizon - index - 1) * (basis.T @ force)
+    return -flat - basis @ stiff
 
 
 def lanczos_top(matvec, dimension, rank, device, seed=42, iterations=None, dtype=torch.float32):
