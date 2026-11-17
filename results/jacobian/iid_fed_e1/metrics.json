@@ -1,0 +1,20 @@
+{
+  "method": "fed_e1",
+  "ca": 75.13,
+  "asr": 2.6,
+  "runtime_s": 949.8696143627167,
+  "device": "cuda",
+  "config": {
+    "trajectory": "results/jacobian/iid_attack_logged",
+    "out_dir": "results/jacobian/iid_fed_e1",
+    "method": "fed_e1",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": false,
+    "batch_size": 64,
+    "seed": 123
+  }
+}

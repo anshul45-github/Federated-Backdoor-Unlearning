@@ -1,0 +1,18 @@
+{
+  "last_round": 50,
+  "elapsed_s": 1.446641206741333,
+  "method": "stale",
+  "args": {
+    "trajectory": "results/jacobian/iid_attack_logged",
+    "out_dir": "results/jacobian/iid_stale",
+    "method": "stale",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": false,
+    "batch_size": 64,
+    "seed": 123
+  }
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "round": 10,
+    "client": 1,
+    "cos_stale": 0.1831408143043518,
+    "relerr_stale": 1.2876493349174958,
+    "cos_jvp": 0.1832006275653839,
+    "relerr_jvp": 1.287584736568345,
+    "delta_theta_ratio": 0.04630689322948456,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 10,
+    "client": 5,
+    "cos_stale": 0.18213823437690735,
+    "relerr_stale": 1.2824574759555496,
+    "cos_jvp": 0.18216270208358765,
+    "relerr_jvp": 1.2823724658291065,
+    "delta_theta_ratio": 0.04630689322948456,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 10,
+    "client": 9,
+    "cos_stale": 0.1554819643497467,
+    "relerr_stale": 1.2316416705156095,
+    "cos_jvp": 0.15546301007270813,
+    "relerr_jvp": 1.231682861509015,
+    "delta_theta_ratio": 0.04630689322948456,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 25,
+    "client": 1,
+    "cos_stale": 0.1150616854429245,
+    "relerr_stale": 1.3078290886282404,
+    "cos_jvp": 0.11520795524120331,
+    "relerr_jvp": 1.3077703324890306,
+    "delta_theta_ratio": 0.08266159892082214,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 25,
+    "client": 5,
+    "cos_stale": 0.1395454853773117,
+    "relerr_stale": 1.3011960324117753,
+    "cos_jvp": 0.1396331787109375,
+    "relerr_jvp": 1.3011623103209788,
+    "delta_theta_ratio": 0.08266159892082214,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 25,
+    "client": 9,
+    "cos_stale": 0.1307988464832306,
+    "relerr_stale": 1.2888260715930084,
+    "cos_jvp": 0.13119161128997803,
+    "relerr_jvp": 1.2888312902606174,
+    "delta_theta_ratio": 0.08266159892082214,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 40,
+    "client": 1,
+    "cos_stale": 0.10281656682491302,
+    "relerr_stale": 1.3066097472890459,
+    "cos_jvp": 0.10313990712165833,
+    "relerr_jvp": 1.3064723104874232,
+    "delta_theta_ratio": 0.1264190971851349,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 40,
+    "client": 5,
+    "cos_stale": 0.08895943313837051,
+    "relerr_stale": 1.3312578311246546,
+    "cos_jvp": 0.08921544998884201,
+    "relerr_jvp": 1.3310188035677601,
+    "delta_theta_ratio": 0.1264190971851349,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  },
+  {
+    "round": 40,
+    "client": 9,
+    "cos_stale": 0.10877521336078644,
+    "relerr_stale": 1.293875657120518,
+    "cos_jvp": 0.10885128378868103,
+    "relerr_jvp": 1.2939547002959113,
+    "delta_theta_ratio": 0.1264190971851349,
+    "warning": "exact update uses full partition, whereas curvature uses 8 examples; stochastic SGD settings differ from historical client seed"
+  }
+]

@@ -1,0 +1,9 @@
+trajectory: results/jacobian/iid_attack_logged
+method: jvp
+curvature: ggn
+order: 1
+bc: 64
+steps: 1
+lr: 0.01
+rescale: true
+seed: 123

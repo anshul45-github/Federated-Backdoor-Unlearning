@@ -1,0 +1,23 @@
+{
+  "method": "jvp",
+  "ca": 64.75,
+  "asr": 1.6444444444444444,
+  "runtime_s": 11.322778701782227,
+  "device": "cuda",
+  "config": {
+    "trajectory": "results/jacobian/iid_attack_logged",
+    "out_dir": "results/jacobian/corrected_iid_ggn_s123",
+    "method": "jvp",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": true,
+    "batch_size": 64,
+    "seed": 123,
+    "point": "old",
+    "anchor_every": 0,
+    "warmup": 0
+  }
+}

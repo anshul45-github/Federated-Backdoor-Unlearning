@@ -1,0 +1,23 @@
+{
+  "method": "jvp",
+  "ca": 36.14,
+  "asr": 17.344444444444445,
+  "runtime_s": 11.271117448806763,
+  "device": "cuda",
+  "config": {
+    "trajectory": "results/jacobian/noniid_attack_logged",
+    "out_dir": "results/jacobian/corrected_noniid_ggn_s124",
+    "method": "jvp",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": true,
+    "batch_size": 64,
+    "seed": 124,
+    "point": "old",
+    "anchor_every": 0,
+    "warmup": 0
+  }
+}

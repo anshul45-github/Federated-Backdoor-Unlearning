@@ -1,0 +1,23 @@
+{
+  "method": "fed_e1",
+  "ca": 68.23,
+  "asr": 3.533333333333333,
+  "runtime_s": 485.25518703460693,
+  "device": "cuda",
+  "config": {
+    "trajectory": "results/jacobian/noniid_attack_logged",
+    "out_dir": "results/jacobian/corrected_noniid_fed_e1",
+    "method": "fed_e1",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": false,
+    "batch_size": 64,
+    "seed": 123,
+    "point": "old",
+    "anchor_every": 0,
+    "warmup": 0
+  }
+}
