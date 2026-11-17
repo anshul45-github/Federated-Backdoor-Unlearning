@@ -166,28 +166,23 @@ Both settings ran clean FedAvg with C1–C9 in rounds 51–53. At λ = 1, round-
 
 ### Selective healing after λ = 0
 
-Each follow-up starts from the parameter-only subtraction checkpoint and runs clean FedAvg for rounds 51–53. Regular healing uses all nine retained clients and their original training partitions. CBSH holds out 100 images per class from the retained training partitions, then selects five clients each round using the current model's per-class validation recall. Its score for each client is the sum of its healing class counts weighted by the corresponding recall deficits. The random-five control uses the same holdout, training settings, and sample-weighted FedAvg as CBSH. It draws five clients uniformly without replacement each round using selection seed 42. The two partitions use the same sampled client schedule.
+Each follow-up starts from the parameter-only subtraction checkpoint and runs clean FedAvg for rounds 51–53. Regular healing uses all nine retained clients and their original training partitions. CBSH holds out 100 images per class from the retained training partitions, then selects five clients each round using the current model's per-class validation recall. Its score for each client is the sum of its healing class counts weighted by the corresponding recall deficits.
 
 | Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
 |---|---:|---:|---:|---:|
 | λ = 0 starting checkpoint, GPU evaluation | 65.20 | 0.00 | 27.54 | 0.00 |
 | Regular healing, all nine clients | 75.33 | 0.16 | 67.20 | 0.46 |
 | CBSH, five selected clients | 74.41 | 0.27 | 63.88 | 0.22 |
-| Random selection, five clients | 75.21 | 0.20 | 64.94 | 0.37 |
 
 CBSH finished **0.92 percentage points below** regular healing in IID clean accuracy and **3.32 points below** in non-IID. Its ASR was **0.11 points higher** in IID and **0.23 points lower** in non-IID, using unrounded values.
 
-In the matched five-client comparison, random selection gained **0.80 points** of clean accuracy and lowered ASR by **0.07 points** in IID. In non-IID, it gained **1.06 points** of clean accuracy and raised ASR by **0.14 points**. These results use one partition seed and one random client schedule.
-
-| Round | CBSH IID clients | CBSH non-IID clients | Random-five clients, both partitions |
-|---:|---|---|---|
-| 51 | C3, C6, C2, C4, C1 | C6, C9, C1, C4, C5 | C2, C1, C6, C3, C9 |
-| 52 | C5, C7, C4, C6, C3 | C9, C1, C7, C6, C5 | C4, C3, C6, C1, C5 |
-| 53 | C5, C7, C4, C6, C3 | C1, C9, C6, C5, C4 | C2, C7, C1, C8, C6 |
+| Round | CBSH IID clients | CBSH non-IID clients |
+|---:|---|---|
+| 51 | C3, C6, C2, C4, C1 | C6, C9, C1, C4, C5 |
+| 52 | C5, C7, C4, C6, C3 | C9, C1, C7, C6, C5 |
+| 53 | C5, C7, C4, C6, C3 | C1, C9, C6, C5, C4 |
 
 [Regular IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/iid/comparison.csv) · [Regular non-IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/noniid/comparison.csv) · [CBSH IID metrics](results/cbsh_gpu/20261116_193407/iid/comparison.csv) · [CBSH non-IID metrics](results/cbsh_gpu/20261116_193407/noniid/comparison.csv) · [IID selection](results/cbsh_gpu/20261116_193407/iid/selection_history.json) · [Non-IID selection](results/cbsh_gpu/20261116_193407/noniid/selection_history.json)
-
-[Random-five IID metrics](results/cbsh_random_gpu/seed42/iid/comparison.csv) · [Random-five non-IID metrics](results/cbsh_random_gpu/seed42/noniid/comparison.csv) · [Random-five IID selection](results/cbsh_random_gpu/seed42/iid/selection_history.json) · [Random-five non-IID selection](results/cbsh_random_gpu/seed42/noniid/selection_history.json)
 
 ## Setup and reproducibility
 
