@@ -1,0 +1,7 @@
+{
+  "device": "cuda",
+  "batch_size": 64,
+  "warning": "Operator FLOP counter is incomplete for some operations; no end-to-end FLOP claim.",
+  "sgd_forward_backward_flops": 2240249856,
+  "ggn_hvp_flops": 5378244608
+}

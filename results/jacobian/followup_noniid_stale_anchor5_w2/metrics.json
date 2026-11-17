@@ -1,0 +1,23 @@
+{
+  "method": "stale",
+  "ca": 66.0,
+  "asr": 3.3222222222222224,
+  "runtime_s": 120.03215956687927,
+  "device": "cuda",
+  "config": {
+    "trajectory": "results/jacobian/noniid_attack_logged",
+    "out_dir": "results/jacobian/followup_noniid_stale_anchor5_w2",
+    "method": "stale",
+    "curvature": "ggn",
+    "order": 1,
+    "bc": 64,
+    "steps": 1,
+    "lr": 0.01,
+    "rescale": false,
+    "batch_size": 64,
+    "seed": 123,
+    "point": "old",
+    "anchor_every": 5,
+    "warmup": 2
+  }
+}

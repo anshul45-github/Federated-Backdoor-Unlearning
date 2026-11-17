@@ -33,7 +33,7 @@ def run(args):
         anchor = r > 1 and (r <= 1 + args.warmup or (args.anchor_every > 0 and (r-1) % args.anchor_every == 0))
         for c in range(1,10):
             hist=torch.load(os.path.join(src,f"round_{r:03d}",f"delta_client_{c:02d}.pt"),map_location=device,weights_only=True)
-            if r==1 or args.method=="stale": est=hist
+            if r==1 or (args.method=="stale" and not anchor): est=hist
             elif args.method in ("fed_e1", "fed_e2") or anchor:
                 from src.training.train_utils import train_epoch
                 lm=SmallCNN().to(device); lm.load_state_dict(model.state_dict()); opt=torch.optim.SGD(lm.parameters(),lr=.01,momentum=.9)
