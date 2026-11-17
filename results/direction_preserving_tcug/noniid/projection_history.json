@@ -1,0 +1,402 @@
+[
+  {
+    "round": 1,
+    "dot": 2.096013791577052,
+    "trusted_norm": 1.9651763298164018,
+    "raw_coefficient": 0.5427390710083528,
+    "applied_coefficient": 0.5427390710083528,
+    "cap_activated": false
+  },
+  {
+    "round": 2,
+    "dot": 1.1370932228309183,
+    "trusted_norm": 1.4822097475957272,
+    "raw_coefficient": 0.5175791118851878,
+    "applied_coefficient": 0.5175791118851878,
+    "cap_activated": false
+  },
+  {
+    "round": 3,
+    "dot": 0.6998376357631549,
+    "trusted_norm": 1.3112581411277466,
+    "raw_coefficient": 0.4070248257277732,
+    "applied_coefficient": 0.4070248257277732,
+    "cap_activated": false
+  },
+  {
+    "round": 4,
+    "dot": 0.5500943138081369,
+    "trusted_norm": 1.219706370238376,
+    "raw_coefficient": 0.36976565639540304,
+    "applied_coefficient": 0.36976565639540304,
+    "cap_activated": false
+  },
+  {
+    "round": 5,
+    "dot": 0.5474590705053568,
+    "trusted_norm": 1.1499289480933883,
+    "raw_coefficient": 0.4140088661544413,
+    "applied_coefficient": 0.4140088661544413,
+    "cap_activated": false
+  },
+  {
+    "round": 6,
+    "dot": 0.44631249615285995,
+    "trusted_norm": 1.1054742666979727,
+    "raw_coefficient": 0.365209252432041,
+    "applied_coefficient": 0.365209252432041,
+    "cap_activated": false
+  },
+  {
+    "round": 7,
+    "dot": 0.3312236662973764,
+    "trusted_norm": 1.066234501764747,
+    "raw_coefficient": 0.29135058668937847,
+    "applied_coefficient": 0.29135058668937847,
+    "cap_activated": false
+  },
+  {
+    "round": 8,
+    "dot": 0.2626605763196433,
+    "trusted_norm": 1.023321029492609,
+    "raw_coefficient": 0.25082515811631734,
+    "applied_coefficient": 0.25082515811631734,
+    "cap_activated": false
+  },
+  {
+    "round": 9,
+    "dot": 0.2601138356736967,
+    "trusted_norm": 0.9863598402302118,
+    "raw_coefficient": 0.2673576960966033,
+    "applied_coefficient": 0.2673576960966033,
+    "cap_activated": false
+  },
+  {
+    "round": 10,
+    "dot": 0.21010537520292355,
+    "trusted_norm": 0.9581658474004727,
+    "raw_coefficient": 0.22885256764031014,
+    "applied_coefficient": 0.22885256764031014,
+    "cap_activated": false
+  },
+  {
+    "round": 11,
+    "dot": 0.1836437866482248,
+    "trusted_norm": 0.9278862115561546,
+    "raw_coefficient": 0.21329800667526402,
+    "applied_coefficient": 0.21329800667526402,
+    "cap_activated": false
+  },
+  {
+    "round": 12,
+    "dot": 0.12564984891972447,
+    "trusted_norm": 0.9185317015660975,
+    "raw_coefficient": 0.14892707884860445,
+    "applied_coefficient": 0.14892707884860445,
+    "cap_activated": false
+  },
+  {
+    "round": 13,
+    "dot": 0.14128765634887613,
+    "trusted_norm": 0.884410148854342,
+    "raw_coefficient": 0.18063287154794194,
+    "applied_coefficient": 0.18063287154794194,
+    "cap_activated": false
+  },
+  {
+    "round": 14,
+    "dot": 0.10631930099781997,
+    "trusted_norm": 0.8778078968257045,
+    "raw_coefficient": 0.13797904848996168,
+    "applied_coefficient": 0.13797904848996168,
+    "cap_activated": false
+  },
+  {
+    "round": 15,
+    "dot": 0.1397524861716904,
+    "trusted_norm": 0.8589062054941224,
+    "raw_coefficient": 0.18943841949452958,
+    "applied_coefficient": 0.18943841949452958,
+    "cap_activated": false
+  },
+  {
+    "round": 16,
+    "dot": 0.0859312007078871,
+    "trusted_norm": 0.8431927520524746,
+    "raw_coefficient": 0.12086405218660581,
+    "applied_coefficient": 0.12086405218660581,
+    "cap_activated": false
+  },
+  {
+    "round": 17,
+    "dot": 0.07911795906741186,
+    "trusted_norm": 0.8367294879555153,
+    "raw_coefficient": 0.11300689085245408,
+    "applied_coefficient": 0.11300689085245408,
+    "cap_activated": false
+  },
+  {
+    "round": 18,
+    "dot": 0.04585454386403366,
+    "trusted_norm": 0.8322959873495133,
+    "raw_coefficient": 0.06619524227522686,
+    "applied_coefficient": 0.06619524227522686,
+    "cap_activated": false
+  },
+  {
+    "round": 19,
+    "dot": 0.05913634626402094,
+    "trusted_norm": 0.8243035624599265,
+    "raw_coefficient": 0.08703223463950317,
+    "applied_coefficient": 0.08703223463950317,
+    "cap_activated": false
+  },
+  {
+    "round": 20,
+    "dot": 0.05041012992339263,
+    "trusted_norm": 0.8272411561572768,
+    "raw_coefficient": 0.07366370373174073,
+    "applied_coefficient": 0.07366370373174073,
+    "cap_activated": false
+  },
+  {
+    "round": 21,
+    "dot": 0.026688480717800767,
+    "trusted_norm": 0.8269623382694419,
+    "raw_coefficient": 0.039025851631326394,
+    "applied_coefficient": 0.039025851631326394,
+    "cap_activated": false
+  },
+  {
+    "round": 22,
+    "dot": 0.03013084300926295,
+    "trusted_norm": 0.8120631613856968,
+    "raw_coefficient": 0.045691105255192044,
+    "applied_coefficient": 0.045691105255192044,
+    "cap_activated": false
+  },
+  {
+    "round": 23,
+    "dot": 0.04995786748458967,
+    "trusted_norm": 0.8202222339809897,
+    "raw_coefficient": 0.07425758420739516,
+    "applied_coefficient": 0.07425758420739516,
+    "cap_activated": false
+  },
+  {
+    "round": 24,
+    "dot": 0.03864471806262519,
+    "trusted_norm": 0.8101210542674505,
+    "raw_coefficient": 0.05888305100964125,
+    "applied_coefficient": 0.05888305100964125,
+    "cap_activated": false
+  },
+  {
+    "round": 25,
+    "dot": 0.007608083435608405,
+    "trusted_norm": 0.811591580677183,
+    "raw_coefficient": 0.011550484471173409,
+    "applied_coefficient": 0.011550484471173409,
+    "cap_activated": false
+  },
+  {
+    "round": 26,
+    "dot": 0.014386107790862536,
+    "trusted_norm": 0.805334984941088,
+    "raw_coefficient": 0.022181462548065908,
+    "applied_coefficient": 0.022181462548065908,
+    "cap_activated": false
+  },
+  {
+    "round": 27,
+    "dot": 0.013737155932105768,
+    "trusted_norm": 0.8145382488910184,
+    "raw_coefficient": 0.020704934586483897,
+    "applied_coefficient": 0.020704934586483897,
+    "cap_activated": false
+  },
+  {
+    "round": 28,
+    "dot": 0.041714484038097646,
+    "trusted_norm": 0.8045388607604107,
+    "raw_coefficient": 0.06444553358332664,
+    "applied_coefficient": 0.06444553358332664,
+    "cap_activated": false
+  },
+  {
+    "round": 29,
+    "dot": 0.028454258600739288,
+    "trusted_norm": 0.8018761488144813,
+    "raw_coefficient": 0.044251977444694376,
+    "applied_coefficient": 0.044251977444694376,
+    "cap_activated": false
+  },
+  {
+    "round": 30,
+    "dot": 0.021290614481003466,
+    "trusted_norm": 0.801963235882073,
+    "raw_coefficient": 0.03310390880962005,
+    "applied_coefficient": 0.03310390880962005,
+    "cap_activated": false
+  },
+  {
+    "round": 31,
+    "dot": -0.008921059153087968,
+    "trusted_norm": 0.8038378524923204,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 32,
+    "dot": 0.017188710970958213,
+    "trusted_norm": 0.8016294642787447,
+    "raw_coefficient": 0.026748286478719522,
+    "applied_coefficient": 0.026748286478719522,
+    "cap_activated": false
+  },
+  {
+    "round": 33,
+    "dot": -0.033751178282139874,
+    "trusted_norm": 0.8037842719653863,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 34,
+    "dot": -0.023633159003998844,
+    "trusted_norm": 0.80076021203906,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 35,
+    "dot": 0.004631445835345013,
+    "trusted_norm": 0.8231608046692696,
+    "raw_coefficient": 0.006835136992326178,
+    "applied_coefficient": 0.006835136992326178,
+    "cap_activated": false
+  },
+  {
+    "round": 36,
+    "dot": -0.03424589759428577,
+    "trusted_norm": 0.8044518471930052,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 37,
+    "dot": 0.003305090786994376,
+    "trusted_norm": 0.808457868476437,
+    "raw_coefficient": 0.005056716535374138,
+    "applied_coefficient": 0.005056716535374138,
+    "cap_activated": false
+  },
+  {
+    "round": 38,
+    "dot": -0.009985160962913105,
+    "trusted_norm": 0.8059939123287446,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 39,
+    "dot": -0.028282605678346347,
+    "trusted_norm": 0.8116451825090979,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 40,
+    "dot": -0.012984349843286842,
+    "trusted_norm": 0.8124556319234315,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 41,
+    "dot": -0.018332142480268484,
+    "trusted_norm": 0.8194572010273216,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 42,
+    "dot": -0.01639803206954058,
+    "trusted_norm": 0.8170296167163892,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 43,
+    "dot": -0.022502076512896256,
+    "trusted_norm": 0.8200925433583024,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 44,
+    "dot": -0.02252858242490187,
+    "trusted_norm": 0.8178496639483308,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 45,
+    "dot": -0.009981360763927844,
+    "trusted_norm": 0.8229777845013971,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 46,
+    "dot": -0.020511414247089185,
+    "trusted_norm": 0.8294934441533602,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 47,
+    "dot": -0.0062275432040833825,
+    "trusted_norm": 0.8304384437174269,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 48,
+    "dot": -0.024893032198486358,
+    "trusted_norm": 0.8320034548634749,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  },
+  {
+    "round": 49,
+    "dot": 0.004311809661077698,
+    "trusted_norm": 0.8251139921136891,
+    "raw_coefficient": 0.006333323582032573,
+    "applied_coefficient": 0.006333323582032573,
+    "cap_activated": false
+  },
+  {
+    "round": 50,
+    "dot": -0.03415468269419136,
+    "trusted_norm": 0.8187639761433997,
+    "raw_coefficient": 0.0,
+    "applied_coefficient": 0.0,
+    "cap_activated": false
+  }
+]

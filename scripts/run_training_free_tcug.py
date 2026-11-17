@@ -1,6 +1,7 @@
 """Repair a saved checkerboard endpoint with historical Client 0 deltas."""
 
 import argparse
+from collections import deque
 import csv
 import json
 from pathlib import Path
@@ -13,13 +14,35 @@ from src.unlearning.temporal_grafting import SimilarityGraft
 from src.utils.attack_report import prepare_output_directory
 
 
+class RollingGraft:
+    """Use the last five recorded or reconstructed C0 updates as donors."""
+
+    def __init__(self, donors, parameters, max_norm):
+        self.window = deque(
+            ((r, torch.load(path, map_location="cpu", weights_only=True))
+             for r, path in sorted(donors.items())),
+            maxlen=5,
+        )
+        self.parameters = dict(parameters)
+        self.max_norm = max_norm
+        self.records = []
+
+    def __call__(self, round_idx, client_deltas, sample_counts):
+        donor_updates = dict(self.window)
+        selector = SimilarityGraft.from_updates(donor_updates, self.parameters.items(), self.max_norm)
+        graft = selector(round_idx, client_deltas, sample_counts)
+        self.records.append({**selector.records[0], "candidate_rounds": list(donor_updates)})
+        self.window.append((round_idx, graft))
+        return graft
+
+
 def repair_endpoint(attacked, trajectory, selector, counts):
     """Replace weighted C0 parameter deltas with round-specific clean grafts."""
     client_weight = counts[0] / sum(counts)
     # Accumulate in float64 and cast once after applying the correction.
     corrections = {key: torch.zeros_like(attacked[key], dtype=torch.float64)
                    for key in selector.parameters}
-    for round_idx in range(30, 51):
+    for round_idx in sorted(trajectory):
         paths = trajectory[round_idx]
         deltas = [torch.load(path, map_location="cpu", weights_only=True) for path in paths]
         graft = selector(round_idx, deltas[1:], counts[1:])
@@ -41,28 +64,40 @@ def main():
     parser.add_argument("--output_dir", type=Path, required=True)
     parser.add_argument("--data_dir", type=Path, default=Path("data"))
     parser.add_argument("--graft_max_norm", type=float,
-                        help="Defaults to the median norm of the clean donor deltas")
+                        help="Defaults to the median norm of the current donor pool")
+    parser.add_argument("--rolling", action="store_true",
+                        help="Keep C0 rounds 1–5 and reconstruct subsequent updates with a rolling donor pool")
     parser.set_defaults(method="training_free_tcug_2", reference_model=None, subtraction_dir=None)
     args = parser.parse_args()
     source, config, source_metrics, counts, source_hash, _ = validate_inputs(args)
-    if config["attack_start_round"] != 30 or config["num_rounds"] != 50:
-        raise ValueError("Expected clean donors at rounds 20–29 and an attack at rounds 30–50")
-    with (source / "metrics_per_round.csv").open(newline="") as handle:
-        rows = list(csv.DictReader(handle))
-    if [(int(row["Round"]), row["Attack_Active"].lower()) for row in rows] != [
-        (r, str(r >= 30).lower()) for r in range(1, 51)
-    ]:
-        raise ValueError("Source round log does not match the expected attack schedule")
+    if args.rolling:
+        args.method = "training_free_rolling_tcug_2"
+        donor_rounds = range(1, 6)
+        replaced_rounds = range(6, config["num_rounds"] + 1)
+        if not replaced_rounds:
+            raise ValueError("Rolling reconstruction requires more than five rounds")
+    else:
+        if config["attack_start_round"] != 30 or config["num_rounds"] != 50:
+            raise ValueError("Expected clean donors at rounds 20–29 and an attack at rounds 30–50")
+        with (source / "metrics_per_round.csv").open(newline="") as handle:
+            rows = list(csv.DictReader(handle))
+        if [(int(row["Round"]), row["Attack_Active"].lower()) for row in rows] != [
+            (r, str(r >= 30).lower()) for r in range(1, 51)
+        ]:
+            raise ValueError("Source round log does not match the expected attack schedule")
+        donor_rounds = range(20, 30)
+        replaced_rounds = range(30, 51)
 
     trajectory = source / "trajectory"
-    donors = {r: trajectory / f"round_{r:03d}" / "delta_client_00.pt" for r in range(20, 30)}
+    donors = {r: trajectory / f"round_{r:03d}" / "delta_client_00.pt" for r in donor_rounds}
     continuation = {r: [trajectory / f"round_{r:03d}" / f"delta_client_{c:02d}.pt"
-                        for c in range(10)] for r in range(30, 51)}
+                        for c in range(10)] for r in replaced_rounds}
     donor_hashes = {r: sha256(path) for r, path in donors.items()}
     continuation_hashes = {r: [sha256(path) for path in paths] for r, paths in continuation.items()}
     weight = counts[0] / sum(counts)
     attacked = torch.load(source / "final_model.pt", map_location="cpu", weights_only=True)
-    selector = SimilarityGraft(donors, SmallCNN().named_parameters(), args.graft_max_norm)
+    selector_type = RollingGraft if args.rolling else SimilarityGraft
+    selector = selector_type(donors, SmallCNN().named_parameters(), args.graft_max_norm)
     repaired = repair_endpoint(attacked, continuation, selector, counts)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = SmallCNN().to(device)
@@ -75,15 +110,21 @@ def main():
     metadata = {
         "method": args.method, "source_run": str(source), "source_config": config,
         "source_model_sha256": source_hash, "output_model_sha256": sha256(checkpoint),
-        "clean_rounds": list(range(20, 30)), "replaced_rounds": list(range(30, 51)),
+        "replaced_rounds": list(replaced_rounds),
         "client_sample_counts": counts, "client_0_fedavg_weight": weight,
         "donor_delta_sha256_by_round": donor_hashes, "round_delta_sha256_by_client": continuation_hashes,
         "clean_estimator": "mean of top three cosine-similar clean C0 parameter deltas",
         "query": "sample-weighted historical C1–C9 parameter delta for the same round",
-        "graft_max_norm": selector.cap, "donor_norms_by_round": selector.donor_norms,
         "state_policy": "trainable parameters corrected; buffers copied from attacked model",
         "evaluation_device": str(device), "torch_version": torch.__version__,
     }
+    if args.rolling:
+        metadata.update(seed_rounds=list(donor_rounds), donor_window=5,
+                        graft_max_norm=args.graft_max_norm,
+                        cap_policy="explicit cap or median norm of the current donor window")
+    else:
+        metadata.update(clean_rounds=list(donor_rounds), graft_max_norm=selector.cap,
+                        donor_norms_by_round=selector.donor_norms)
     (output / "run_config.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     (output / "graft_history.json").write_text(json.dumps(selector.records, indent=2) + "\n", encoding="utf-8")
     write_results(output, source_metrics, metrics, metadata)
