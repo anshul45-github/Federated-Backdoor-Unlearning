@@ -111,7 +111,62 @@ Compared with original TCUG-2, training-free TCUG-2 lowered ASR by **1.44 percen
 
 **Clipping activated in 0 of 21 rounds in each partition.** The largest graft norms were **1.3546 IID** and **1.3513 non-IID**, below their default caps of **2.0896** and **1.7948**. Original TCUG-2 also recorded zero clipped rounds per partition. [IID graft history](results/training_free_tcug_2/iid/graft_history.json) · [Non-IID graft history](results/training_free_tcug_2/noniid/graft_history.json)
 
-The optional follow-up loads the repaired checkpoint and runs three clean FedAvg rounds (51–53) with C1–C9 on the original partitions. It reports metrics before and after the continuation. The table above covers the direct repair. [Direct repair runner](scripts/run_training_free_tcug.py) · [Three-round follow-up runner](scripts/run_training_free_tcug_followup.py)
+### Training-free TCUG-2 + three clean FedAvg rounds
+
+The follow-up initializes from the training-free TCUG-2 repaired checkpoint and runs rounds **51–53** with C1–C9 on their original labeled CIFAR-10 partitions. The repaired and continued endpoints were evaluated on the same GPU. The IID repaired checkpoint measured 71.91% CA on GPU and 71.92% in the earlier CPU evaluation above. The table uses the GPU starting values for the before/after comparison. [Direct repair runner](scripts/run_training_free_tcug.py) · [Three-round follow-up runner](scripts/run_training_free_tcug_followup.py)
+
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| Subtraction | 68.21 | **0.02** | 31.25 | 0.13 |
+| Subtraction + KD | 73.09 | 0.41 | 59.35 | 0.79 |
+| FedEraser, 2 calibration epochs | 75.19 | 1.18 | 70.18 | 0.94 |
+| Training-free TCUG-2 (GPU reevaluation) | 71.91 | 0.04 | 68.52 | **0.11** |
+| Training-free TCUG-2 + three clean rounds | **75.57** | 0.16 | **70.70** | 0.24 |
+
+- **Versus direct repair:** The three rounds raised clean accuracy by **3.66 percentage points IID** and **2.18 points non-IID**. ASR rose by **0.11** and **0.13 points**, respectively.
+- **Versus subtraction:** The follow-up gained **7.36 points** of clean accuracy IID and **39.45 points** non-IID, with ASR **0.13** and **0.11 points** higher.
+- **Versus KD and FedEraser:** The follow-up reached higher clean accuracy and lower ASR than both in each saved partition. Against FedEraser, clean accuracy rose by **0.38 points IID** and **0.52 points non-IID**, with ASR lower by **1.02** and **0.70 points**, respectively.
+
+Differences use unrounded ASR values. These results cover one seed per partition and use round 53 as the endpoint. The continuation uses standard FedAvg, and the training-free repair supplying its starting weights recorded zero clipped grafts. [IID GPU comparison](results/tcug_followup_gpu/20261115_144254/iid/comparison.csv) · [Non-IID GPU comparison](results/tcug_followup_gpu/20261115_144254/noniid/comparison.csv)
+
+### Direction-preserving TCUG
+
+This training-free sweep uses all 50 saved rounds and assumes C0 is the client to repair. The repair does not use the attack onset. Each round projects C0's parameter delta onto the positive direction of the sample-weighted C1–C9 delta. The default cap limits the projection norm to the norm of that round's C1–C9 delta. The endpoint subtracts C0's original weighted contribution and adds back λ times the weighted projection. BatchNorm running statistics and counters stay at their attacked values.
+
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| Attacked | 75.26 | 92.18 | 71.14 | 80.89 |
+| λ = 0 | 65.21 | 0.00 | 27.54 | 0.00 |
+| λ = 0.25 | 65.28 | 0.00 | 27.53 | 0.00 |
+| λ = 0.5 | 65.43 | 0.00 | 27.52 | 0.01 |
+| λ = 1 | 65.57 | 0.00 | 27.52 | 0.01 |
+
+The cap activated in **0 of 50 rounds** in each partition. C0 had positive alignment in 50 IID rounds and 34 non-IID rounds. Relative to λ = 0, retaining the full positive projection recovered 0.36 percentage points of clean accuracy in IID and reduced it by 0.02 points in non-IID. λ = 0 is the parameter-only subtraction control for this sweep. The earlier subtraction baseline also adjusts floating-point BatchNorm buffers. [IID sweep](results/direction_preserving_tcug/iid/comparison.csv) · [Non-IID sweep](results/direction_preserving_tcug/noniid/comparison.csv) · [Runner](scripts/run_direction_preserving_tcug.py)
+
+### Selective healing after λ = 0
+
+Each follow-up starts from the parameter-only subtraction checkpoint and runs clean FedAvg for rounds 51–53. Regular healing uses all nine retained clients and their original training partitions. CBSH holds out 100 images per class from the retained training partitions, then selects five clients each round using the current model's per-class validation recall. Its score for each client is the sum of its healing class counts weighted by the corresponding recall deficits. The random-five control uses the same holdout, training settings, and sample-weighted FedAvg as CBSH. It draws five clients uniformly without replacement each round using selection seed 42. The two partitions use the same sampled client schedule.
+
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| λ = 0 starting checkpoint, GPU evaluation | 65.20 | 0.00 | 27.54 | 0.00 |
+| Regular healing, all nine clients | 75.33 | 0.16 | 67.20 | 0.46 |
+| CBSH, five selected clients | 74.41 | 0.27 | 63.88 | 0.22 |
+| Random selection, five clients | 75.21 | 0.20 | 64.94 | 0.37 |
+
+CBSH finished **0.92 percentage points below** regular healing in IID clean accuracy and **3.32 points below** in non-IID. Its ASR was **0.11 points higher** in IID and **0.23 points lower** in non-IID, using unrounded values.
+
+In the matched five-client comparison, random selection gained **0.80 points** of clean accuracy and lowered ASR by **0.07 points** in IID. In non-IID, it gained **1.06 points** of clean accuracy and raised ASR by **0.14 points**. These results use one partition seed and one random client schedule.
+
+| Round | CBSH IID clients | CBSH non-IID clients | Random-five clients, both partitions |
+|---:|---|---|---|
+| 51 | C3, C6, C2, C4, C1 | C6, C9, C1, C4, C5 | C2, C1, C6, C3, C9 |
+| 52 | C5, C7, C4, C6, C3 | C9, C1, C7, C6, C5 | C4, C3, C6, C1, C5 |
+| 53 | C5, C7, C4, C6, C3 | C1, C9, C6, C5, C4 | C2, C7, C1, C8, C6 |
+
+[Regular IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/iid/comparison.csv) · [Regular non-IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/noniid/comparison.csv) · [CBSH IID metrics](results/cbsh_gpu/20261116_193407/iid/comparison.csv) · [CBSH non-IID metrics](results/cbsh_gpu/20261116_193407/noniid/comparison.csv) · [IID selection](results/cbsh_gpu/20261116_193407/iid/selection_history.json) · [Non-IID selection](results/cbsh_gpu/20261116_193407/noniid/selection_history.json)
+
+[Random-five IID metrics](results/cbsh_random_gpu/seed42/iid/comparison.csv) · [Random-five non-IID metrics](results/cbsh_random_gpu/seed42/noniid/comparison.csv) · [Random-five IID selection](results/cbsh_random_gpu/seed42/iid/selection_history.json) · [Random-five non-IID selection](results/cbsh_random_gpu/seed42/noniid/selection_history.json)
 
 ## Setup and reproducibility
 

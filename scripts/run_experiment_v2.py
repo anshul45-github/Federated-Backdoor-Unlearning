@@ -75,7 +75,8 @@ def get_client_dataloader(config, base_partition, client_id, round_idx, is_attac
 
 def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_loader, is_attack,
                       output_dir, log_trajectory=False, *, initial_checkpoint=None, start_round=1,
-                      client_ids=None, static_client_update=None, adaptive_client_update=None):
+                      client_ids=None, static_client_update=None, adaptive_client_update=None,
+                      select_clients=None):
     start_time = time.time()
     if static_client_update is not None and adaptive_client_update is not None:
         raise ValueError("Supply only one grafting strategy")
@@ -125,7 +126,8 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             round_dir = os.path.join(output_dir, "trajectory", f"round_{round_idx:03d}")
             os.makedirs(round_dir, exist_ok=True)
         
-        for client_id in client_ids:
+        round_clients = client_ids if select_clients is None else select_clients(round_idx, global_model, device)
+        for client_id in round_clients:
             # Extreme Dirichlet skew can leave clients empty. They contribute a
             # zero update with zero FedAvg weight, while retaining a full history.
             if len(partitions[client_id]) == 0:
@@ -156,7 +158,7 @@ def run_fl_simulation(config, partitions, test_loader, asr_loader, untriggered_l
             client_deltas.append(delta)
             sample_counts.append(len(partitions[client_id]))
             
-        assert len(client_deltas) == len(client_ids)
+        assert len(client_deltas) == len(round_clients)
         graft_update = static_client_update
         if adaptive_client_update is not None:
             select_graft, graft_samples = adaptive_client_update

@@ -1,0 +1,3 @@
+model,clean_accuracy,attack_success_rate,untriggered_target_rate,macro_f1_pct
+direction_preserving_tcug_lambda_0,65.2,0.0,0.6555555555555556,65.35305837518051
+direction_preserving_tcug_lambda_0_plus_cbsh_3_rounds,74.41,0.26666666666666666,3.0,74.20741577140413

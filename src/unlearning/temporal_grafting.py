@@ -51,13 +51,24 @@ class SimilarityGraft:
     """Select three clean donors using the current honest FedAvg direction."""
 
     def __init__(self, donor_paths, parameters, max_norm=None):
+        updates = {round_idx: torch.load(path, map_location="cpu", weights_only=True)
+                   for round_idx, path in donor_paths.items()}
+        self._initialize(updates, parameters, max_norm)
+
+    @classmethod
+    def from_updates(cls, donor_updates, parameters, max_norm=None):
+        selector = cls.__new__(cls)
+        selector._initialize(donor_updates, parameters, max_norm)
+        return selector
+
+    def _initialize(self, updates, parameters, max_norm):
         self.parameters = dict(parameters)
-        self.rounds = sorted(donor_paths, reverse=True)
+        self.rounds = sorted(updates, reverse=True)
         if len(self.rounds) < 3:
             raise ValueError("TCUG-2 requires at least three clean donors")
         vectors = []
         for round_idx in self.rounds:
-            update = torch.load(donor_paths[round_idx], map_location="cpu", weights_only=True)
+            update = updates[round_idx]
             for name, parameter in self.parameters.items():
                 delta = update[name]
                 if delta.shape != parameter.shape or not delta.is_floating_point():

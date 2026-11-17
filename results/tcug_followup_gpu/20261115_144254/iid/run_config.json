@@ -1,0 +1,47 @@
+{
+  "method": "training_free_tcug_2_plus_3_rounds",
+  "source_run": "/DATA/teaching/tcug/results/checkerboard/iid_20261024_015516_rerun_001",
+  "source_config": {
+    "experiment_name": "checkerboard4_iid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "iid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "repair_dir": "/DATA/teaching/tcug/results/training_free_tcug_2/iid",
+  "repair_sha256": "0012f8e05d8b4ff43f7ad4d7fb6e9d8e0f7c084cb2ff27c37856ec295fe54174",
+  "output_model_sha256": "0c70205221925ffad59cba1a7fff6267e1041a1ff44007ea159947d0dc100ac9",
+  "client_partitions_sha256": "66490b3ca0d9ebe2b218150fdf01cab65096cc844c199520dc5f1347ff42fab7",
+  "rounds": [
+    51,
+    52,
+    53
+  ],
+  "training_clients": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "attack_enabled": false,
+  "evaluation_device": "cuda",
+  "torch_version": "2.8.0+cu128",
+  "runtime_seconds": 91.11054372787476
+}

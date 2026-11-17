@@ -1,0 +1,65 @@
+{
+  "method": "direction_preserving_tcug_lambda_0_plus_cbsh_3_rounds",
+  "source_run": "/DATA/teaching/tcug/results/checkerboard/iid_20261024_015516_rerun_001",
+  "source_config": {
+    "experiment_name": "checkerboard4_iid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "iid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "repair_dir": "/DATA/teaching/tcug/results/direction_preserving_tcug/iid",
+  "repair_checkpoint": "lambda_0.pt",
+  "repair_sha256": "48234bf5688f121844237b0ea445f520d1869711345a04bfc4b2d45e1279b925",
+  "output_model_sha256": "5dea69b71d8cbee313d25dcdd120d154a0b1c233b7ca38bed07b7d99f69110e1",
+  "client_partitions_sha256": "66490b3ca0d9ebe2b218150fdf01cab65096cc844c199520dc5f1347ff42fab7",
+  "rounds": [
+    51,
+    52,
+    53
+  ],
+  "training_clients": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "attack_enabled": false,
+  "evaluation_device": "cuda",
+  "torch_version": "2.8.0+cu128",
+  "runtime_seconds": 59.57099628448486,
+  "cbsh": {
+    "eligible_clients": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "clients_per_round": 5,
+    "validation_per_class": 100,
+    "validation_seed": 2026,
+    "validation_source": "stratified retained-client CIFAR-10 training examples",
+    "client_score": "sum(class_count * (1 - validation recall))",
+    "aggregation": "sample-weighted over selected healing partitions"
+  }
+}
