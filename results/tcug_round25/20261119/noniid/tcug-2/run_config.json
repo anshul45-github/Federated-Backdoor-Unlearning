@@ -1,0 +1,70 @@
+{
+  "source_run": "/DATA/teaching/tcug/results/checkerboard/noniid_20261024_150813_189",
+  "source_config": {
+    "experiment_name": "checkerboard4_noniid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "noniid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "round_25_sha256": "3e094c721a9c9b851f100c2f71857add9701c183f01dd5f0a53ac99d610d60d2",
+  "rollback_round": 25,
+  "federaser_dir": "/DATA/teaching/tcug/results/checkerboard/noniid_20261024_150813_189/unlearning/20261024_205805_550/federaser_Ecal2",
+  "federaser_sha256": "6da9c5ada8c3da2ce54695b62159f8abb9d35c6b25dfc037343c8f158376126a",
+  "first_round": 26,
+  "last_round": 50,
+  "retained_clients": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "torch_version": "2.8.0+cu128",
+  "variant": "tcug-2",
+  "graft": {
+    "top_k": 3,
+    "similarity": "cosine",
+    "query": "sample_weighted_C1_to_C9_parameter_delta",
+    "max_norm": 1.7960874942150937,
+    "donor_norms_by_round": {
+      "25": 1.805149368234296,
+      "24": 1.816588361995953,
+      "23": 1.7960874942150937,
+      "22": 1.7774741878158582,
+      "21": 1.768940545370336
+    },
+    "donor_rounds": [
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "donor_sha256": [
+      "74db45a91a955b508f1c476850d78a3238d9191095e72440cce822cf3f97bfc7",
+      "c842113e8af17a879e2a9a93afbc60fe89ef4461453c5f03eb4737e78111f3f1",
+      "cae2b6eadc2872f29a46beebecbb267eed497aae88b1c1a682eba26c9caaf02f",
+      "d0b1523bd8cd4ae12f0b8e1df27a4e9b119b5f34220e0a81da3af5815b5adbab",
+      "67bb83fd304f53c73ee8bddc57a0f3e80c028b0664a68a618a1c9cff6538aa4d"
+    ],
+    "sample_count": 3597,
+    "fedavg_weight": 0.07194
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "round_25": {
+    "clean_accuracy": 69.11,
+    "attack_success_rate": 1.4,
+    "triggered_rate": 1.4,
+    "untriggered_target_rate": 2.688888888888889,
+    "macro_f1_pct": 68.85882790080258,
+    "clean_loss": 0.8745421345710754,
+    "per_class": {
+      "class_0": {
+        "precision": 0.7444561774023232,
+        "recall": 0.705,
+        "f1": 0.724191063174114
+      },
+      "class_1": {
+        "precision": 0.8490364025695931,
+        "recall": 0.793,
+        "f1": 0.8200620475698034
+      },
+      "class_2": {
+        "precision": 0.5654054054054054,
+        "recall": 0.523,
+        "f1": 0.5433766233766234
+      },
+      "class_3": {
+        "precision": 0.5102260495156081,
+        "recall": 0.474,
+        "f1": 0.4914463452566096
+      },
+      "class_4": {
+        "precision": 0.6746698679471789,
+        "recall": 0.562,
+        "f1": 0.613202400436443
+      },
+      "class_5": {
+        "precision": 0.5938104448742747,
+        "recall": 0.614,
+        "f1": 0.6037364798426745
+      },
+      "class_6": {
+        "precision": 0.6595744680851063,
+        "recall": 0.837,
+        "f1": 0.7377699427060379
+      },
+      "class_7": {
+        "precision": 0.7323671497584541,
+        "recall": 0.758,
+        "f1": 0.744963144963145
+      },
+      "class_8": {
+        "precision": 0.7901701323251418,
+        "recall": 0.836,
+        "f1": 0.8124392614188533
+      },
+      "class_9": {
+        "precision": 0.7808880308880309,
+        "recall": 0.809,
+        "f1": 0.7946954813359529
+      }
+    },
+    "clean_population": 10000,
+    "triggered_population": 9000,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4
+  },
+  "federaser": {
+    "clean_accuracy": 75.19,
+    "attack_success_rate": 1.1777777777777778,
+    "triggered_rate": 1.1777777777777778,
+    "untriggered_target_rate": 2.522222222222222,
+    "macro_f1_pct": 75.03913507326469,
+    "clean_loss": 0.7116684412002563,
+    "per_class": {
+      "class_0": {
+        "precision": 0.7743538767395626,
+        "recall": 0.779,
+        "f1": 0.7766699900299102
+      },
+      "class_1": {
+        "precision": 0.8865030674846626,
+        "recall": 0.867,
+        "f1": 0.8766430738119312
+      },
+      "class_2": {
+        "precision": 0.6684901531728665,
+        "recall": 0.611,
+        "f1": 0.6384535005224661
+      },
+      "class_3": {
+        "precision": 0.5977011494252874,
+        "recall": 0.52,
+        "f1": 0.5561497326203209
+      },
+      "class_4": {
+        "precision": 0.7615112160566706,
+        "recall": 0.645,
+        "f1": 0.6984298863021116
+      },
+      "class_5": {
+        "precision": 0.597233523189585,
+        "recall": 0.734,
+        "f1": 0.658591296545536
+      },
+      "class_6": {
+        "precision": 0.777260018639329,
+        "recall": 0.834,
+        "f1": 0.8046309696092621
+      },
+      "class_7": {
+        "precision": 0.8029850746268656,
+        "recall": 0.807,
+        "f1": 0.8049875311720699
+      },
+      "class_8": {
+        "precision": 0.8554095045500506,
+        "recall": 0.846,
+        "f1": 0.8506787330316742
+      },
+      "class_9": {
+        "precision": 0.8044077134986226,
+        "recall": 0.876,
+        "f1": 0.8386787936811871
+      }
+    },
+    "clean_population": 10000,
+    "triggered_population": 9000,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4
+  },
+  "rollback_25_honest_rounds": {
+    "clean_accuracy": 75.21,
+    "attack_success_rate": 1.3888888888888888,
+    "triggered_rate": 1.3888888888888888,
+    "untriggered_target_rate": 3.411111111111111,
+    "macro_f1_pct": 75.01499987307983,
+    "clean_loss": 0.7176757316589355,
+    "per_class": {
+      "class_0": {
+        "precision": 0.7280779450841453,
+        "recall": 0.822,
+        "f1": 0.7721935180836073
+      },
+      "class_1": {
+        "precision": 0.8615984405458089,
+        "recall": 0.884,
+        "f1": 0.8726554787759132
+      },
+      "class_2": {
+        "precision": 0.6446961894953656,
+        "recall": 0.626,
+        "f1": 0.6352105530187722
+      },
+      "class_3": {
+        "precision": 0.6109134045077106,
+        "recall": 0.515,
+        "f1": 0.5588714053174173
+      },
+      "class_4": {
+        "precision": 0.745119305856833,
+        "recall": 0.687,
+        "f1": 0.7148803329864726
+      },
+      "class_5": {
+        "precision": 0.6417769376181475,
+        "recall": 0.679,
+        "f1": 0.6598639455782314
+      },
+      "class_6": {
+        "precision": 0.7671721677074042,
+        "recall": 0.86,
+        "f1": 0.8109382366808109
+      },
+      "class_7": {
+        "precision": 0.7852941176470588,
+        "recall": 0.801,
+        "f1": 0.7930693069306931
+      },
+      "class_8": {
+        "precision": 0.8436893203883495,
+        "recall": 0.869,
+        "f1": 0.8561576354679803
+      },
+      "class_9": {
+        "precision": 0.884090909090909,
+        "recall": 0.778,
+        "f1": 0.8276595744680851
+      }
+    },
+    "clean_population": 10000,
+    "triggered_population": 9000,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "runtime_seconds": 705.7711536884308
+  }
+}

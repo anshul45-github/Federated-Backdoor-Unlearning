@@ -65,6 +65,8 @@ def main():
     parser.add_argument("--data_dir", type=Path, default=Path("data"))
     parser.add_argument("--graft_max_norm", type=float,
                         help="Defaults to the median norm of the current donor pool")
+    parser.add_argument("--replacement_start", type=int, default=30)
+    parser.add_argument("--donor_window", type=int, default=10)
     parser.add_argument("--rolling", action="store_true",
                         help="Keep C0 rounds 1–5 and reconstruct subsequent updates with a rolling donor pool")
     parser.set_defaults(method="training_free_tcug_2", reference_model=None, subtraction_dir=None)
@@ -85,8 +87,10 @@ def main():
             (r, str(r >= 30).lower()) for r in range(1, 51)
         ]:
             raise ValueError("Source round log does not match the expected attack schedule")
-        donor_rounds = range(20, 30)
-        replaced_rounds = range(30, 51)
+        if not 4 <= args.replacement_start <= 30 or not 3 <= args.donor_window < args.replacement_start:
+            parser.error("Require 4 <= replacement_start <= 30 and 3 <= donor_window < replacement_start")
+        donor_rounds = range(args.replacement_start - args.donor_window, args.replacement_start)
+        replaced_rounds = range(args.replacement_start, 51)
 
     trajectory = source / "trajectory"
     donors = {r: trajectory / f"round_{r:03d}" / "delta_client_00.pt" for r in donor_rounds}

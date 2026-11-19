@@ -1,4 +1,4 @@
-"""Compare honest continuation from G29 with a saved checkerboard FedEraser model."""
+"""Compare clean-checkpoint continuation with a saved checkerboard FedEraser model."""
 
 import argparse
 import csv
@@ -24,13 +24,14 @@ def main():
     parser.add_argument("--output_dir", type=Path, required=True)
     parser.add_argument("--data_dir", type=Path, default=Path("data"))
     parser.add_argument("--variant", choices=("tcug-0", "tcug-1", "tcug-2"), default="tcug-0")
+    parser.add_argument("--rollback_round", type=int, default=29)
     parser.add_argument("--graft_window", type=int, default=5,
-                        help="Number of consecutive clean C0 donor rounds ending at round 29")
+                        help="Number of consecutive clean C0 donor rounds ending at the rollback round")
     parser.add_argument("--graft_max_norm", type=float,
                         help="Global L2 cap for the mean; defaults to the median donor norm")
     args = parser.parse_args()
-    if not 1 <= args.graft_window <= 29:
-        parser.error("--graft_window must be between 1 and 29")
+    if not 1 <= args.rollback_round <= 29 or not 1 <= args.graft_window <= args.rollback_round:
+        parser.error("Require 1 <= graft_window <= rollback_round <= 29")
     if args.variant == "tcug-2" and args.graft_window < 3:
         parser.error("TCUG-2 requires --graft_window of at least 3")
     args.reference_model = None
@@ -47,7 +48,7 @@ def main():
             any(row["Attack_Active"].lower() != "false" for row in rounds[:29])):
         raise ValueError("Source must have a complete round log and a clean first 29 rounds")
 
-    donor = source / "trajectory" / "round_029" / "global_model.pt"
+    donor = source / "trajectory" / f"round_{args.rollback_round:03d}" / "global_model.pt"
     federaser = args.federaser_dir / "final_model.pt"
     federaser_hash = sha256(federaser)
     metadata = read_json(args.federaser_dir / "run_config.json")
@@ -74,7 +75,7 @@ def main():
     if args.variant != "tcug-0":
         if not len(partitions[0]):
             raise ValueError("Grafting requires a nonempty Client 0 partition")
-        donor_rounds = list(range(30 - args.graft_window, 30))
+        donor_rounds = list(range(args.rollback_round + 1 - args.graft_window, args.rollback_round + 1))
         paths = {r: source / "trajectory" / f"round_{r:03d}" / "delta_client_00.pt" for r in donor_rounds}
         parameters = SmallCNN().named_parameters()
         if args.variant == "tcug-1":
@@ -96,13 +97,13 @@ def main():
     retained = tuple(range(1, 10))
     (output / "run_config.json").write_text(json.dumps({
         "source_run": str(source.resolve()), "source_config": config,
-        "round_29_sha256": donor_hash, "federaser_dir": str(args.federaser_dir.resolve()),
-        "federaser_sha256": federaser_hash, "first_round": 30, "last_round": 50,
+        f"round_{args.rollback_round}_sha256": donor_hash, "rollback_round": args.rollback_round, "federaser_dir": str(args.federaser_dir.resolve()),
+        "federaser_sha256": federaser_hash, "first_round": args.rollback_round + 1, "last_round": 50,
         "retained_clients": retained, "torch_version": torch.__version__,
         "variant": args.variant, "graft": graft_metadata,
     }, indent=2), encoding="utf-8")
     run = run_fl_simulation(config, partitions, test, triggered, untriggered, False, output,
-                            initial_checkpoint=donor, start_round=30, client_ids=retained,
+                            initial_checkpoint=donor, start_round=args.rollback_round + 1, client_ids=retained,
                             static_client_update=static_update,
                             adaptive_client_update=(selector, len(partitions[0])) if selector else None)
     if selector is not None:
@@ -111,8 +112,8 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = SmallCNN().to(device)
     results = {}
-    endpoint = {"tcug-0": "rollback_21_honest_rounds", "tcug-1": "tcug_1", "tcug-2": "tcug_2"}[args.variant]
-    for label, checkpoint in (("round_29", donor), ("federaser", federaser),
+    endpoint = {"tcug-0": f"rollback_{50 - args.rollback_round}_honest_rounds", "tcug-1": "tcug_1", "tcug-2": "tcug_2"}[args.variant]
+    for label, checkpoint in ((f"round_{args.rollback_round}", donor), ("federaser", federaser),
                               (endpoint, output / "final_model.pt")):
         model.load_state_dict(torch.load(checkpoint, map_location=device, weights_only=True))
         results[label] = evaluate(torch, model, config, args, device)

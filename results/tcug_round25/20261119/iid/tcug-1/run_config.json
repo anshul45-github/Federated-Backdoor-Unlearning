@@ -1,0 +1,70 @@
+{
+  "source_run": "/DATA/teaching/tcug/results/checkerboard/iid_20261024_015516_rerun_001",
+  "source_config": {
+    "experiment_name": "checkerboard4_iid_seed42",
+    "num_clients": 10,
+    "clients_per_round": 10,
+    "partition_type": "iid",
+    "dirichlet_alpha": 0.5,
+    "malicious_client_id": 0,
+    "poison_ratio": 0.1,
+    "trigger_type": "checkerboard",
+    "trigger_size": 4,
+    "target_class": 0,
+    "attack_start_round": 30,
+    "num_rounds": 50,
+    "local_epochs": 2,
+    "batch_size": 64,
+    "seed": 42,
+    "learning_rate": 0.01,
+    "momentum": 0.9
+  },
+  "round_25_sha256": "439b66b00da7a8c154db0e312c4c9e2c956624327df318ceb30c7a51b49f1e5e",
+  "rollback_round": 25,
+  "federaser_dir": "/DATA/teaching/tcug/results/checkerboard/iid_20261024_015516_rerun_001/unlearning/20261024_205805_550/federaser_Ecal2",
+  "federaser_sha256": "3d42db8cc5d489f72b1e6558f24f9f5ed05177522922b1732c12023b0dd049b5",
+  "first_round": 26,
+  "last_round": 50,
+  "retained_clients": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "torch_version": "2.8.0+cu128",
+  "variant": "tcug-1",
+  "graft": {
+    "donor_norms": [
+      2.054833700347129,
+      2.1016407187319963,
+      2.0788374841784254,
+      2.0932660745730916,
+      2.1176992451778367
+    ],
+    "max_norm": 2.0932660745730916,
+    "mean_norm": 1.1395907707906188,
+    "clipped_norm": 1.1395907707906188,
+    "clip_scale": 1.0,
+    "donor_rounds": [
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "donor_sha256": [
+      "be8e69030664d1e4f5ab09d7ea451e134bfc3de76281c8e4eb9236e62658eaae",
+      "6ed22f6ca5dcc5c9af4be637d6666c98b77f92a24893ff7bba5b4086b8a730fd",
+      "db9a6baa537a919d0bbdaa27e2c31e0c2ecf2d72b7994c61f3695ef4f393fe66",
+      "4481c57b5b2f78ef7a554a7d257f0283e03e3ad710db8d7776e99da509bd89e2",
+      "183902f87da3d1a7a844fc5c43bb8dde7118efd167afa1709d4f4e2af98d42ad"
+    ],
+    "sample_count": 5000,
+    "fedavg_weight": 0.1
+  }
+}

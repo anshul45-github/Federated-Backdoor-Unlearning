@@ -184,6 +184,20 @@ CBSH finished **0.92 percentage points below** regular healing in IID clean accu
 
 [Regular IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/iid/comparison.csv) · [Regular non-IID](results/direction_preserving_lambda0_followup_gpu/20261116_184856/noniid/comparison.csv) · [CBSH IID metrics](results/cbsh_gpu/20261116_193407/iid/comparison.csv) · [CBSH non-IID metrics](results/cbsh_gpu/20261116_193407/noniid/comparison.csv) · [IID selection](results/cbsh_gpu/20261116_193407/iid/selection_history.json) · [Non-IID selection](results/cbsh_gpu/20261116_193407/noniid/selection_history.json)
 
+### Round-25 intervention experiment
+
+TCUG-0, TCUG-1, and TCUG-2 start from G25 and continue through rounds 26–50 using C1–C9. TCUG-1 and TCUG-2 use C0 donors from rounds 21–25. Training-free TCUG-2 edits the attacked G50 endpoint by replacing C0's rounds 26–50, selecting top-three donors from rounds 16–25. Its healed endpoint receives three clean rounds (51–53) with C1–C9. The source attack still begins at round 30, so the intervention also covers four clean rounds.
+
+| Endpoint | IID CA | IID ASR | Non-IID CA | Non-IID ASR |
+|---|---:|---:|---:|---:|
+| TCUG-0 from G25 | 75.21 | 1.39 | 70.44 | 2.04 |
+| TCUG-1 from G25 | 74.83 | 1.54 | 71.06 | 2.24 |
+| TCUG-2 from G25 | 75.02 | 1.44 | 70.60 | 2.21 |
+| Training-free TCUG-2, G25 window | 70.58 | 0.04 | 68.14 | 0.16 |
+| Training-free TCUG-2 + three clean rounds | 75.64 | 0.14 | 70.28 | 0.23 |
+
+All endpoints use seed 42 and GPU evaluation. An SSH reset interrupted the first non-IID TCUG-2 attempt. The completed restart is in `tcug-2_rerun_001`. [IID batch](results/tcug_round25/20261119/iid/) · [Non-IID batch](results/tcug_round25/20261119/noniid/)
+
 ## Setup and reproducibility
 
 Create and activate a Python environment, then install dependencies with `python -m pip install -r requirements.txt`. For GPU runs, install the PyTorch and Torchvision builds compatible with the host's NVIDIA driver and check `torch.cuda.is_available()` before launching. The reported GPU logs record PyTorch `2.8.0+cu128`. Run the active tests with `python -m pytest`. Tests in `tests/historical/` require historical artifacts.

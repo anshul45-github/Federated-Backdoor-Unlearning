@@ -1,0 +1,44 @@
+
+EXPERIMENT COVERAGE CHECKLIST
+Federated Backdoor Unlearning | 18 November 2026
+
+Included and checked against available project records
+[✓] Historical prototype development, frozen endpoints, spatial/size trigger
+    check, counterfactual mismatch, and early/middle/late timing pilot.
+[✓] Stage 7A evaluation defects, corrected Stage 7B heterogeneity results,
+    Stage 7C factorial, exploratory D1 configuration and D1/D2 interruptions.
+[✓] Original 50-round white-patch smoke, clean and attacked training, logged
+    reruns, subtraction, KD, both corrected FedEraser settings, counterfactuals,
+    superseded configurations, per-class measures and timing microbenchmark.
+[✓] Checkerboard initial attempt and rerun, IID and non-IID repair baselines,
+    α = 0.01 preflight and completed stress-test endpoints.
+[✓] Component patch screen, single-channel and prefix experiments, selection
+    and held-out evaluation. The asset archive contains exact candidate CSVs.
+[✓] TCUG-0/1/2 continuation, repeats and incomplete batch, fixed and
+    similarity-selected direct repair, and three-round clean follow-up.
+[✓] CBSH implementation, holdout, selected-client sequences, complete
+    round-by-round metrics, all-nine reference, runtime and privacy assumptions.
+[✓] Regenerated onset-free references, L0 basis/scale/rank sweeps, L1 curvature
+    and seed controls, Taylor and stable L2 windows, both L3 inputs, detection,
+    gating, diagnostics, cost, storage and prespecified criteria.
+
+Excluded as requested
+Recursive rolling-window TCUG, the standalone direction-preserving TCUG study,
+and random-client CBSH selection. The parameter-only starting checkpoint is
+described only to identify the CBSH experiment.
+
+Evidence limits
+The only attached file in this turn was the report brief. Experimental evidence
+came from the workspace reports, source, saved metrics, and the TCUG and
+onset-free branches. Full endpoints for the earliest centralized, clean
+federated and preliminary attack runs were unavailable. Several interrupted
+runs have configuration or partial logs only. Original archived timing weights
+and most remote onset-free raw tensors were not independently rerun or
+revalidated. Published numerical tables use the saved records. The checkerboard
+runs have no matched client-excluded retraining reference. Most modern
+comparisons have one attacked trajectory per partition.
+
+Reviewed branch states
+TCUG d006877 and onsetfree f81d1fd. Project source paths are listed under
+Project records in the report. External literature references are listed
+separately.

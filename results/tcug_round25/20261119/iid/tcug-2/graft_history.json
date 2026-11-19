@@ -1,0 +1,452 @@
+[
+  {
+    "round": 26,
+    "honest_update_norm": 0.8323366393891428,
+    "selected_donor_rounds": [
+      23,
+      21,
+      22
+    ],
+    "cosine_similarities": [
+      0.08109461483956912,
+      0.07797355078151288,
+      0.06356573518070391
+    ],
+    "mean_norm": 1.338560005841011,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.338560005841011
+  },
+  {
+    "round": 27,
+    "honest_update_norm": 0.8218286677589745,
+    "selected_donor_rounds": [
+      24,
+      25,
+      23
+    ],
+    "cosine_similarities": [
+      0.0674973381814501,
+      0.06605880207276443,
+      0.059325742468546896
+    ],
+    "mean_norm": 1.3466846715976977,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3466846715976977
+  },
+  {
+    "round": 28,
+    "honest_update_norm": 0.82635623839584,
+    "selected_donor_rounds": [
+      22,
+      21,
+      23
+    ],
+    "cosine_similarities": [
+      0.06843160165062326,
+      0.06614629630876932,
+      0.05576323587503006
+    ],
+    "mean_norm": 1.3385600058994025,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3385600058994025
+  },
+  {
+    "round": 29,
+    "honest_update_norm": 0.8261536419524245,
+    "selected_donor_rounds": [
+      25,
+      24,
+      23
+    ],
+    "cosine_similarities": [
+      0.06316821813387613,
+      0.05601641199321865,
+      0.044443867520124955
+    ],
+    "mean_norm": 1.3466846715976977,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3466846715976977
+  },
+  {
+    "round": 30,
+    "honest_update_norm": 0.8192507549673851,
+    "selected_donor_rounds": [
+      21,
+      22,
+      24
+    ],
+    "cosine_similarities": [
+      0.05234183956934103,
+      0.047998017816430344,
+      0.04601444405532435
+    ],
+    "mean_norm": 1.3483262269797665,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3483262269797665
+  },
+  {
+    "round": 31,
+    "honest_update_norm": 0.8262125412656303,
+    "selected_donor_rounds": [
+      23,
+      24,
+      25
+    ],
+    "cosine_similarities": [
+      0.0486827730709985,
+      0.04197234670193685,
+      0.03827799800677156
+    ],
+    "mean_norm": 1.3466846713869431,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3466846713869431
+  },
+  {
+    "round": 32,
+    "honest_update_norm": 0.8204871021636954,
+    "selected_donor_rounds": [
+      21,
+      22,
+      25
+    ],
+    "cosine_similarities": [
+      0.05089501198515232,
+      0.0485738833720088,
+      0.039988320467493094
+    ],
+    "mean_norm": 1.348483353443032,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.348483353443032
+  },
+  {
+    "round": 33,
+    "honest_update_norm": 0.8234736195061754,
+    "selected_donor_rounds": [
+      24,
+      23,
+      21
+    ],
+    "cosine_similarities": [
+      0.04452771464113678,
+      0.04237634163300292,
+      0.029987732410710437
+    ],
+    "mean_norm": 1.337041788461215,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.337041788461215
+  },
+  {
+    "round": 34,
+    "honest_update_norm": 0.8265244698796013,
+    "selected_donor_rounds": [
+      22,
+      25,
+      24
+    ],
+    "cosine_similarities": [
+      0.04191290552498526,
+      0.036263058452988634,
+      0.027207560805091596
+    ],
+    "mean_norm": 1.354478370470493,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.354478370470493
+  },
+  {
+    "round": 35,
+    "honest_update_norm": 0.8236190827565187,
+    "selected_donor_rounds": [
+      23,
+      21,
+      22
+    ],
+    "cosine_similarities": [
+      0.028605916379160528,
+      0.01654369104807641,
+      0.014628193266907563
+    ],
+    "mean_norm": 1.338560005841011,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.338560005841011
+  },
+  {
+    "round": 36,
+    "honest_update_norm": 0.83625473534986,
+    "selected_donor_rounds": [
+      24,
+      25,
+      23
+    ],
+    "cosine_similarities": [
+      0.022603375354430355,
+      0.019026562816427908,
+      0.01548511935579498
+    ],
+    "mean_norm": 1.3466846715976977,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3466846715976977
+  },
+  {
+    "round": 37,
+    "honest_update_norm": 0.8305913977032692,
+    "selected_donor_rounds": [
+      25,
+      22,
+      21
+    ],
+    "cosine_similarities": [
+      0.03276840434426015,
+      0.030889264253690416,
+      0.010452344408605355
+    ],
+    "mean_norm": 1.3484833532609655,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3484833532609655
+  },
+  {
+    "round": 38,
+    "honest_update_norm": 0.824638290425856,
+    "selected_donor_rounds": [
+      23,
+      24,
+      21
+    ],
+    "cosine_similarities": [
+      0.026245435282952135,
+      0.02003027385161263,
+      0.01371718773577091
+    ],
+    "mean_norm": 1.337041788461215,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.337041788461215
+  },
+  {
+    "round": 39,
+    "honest_update_norm": 0.8283944279450589,
+    "selected_donor_rounds": [
+      25,
+      23,
+      21
+    ],
+    "cosine_similarities": [
+      0.024813869032252068,
+      0.012829106763308503,
+      0.006496650543791554
+    ],
+    "mean_norm": 1.3440513846168922,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3440513846168922
+  },
+  {
+    "round": 40,
+    "honest_update_norm": 0.8212592697966482,
+    "selected_donor_rounds": [
+      22,
+      24,
+      25
+    ],
+    "cosine_similarities": [
+      0.022790487935649854,
+      0.01444775100293866,
+      0.002903380276771009
+    ],
+    "mean_norm": 1.3544783705261054,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3544783705261054
+  },
+  {
+    "round": 41,
+    "honest_update_norm": 0.8221213511227509,
+    "selected_donor_rounds": [
+      21,
+      24,
+      25
+    ],
+    "cosine_similarities": [
+      0.015046053077663064,
+      0.012822516091372235,
+      0.011066469312418007
+    ],
+    "mean_norm": 1.342023964945227,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.342023964945227
+  },
+  {
+    "round": 42,
+    "honest_update_norm": 0.8291092564225778,
+    "selected_donor_rounds": [
+      23,
+      22,
+      21
+    ],
+    "cosine_similarities": [
+      0.021185324268356377,
+      0.012865436198870477,
+      -0.002332364242386668
+    ],
+    "mean_norm": 1.3385600062464114,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3385600062464114
+  },
+  {
+    "round": 43,
+    "honest_update_norm": 0.8395552499193022,
+    "selected_donor_rounds": [
+      24,
+      25,
+      23
+    ],
+    "cosine_similarities": [
+      0.018961752871564624,
+      0.0060803821972891595,
+      -0.00031389366122642906
+    ],
+    "mean_norm": 1.3466846715976977,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3466846715976977
+  },
+  {
+    "round": 44,
+    "honest_update_norm": 0.8364965235293973,
+    "selected_donor_rounds": [
+      23,
+      22,
+      25
+    ],
+    "cosine_similarities": [
+      0.008824408510596321,
+      0.008800522284380191,
+      0.00210565500814947
+    ],
+    "mean_norm": 1.3526193883589528,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3526193883589528
+  },
+  {
+    "round": 45,
+    "honest_update_norm": 0.8267566709919018,
+    "selected_donor_rounds": [
+      24,
+      22,
+      23
+    ],
+    "cosine_similarities": [
+      0.015231893244850518,
+      -0.004931772186110114,
+      -0.00821257207743789
+    ],
+    "mean_norm": 1.3404836250981567,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3404836250981567
+  },
+  {
+    "round": 46,
+    "honest_update_norm": 0.8398282864093229,
+    "selected_donor_rounds": [
+      22,
+      21,
+      25
+    ],
+    "cosine_similarities": [
+      0.004947484385477131,
+      0.004524413462103206,
+      -0.0012737510814948543
+    ],
+    "mean_norm": 1.348483353443032,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.348483353443032
+  },
+  {
+    "round": 47,
+    "honest_update_norm": 0.8331781767229574,
+    "selected_donor_rounds": [
+      23,
+      24,
+      21
+    ],
+    "cosine_similarities": [
+      0.007496080748732134,
+      0.005245147160853943,
+      -0.0043371235628977475
+    ],
+    "mean_norm": 1.337041788461215,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.337041788461215
+  },
+  {
+    "round": 48,
+    "honest_update_norm": 0.8456929765103298,
+    "selected_donor_rounds": [
+      25,
+      22,
+      24
+    ],
+    "cosine_similarities": [
+      0.004707908078389651,
+      0.0018649319119192981,
+      -0.00791318868706312
+    ],
+    "mean_norm": 1.354478370470493,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.354478370470493
+  },
+  {
+    "round": 49,
+    "honest_update_norm": 0.8381013580268382,
+    "selected_donor_rounds": [
+      23,
+      24,
+      22
+    ],
+    "cosine_similarities": [
+      0.004226687515317517,
+      -0.00321773163514704,
+      -0.006247958549657597
+    ],
+    "mean_norm": 1.3404836250742242,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.3404836250742242
+  },
+  {
+    "round": 50,
+    "honest_update_norm": 0.8454897731147675,
+    "selected_donor_rounds": [
+      21,
+      25,
+      23
+    ],
+    "cosine_similarities": [
+      0.006090880344672554,
+      -0.008079943034705685,
+      -0.011801322826145114
+    ],
+    "mean_norm": 1.344051384532438,
+    "max_norm": 2.0932660745731675,
+    "clip_scale": 1.0,
+    "clipped_norm": 1.344051384532438
+  }
+]
